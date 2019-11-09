@@ -1,15 +1,24 @@
-const { Users } = require('../../models')
-const jwt = require('jsonwebtoken');
+const db = require('../../models')
 
-async function getAllUsers(req, res, next) {
-    try {
-        const users = await Users.findAll();
-        res.status(200).send(users);
+async function getModels(req, res){
+    try{
+        res.status(200).send(Object.keys(db).slice(0, -2));
     } catch (err) {
-        next(err);
+        res.status(500).send(err);
+    }
+}
+
+async function getAttributes(req, res){
+    try{
+        const name = req.params.name;
+        console.log(db[name])
+        res.status(200).send(db[name].tableAttributes)
+    } catch (err) {
+        res.status(500).send(err);
     }
 }
 
 module.exports = {
-    getAllUsers
-};
+    getAttributes,
+    getModels
+}

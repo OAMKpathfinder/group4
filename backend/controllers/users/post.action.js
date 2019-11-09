@@ -2,21 +2,19 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { Users } = require('../../models');
 
-async function signUp(req, res, next) {
+async function signUp(req, res) {
     try{
-        const username = await Users.findOne({where: {username: req.body.Users}});
-        const email = await User.findOne({where: {email: req.body.email}});
+        const username = await Users.findOne({where: {username: req.body.username}});
+        const email = await Users.findOne({where: {email: req.body.email}});
         if (username) return res.status(409).send('Username already taken');
         if (email) return res.status(409).send('E-mail already taken');
     } catch (err) {
-        res.status(500).json({ error: err });
+        return res.status(500).send(err);
     };
-    const salt = await bcrypt.genSalt(10);
-    bcrypt.hash(req.body.password, salt, (err, hash) => {
+    bcrypt.hash(req.body.password, 10, async (err, hash) => {
         if (err) {
-            return res.status(500).json({ error: err });
+            return res.status(500).send(err);
         }
-
         try {
             const user = await Users.create({
                 full_name: req.body.full_name,
@@ -25,13 +23,13 @@ async function signUp(req, res, next) {
                 password: hash,
             });
             return res.status(200).send(user);
-        } catch (error) {
-            return res.status(500).json({ error: err });
+        } catch (err) {
+            return res.status(500).send(err);
         }
     })
 }
 
-async function login(req, res, next){
+async function login(req, res){
     if (!req.body.username) return res.status(400).send('Username required');
     if (!req.body.password) return res.status(400).send('Password required');
     try{

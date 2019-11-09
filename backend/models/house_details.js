@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const House_Details = sequelize.define('House_Details', {
-    surfacae: DataTypes.DOUBLE,
+    surface: DataTypes.DOUBLE,
     U_value: DataTypes.DOUBLE,
     hjoht: DataTypes.DOUBLE
   }, {});

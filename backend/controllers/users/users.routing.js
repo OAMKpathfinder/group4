@@ -5,18 +5,18 @@ module.exports = {
     '/auth': {
         post: {
             action: signUp,
-            level: user
+            level: 'public'
         },
         get: {
             action: login,
-            level: user
+            level: 'public'
         }
     },
 
     '/:id': {
         get: {
             action: getUserById,
-            level: user
+            level: 'public'
         }
     }
 }

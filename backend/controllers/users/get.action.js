@@ -2,18 +2,13 @@ const { Users } = require('../../models')
 
 async function getUserById(req, res) {
     try {
-        const { user_id } = jwt.decode(req.header('x-access-token'));
-        const user = await User.findByPk(user_id);
+        const user = await Users.findByPk(req.params.id);
         res.status(200).send(user);
     } catch (err) {
-        next(err);
+        res.status(500).send(err);
     }
 }
 
 module.exports = {
-    '/': {
-        get: {
-            action: getUserById,
-        }
-    }
+    getUserById,
 }
