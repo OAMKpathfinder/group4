@@ -1,4 +1,4 @@
-const { getAttributes } = require('./get.action');
+const { getAttributes, getModels } = require('./get.action');
 
 
 module.exports = {
@@ -8,4 +8,10 @@ module.exports = {
             level: 'public'
         }
     },
+    '/models':{
+        get: {
+            action: getModels,
+            level: 'public'
+        }
+    }
 }
