@@ -10,9 +10,9 @@ async function get(req, res) {
 }
 
 async function create(req, res) {
-    const houseId = req.body.houseId;
-    const housePartId = req.body.housePartId;
-    const materialId = req.body.materialId;
+    const HousesId = req.body.HousesId;
+    const HousePartsId = req.body.HousePartsId;
+    const MaterialsId = req.body.MaterialsId;
     try {
         const detail = await House_Details.build({
             surface: req.body.surface,
@@ -20,9 +20,9 @@ async function create(req, res) {
             hjoht: req.body.hjoht,
         })
 
-        detail.setHouses(houseId)
-        detail.setHouse_Parts(housePartId)
-        detail.setMaterials(materialId)
+        detail.setHouses(HousesId)
+        detail.setHouse_Parts(HousePartsId)
+        detail.setMaterials(MaterialsId)
         await detail.save()
 
         return res.status(200).send(detail);
