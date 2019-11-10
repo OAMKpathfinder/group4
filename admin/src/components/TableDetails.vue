@@ -1,6 +1,6 @@
 <template>
   <div class="container px-3 pt-3">
-    <div v-if="table">
+    <div v-if="!loading">
       <h3 class="mb-6">{{ table.name }}</h3>
       <div class="card-raised overflow-hidden">
         <table class="w-full">
@@ -14,7 +14,10 @@
         </table>
       </div>
     </div>
-    <div v-else class="alert-red">
+    <div v-else-if="loading" class="alert">
+      Loading...
+    </div>
+    <div v-else-if="error" class="alert-red">
       <span class="font-bold mr-3">Error!</span>{{error}}
     </div>
   </div>
@@ -29,7 +32,8 @@ export default {
     return {
       table: null,
       tableData: null,
-      error: null
+      error: null,
+      loading: true
     }
   },
   computed: {
@@ -40,11 +44,16 @@ export default {
   },
   methods: {
     ...mapActions(['fetchTables']),
-    setRoute: function () {
+    setRoute: async function () {
       try {
         this.table = this.$store.state.tables.filter(t => t.path === this.$route.params.table)[0]
+        this.loading = false
       } catch (err) {
-        this.error = 'Could not fetch the table.'
+        this.error = 'Could not fetch the table. Reloading...'
+        await this.fetchTables()
+        this.table = this.$store.state.tables.filter(t => t.path === this.$route.params.table)[0]
+        this.loading = false
+        this.error = null
       }
     }
   }

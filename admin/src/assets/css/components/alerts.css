@@ -1,5 +1,5 @@
 .alert {
-  @apply px-3 py-4 bg-gray-100 border border-gray-300;
+  @apply px-3 py-4 bg-gray-100 border border-gray-300 rounded;
 }
 
 .alert-red {
