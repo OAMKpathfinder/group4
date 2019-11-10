@@ -1,0 +1,9 @@
+.alert {
+  @apply px-3 py-4 bg-gray-100 border border-gray-300;
+}
+
+.alert-red {
+  @apply alert bg-red-200 border-red-500 text-red-700;
+} .alert-red > span {
+  @apply text-red-700;
+}

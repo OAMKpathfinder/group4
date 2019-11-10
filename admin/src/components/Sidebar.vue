@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar w-0 md:w-4/12 lg:w-3/12 xl:w-2/12">
+  <div class="sidebar">
     <div class="brand w-full p-6">
       <h3 class="text-green-800">Pathfinder <span class="font-main font-thin text-green-800">Console</span></h3>
     </div>
@@ -9,19 +9,22 @@
           General
         </div>
         <div class="menu-item">
-          <a href="/">
+          <router-link to="/console">
             Overview
-          </a>
+          </router-link>
         </div>
       </div>
       <div class="menu-group">
         <div class="menu-group-title">
           Tables
         </div>
-        <div class="menu-item">
-          <a href="/">
-            Users
-          </a>
+        <div v-if="loading" class="menu-item">
+          <a>Loading...</a>
+        </div>
+        <div v-else v-for="table in tables" :key="table.path" class="menu-item">
+          <router-link :to="`/console/tables/${table.path}`">
+            {{ table.name }}
+          </router-link>
         </div>
       </div>
     </div>
@@ -35,37 +38,54 @@ export default {
   components: {},
   data: function () {
     return {
+      loading: true,
+      error: null
     }
   },
   computed: {
     ...mapState(['tables'])
   },
   mounted: async function () {
-    this.fetchTables()
+    this.loadTables()
   },
   methods: {
-    ...mapActions(['fetchTables'])
+    ...mapActions(['fetchTables']),
+    loadTables: async function () {
+      try {
+        this.loading = true
+        await this.fetchTables()
+      } catch (error) {
+        this.error = error
+      }
+      this.loading = false
+    }
   }
 }
 </script>
 
 <style lang="postcss" scoped>
-.sidebar {
-  @apply h-full bg-gray-100;
-}
 .menu-group {
   @apply mb-6 w-full transition;
-}
-
-.menu-group-title {
+} .menu-group-title {
   @apply text-xs text-gray-500 font-medium uppercase px-3 mb-2;
-}
-
-.menu-item {
+} .menu-item {
   @apply transition rounded;
 } .menu-item:hover {
   @apply bg-gray-200;
 } .menu-item > a {
   @apply p-3 block;
+}
+
+.sidebar {
+  left: -320px;
+  @apply h-full bg-gray-100 absolute transition;
+}
+
+@screen sm {
+  .sidebar {
+    min-width: 320px !important;
+    left: 0;
+    @apply relative;
+  }
 }
 </style>

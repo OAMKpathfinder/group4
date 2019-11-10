@@ -14,7 +14,13 @@ const routes = [
   {
     path: '/console',
     name: 'Console',
-    component: () => import('../views/Console.vue')
+    component: () => import('../views/Console.vue'),
+    children: [
+      {
+        path: 'tables/:table',
+        component: () => import('../components/TableDetails.vue')
+      }
+    ]
   }
 ]
 
