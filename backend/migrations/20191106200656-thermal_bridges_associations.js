@@ -4,7 +4,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn(
       'Thermal_Bridges',
-      'connection1_id',
+      'HouseDetailsId1',
       {
         type: Sequelize.INTEGER,
         references: {
@@ -19,7 +19,7 @@ module.exports = {
     .then(() => {
       return queryInterface.addColumn(
         'Thermal_Bridges',
-        'connection2_id',
+        'HouseDetailsId2',
         {
           type: Sequelize.INTEGER,
           references: {
@@ -36,12 +36,12 @@ module.exports = {
   down: (queryInterface, Sequelize) => {
     return queryInterface.removeColumn(
       'Thermal_Bridges',
-      'connection1_id'
+      'HouseDetailsId1'
       )
       .then(() => {
         return queryInterface.removeColumn(
           'Thermal_Bridges',
-          'connection2_id'
+          'HouseDetailsId2'
         );
       })
   }

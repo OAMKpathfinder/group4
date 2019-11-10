@@ -2,7 +2,7 @@ const { House_Details, Houses, Materials, House_Parts } = require('../../../mode
 
 async function get(req, res) {
     try {
-        const rows = await House_Details.findAll();
+        const rows = await House_Details.findAll({attributes: {exclude:['HousePartId', 'HouseId', 'MaterialId']}});
         res.status(200).send(rows);
     } catch (err) {
         res.status(500).send(err);
@@ -10,9 +10,9 @@ async function get(req, res) {
 }
 
 async function create(req, res) {
-    const houseId = req.body.houseId;
-    const housePartId = req.body.housePartId;
-    const materialId = req.body.materialId;
+    const HousesId = req.body.HousesId;
+    const HousePartsId = req.body.HousePartsId;
+    const MaterialsId = req.body.MaterialsId;
     try {
         const detail = await House_Details.build({
             surface: req.body.surface,
@@ -20,9 +20,9 @@ async function create(req, res) {
             hjoht: req.body.hjoht,
         })
 
-        detail.setHouses(houseId)
-        detail.setHouse_Parts(housePartId)
-        detail.setMaterials(materialId)
+        detail.setHouses(HousesId)
+        detail.setHouse_Parts(HousePartsId)
+        detail.setMaterials(MaterialsId)
         await detail.save()
 
         return res.status(200).send(detail);
@@ -47,7 +47,7 @@ async function update(req, res) {
 async function remove(req, res) {
     try {
         await House_Details.destroy({where: {id: req.params.id}});
-        res.status(200);
+        res.status(200).send(true);
     } catch (err) {
         res.status(500).send(err);
     }

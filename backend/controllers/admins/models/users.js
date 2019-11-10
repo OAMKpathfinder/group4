@@ -69,8 +69,9 @@ async function update(req, res) {
 async function remove(req, res) {
     try {
         await Users.destroy({where: {id: req.params.id}});
-        res.status(200);
+        res.status(200).send(true);
     } catch (err) {
+        console.log(err)
         res.status(500).send(err);
     }
 }

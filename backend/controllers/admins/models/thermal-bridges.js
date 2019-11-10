@@ -2,7 +2,7 @@ const { Thermal_Bridges, House_Details } = require('../../../models')
 
 async function get(req, res) {
     try {
-        const rows = await Thermal_Bridges.findAll();
+        const rows = await Thermal_Bridges.findAll({attributes: {exclude:['HouseDetailId']}});
         res.status(200).send(rows);
     } catch (err) {
         res.status(500).send(err);
@@ -41,7 +41,7 @@ async function update(req, res) {
 async function remove(req, res) {
     try {
         await Thermal_Bridges.destroy({where: {id: req.params.id}});
-        res.status(200);
+        res.status(200).send(true);
     } catch (err) {
         res.status(500).send(err);
     }

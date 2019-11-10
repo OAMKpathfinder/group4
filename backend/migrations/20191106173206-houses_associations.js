@@ -4,7 +4,7 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.addColumn(
       'Houses',
-      'owner_id',
+      'UsersId',
       {
         type: Sequelize.INTEGER,
         references: {
@@ -19,7 +19,7 @@ module.exports = {
     .then(() => {
       return queryInterface.addColumn(
         'Houses',
-        'location_id',
+        'LocationsId',
         {
           type: Sequelize.INTEGER,
           references: {
@@ -34,7 +34,7 @@ module.exports = {
   .then(()=>{
     return queryInterface.addColumn(
       'Houses',
-      'heating_system_id',
+      'HeatingSystemsId',
       {
         type: Sequelize.INTEGER,
         references: {
@@ -51,18 +51,18 @@ module.exports = {
   down: (queryInterface, Sequelize) => {
     return queryInterface.removeColumn(
       'Houses',
-      'owner_id'
+      'UsersId'
       )
       .then(() => {
         return queryInterface.removeColumn(
           'Houses',
-          'location_id'
+          'LocationsId'
         );
       })
       .then(() => {
         return queryInterface.removeColumn(
           'Houses',
-          'heating_system_id'
+          'HeatingSystemsId'
         );
       });
   }
