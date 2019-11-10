@@ -2,9 +2,10 @@ const { House_Details, Houses, Materials, House_Parts } = require('../../../mode
 
 async function get(req, res) {
     try {
-        const rows = await House_Details.findAll({attributes: {exclude:['HousePartId', 'HouseId', 'MaterialId']}});
-        res.status(200).send(rows);
+        const rows = await House_Details.findAll({attributes: {exclude:['HouseDetailsId']}});
+        res.status(200).send(rows); 
     } catch (err) {
+        console.log(err);
         res.status(500).send(err);
     }
 }
@@ -19,7 +20,7 @@ async function create(req, res) {
             U_value: req.body.U_value,
             hjoht: req.body.hjoht,
         })
-
+        
         detail.setHouses(HousesId)
         detail.setHouse_Parts(HousePartsId)
         detail.setMaterials(MaterialsId)

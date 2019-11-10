@@ -1,29 +1,31 @@
-const {Users, Houses, House_Details, Thermal_Bridges } = require('../../models')
+const {Users, Houses, House_Details, Thermal_Bridges, Locations, House_Parts, Materials, Heating_Systems } = require('../../models')
 
-async function getAllUserHouses(req, res) {
-    const ownerId = req.params.ownerId;
+async function getHouseDetails(req, res) {
     try {
-        const rows = await Houses.findAll({where: {ownerId: ownerId}});
-        res.status(200).send(rows);
-    } catch (err) {
-        res.status(500).send(err);
-    }
-}
-
-async function  getUserHouse(req, res){
-    try{
-        const house = await Houses.findAll({include: [{all: true, nested:true}]}
-            // {
-            //     include: [{
-            //         model: Houses,
-            //         as: 'Houses',
-            //         // include: [{
-            //         //     model: House_Details,
-            //         //     as: 'House_Details'
-            //         // }]
-            //     }]
-            // }
-            );
+        const house = await Houses.findByPk(req.params.id, {
+            include: [{
+                    model: Users,
+                    as: 'Users',
+                }, {
+                    model: Locations,
+                    as: 'Locations'
+                }, {
+                    model: Heating_Systems,
+                    as: 'Heating_Systems'
+                },
+                {
+                model: House_Details,
+                as: 'House_Details',
+                include: [{
+                    model: House_Parts,
+                    as: 'House_Parts'
+                }, {
+                    model: Materials,
+                    as: 'Materials'
+                }],
+                attributes: {exclude: ['HouseDetailsId']}
+            }]
+            });
         return res.status(200).send(house)
     } catch(err){
         console.log(err)
@@ -32,6 +34,6 @@ async function  getUserHouse(req, res){
 }
 
 module.exports = {
-    getAllUserHouses,
-    getUserHouse
+    getHouseDetails,
+    
 }
