@@ -1,0 +1,18 @@
+@import 'tailwindcss/base';
+
+@import 'tailwindcss/components';
+
+@import 'tailwindcss/utilities';
+
+@import 'components/button.css';
+@import 'components/card.css';
+@import 'components/input.css';
+@import 'components/type.css';
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  @apply font-main;
+}

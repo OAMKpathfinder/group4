@@ -1,0 +1,30 @@
+button {
+  @apply rounded transition uppercase font-bold;
+}
+
+button:active, button:focus {
+  outline: none;
+}
+
+.button-green {
+  @apply py-3 px-4 bg-green-500 text-white border-green-900 shadow-md;
+}
+
+.button-green:hover {
+  box-shadow: 0 3px 3px -1px rgba(0, 0, 0, 0.1), 0 2px 2px -1px rgba(0, 0, 0, 0.06);
+  @apply bg-green-600;
+}
+
+.button-green:focus, .button-green:active {
+  box-shadow: 0 1px 1px -1px rgba(0, 0, 0, 0.1), 0 0px 1px -1px rgba(0, 0, 0, 0.06);
+  transform: translateY(1px);
+  @apply bg-green-700;
+}
+
+.button-light {
+  @apply py-2 px-4 bg-gray-100 text-white border-gray-500 shadow-md;
+}
+
+.button-light:hover {
+  @apply bg-gray-300;
+}
