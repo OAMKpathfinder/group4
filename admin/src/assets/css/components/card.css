@@ -1,0 +1,7 @@
+.card {
+  @apply bg-white rounded-lg shadow;
+}
+
+.card-raised {
+  @apply card shadow-md;
+}
