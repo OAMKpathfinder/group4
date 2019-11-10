@@ -1,8 +1,8 @@
-const { HouseDetails } = require('../../../models')
+const { House_Details, Houses, Materials, House_Parts } = require('../../../models')
 
 async function get(req, res) {
     try {
-        const rows = await HouseDetails.findAll();
+        const rows = await House_Details.findAll();
         res.status(200).send(rows);
     } catch (err) {
         res.status(500).send(err);
@@ -10,21 +10,31 @@ async function get(req, res) {
 }
 
 async function create(req, res) {
+    const houseId = req.body.houseId;
+    const housePartId = req.body.housePartId;
+    const materialId = req.body.materialId;
     try {
-        const row = await HouseDetails.create({
+        const detail = await House_Details.build({
             surface: req.body.surface,
             U_value: req.body.U_value,
             hjoht: req.body.hjoht,
         })
-        return res.status(200).send(row);
+
+        detail.setHouses(houseId)
+        detail.setHouse_Parts(housePartId)
+        detail.setMaterials(materialId)
+        await detail.save()
+
+        return res.status(200).send(detail);
     } catch (err) {
+        console.log(err)
         res.status(500).send(err);
     }
 }
 
 async function update(req, res) {
     try{
-        const updated = await HouseDetails.update(req.body, {
+        const updated = await House_Details.update(req.body, {
             where: {id: req.params.id},
             fields: Object.keys(req.body)
         })
@@ -36,7 +46,7 @@ async function update(req, res) {
 
 async function remove(req, res) {
     try {
-        await HouseDetails.destroy({where: {id: req.params.id}});
+        await House_Details.destroy({where: {id: req.params.id}});
         res.status(200);
     } catch (err) {
         res.status(500).send(err);

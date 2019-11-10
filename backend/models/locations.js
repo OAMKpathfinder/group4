@@ -4,7 +4,6 @@ module.exports = (sequelize, DataTypes) => {
     country: DataTypes.STRING
   }, {});
   Locations.associate = function(models) {
-    Locations.hasMany(models.Houses);
   };
   return Locations;
 };
