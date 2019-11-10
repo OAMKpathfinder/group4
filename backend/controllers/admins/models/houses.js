@@ -47,7 +47,7 @@ async function update(req, res) {
 async function remove(req, res) {
     try {
         await Houses.destroy({where: {id: req.params.id}});
-        res.status(200);
+        res.status(200).send(true);
     } catch (err) {
         res.status(500).send(err);
     }

@@ -2,7 +2,7 @@ const { House_Details, Houses, Materials, House_Parts } = require('../../../mode
 
 async function get(req, res) {
     try {
-        const rows = await House_Details.findAll();
+        const rows = await House_Details.findAll({attributes: {exclude:['HousePartId', 'HouseId', 'MaterialId']}});
         res.status(200).send(rows);
     } catch (err) {
         res.status(500).send(err);
@@ -47,7 +47,7 @@ async function update(req, res) {
 async function remove(req, res) {
     try {
         await House_Details.destroy({where: {id: req.params.id}});
-        res.status(200);
+        res.status(200).send(true);
     } catch (err) {
         res.status(500).send(err);
     }
