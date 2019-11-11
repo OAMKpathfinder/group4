@@ -81,7 +81,7 @@ export default {
   @apply h-full bg-gray-100 absolute transition;
 }
 
-@screen sm {
+@screen lg {
   .sidebar {
     min-width: 320px !important;
     left: 0;

@@ -47,6 +47,26 @@ export default new Vuex.Store({
       } catch (error) {
         throw new Error(error)
       }
+    },
+
+    async fetchTableData ({ commit }, path) {
+      try {
+        const response = await http.get(`/admins/models/${path}`)
+        if (response.status >= 200 && response.status < 300) {
+          return response.data
+        }
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+
+    async deleteTableRow ({ commit }, { id, path }) {
+      try {
+        await http.delete(`/admins/models/${path}/${id}`)
+        return true
+      } catch (error) {
+        throw new Error(error)
+      }
     }
   },
   modules: {
