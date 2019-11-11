@@ -20,9 +20,9 @@ const models = [
             levels: 'number',
             heating_per_year: 'double',
             warm_water_pipe: 'boolean',
-            owner_id: 'number',
-            location_id: 'number',
-            heating_system_id: 'number'
+            UsersId: 'number',
+            LocationsId: 'number',
+            HeatingSystemsId: 'number'
         }
     },
     {
@@ -32,9 +32,9 @@ const models = [
             surface: 'double',
             U_value: 'double',
             hjoht: 'double',
-            house_id: 'number',
-            type_id: 'number',
-            material_id: 'number'
+            HousesId: 'number',
+            HousePartsId: 'number',
+            MaterialsId: 'number'
         }
     },
     {
@@ -63,8 +63,8 @@ const models = [
         path: 'thermal-bridges',
         attributes: {
             bridge_length: 'double',
-            connection1_id: 'number',
-            connection2_id: 'number'
+            HouseDetailsId1: 'number',
+            HouseDetailsId2: 'number'
         }
     },
     {

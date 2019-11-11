@@ -19,7 +19,7 @@ export default {
 
 <style scoped lang="postcss">
 .move-fade-enter-active, .move-fade-leave-active {
-  transition: all .3s;
+  transition: all .5s cubic-bezier(0.165, 1, 0.075, 1);
   transform: translateX(0);
 }
 
