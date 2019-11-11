@@ -4,6 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.STRING
   }, {});
   Heating_Systems.associate = function(models) {
+    Heating_Systems.hasMany(models.Houses, { as: 'Heating_Systems', foreignKey: 'HeatingSystemsId' })
   };
   return Heating_Systems;
 };

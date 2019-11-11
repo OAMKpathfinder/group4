@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     role: DataTypes.ENUM('admin', 'user')
   }, {});
   Users.associate = function(models) {
-    Users.hasMany(models.Houses, { foreignKey: 'UsersId' })
+    Users.hasMany(models.Houses, { as: 'Houses', foreignKey: 'UsersId' })
   };
   return Users;
 };

@@ -1,20 +1,18 @@
 const { addHouse } = require('./post.action');
 const { removeHouse } = require('./delete.action');
 const { updateHouse } = require('./update.action');
-const { getAllUserHouses, getUserHouse } = require('./get.action');
+const { getHouseDetails, getAllUsersHouses } = require('./get.action');
 
 module.exports = {
-    '/:ownerId':{
+    '/:id':{
         post: {
             action: addHouse,
             level: 'public'
         },
         get: {
-            action: getAllUserHouses,
+            action: getHouseDetails,
             level: 'public'
-        }
-    },
-    '/:ownerId':{
+        },
         delete: {
             action: removeHouse,
             level: 'public'
@@ -22,9 +20,11 @@ module.exports = {
         patch: {
             action :updateHouse,
             level: 'public'
-        },
-        get: {
-            action: getUserHouse,
+        },    
+    },
+    '/user/:id': {
+        get:{
+            action: getAllUsersHouses,
             level: 'public'
         }
     }
