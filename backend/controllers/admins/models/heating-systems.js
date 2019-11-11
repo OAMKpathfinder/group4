@@ -1,8 +1,8 @@
-const { HeatingSystems } = require('../../../models')
+const { Heating_Systems } = require('../../../models')
 
 async function get(req, res) {
     try {
-        const rows = await HeatingSystems.findAll();
+        const rows = await Heating_Systems.findAll();
         res.status(200).send(rows);
     } catch (err) {
         res.status(500).send(err);
@@ -11,7 +11,7 @@ async function get(req, res) {
 
 async function create(req, res) {
     try {
-        const row = await HeatingSystems.create({
+        const row = await Heating_Systems.create({
             type: req.body.type,
         })
         return res.status(200).send(row);
@@ -22,7 +22,7 @@ async function create(req, res) {
 
 async function update(req, res) {
     try{
-        const updated = await HeatingSystems.update(req.body, {
+        const updated = await Heating_Systems.update(req.body, {
             where: {id: req.params.id},
             fields: Object.keys(req.body)
         })
@@ -34,8 +34,8 @@ async function update(req, res) {
 
 async function remove(req, res) {
     try {
-        await HeatingSystems.destroy({where: {id: req.params.id}});
-        res.status(200);
+        await Heating_Systems.destroy({where: {id: req.params.id}});
+        res.status(200).send(true);
     } catch (err) {
         res.status(500).send(err);
     }

@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT('tiny')
   }, {});
   Materials.associate = function(models) {
-    Materials.hasMany(models.House_Details);
+    Materials.hasMany(models.House_Details, { as: 'House_Details', foreignKey: 'MaterialsId' });
   };
   return Materials;
 };

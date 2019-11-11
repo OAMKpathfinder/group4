@@ -1,30 +1,41 @@
-const { HouseDetails } = require('../../../models')
+const { House_Details, Houses, Materials, House_Parts } = require('../../../models')
 
 async function get(req, res) {
     try {
-        const rows = await HouseDetails.findAll();
-        res.status(200).send(rows);
+        const rows = await House_Details.findAll({attributes: {exclude:['HouseDetailsId']}});
+        res.status(200).send(rows); 
     } catch (err) {
+        console.log(err);
         res.status(500).send(err);
     }
 }
 
 async function create(req, res) {
+    const HousesId = req.body.HousesId;
+    const HousePartsId = req.body.HousePartsId;
+    const MaterialsId = req.body.MaterialsId;
     try {
-        const row = await HouseDetails.create({
+        const detail = await House_Details.build({
             surface: req.body.surface,
             U_value: req.body.U_value,
             hjoht: req.body.hjoht,
         })
-        return res.status(200).send(row);
+        
+        detail.setHouses(HousesId)
+        detail.setHouse_Parts(HousePartsId)
+        detail.setMaterials(MaterialsId)
+        await detail.save()
+
+        return res.status(200).send(detail);
     } catch (err) {
+        console.log(err)
         res.status(500).send(err);
     }
 }
 
 async function update(req, res) {
     try{
-        const updated = await HouseDetails.update(req.body, {
+        const updated = await House_Details.update(req.body, {
             where: {id: req.params.id},
             fields: Object.keys(req.body)
         })
@@ -36,8 +47,8 @@ async function update(req, res) {
 
 async function remove(req, res) {
     try {
-        await HouseDetails.destroy({where: {id: req.params.id}});
-        res.status(200);
+        await House_Details.destroy({where: {id: req.params.id}});
+        res.status(200).send(true);
     } catch (err) {
         res.status(500).send(err);
     }

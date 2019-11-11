@@ -1,8 +1,8 @@
-const { ThermalBridges } = require('../../../models')
+const { Thermal_Bridges, House_Details } = require('../../../models')
 
 async function get(req, res) {
     try {
-        const rows = await ThermalBridges.findAll();
+        const rows = await Thermal_Bridges.findAll({attributes: {exclude:['HouseDetailId']}});
         res.status(200).send(rows);
     } catch (err) {
         res.status(500).send(err);
@@ -10,10 +10,16 @@ async function get(req, res) {
 }
 
 async function create(req, res) {
+    const connection1Id = req.body.connection1Id;
+    const connection2Id = req.body.connection2Id;
     try {
-        const row = await ThermalBridges.create({
-            type: req.body.type
+        const row = await Thermal_Bridges.build({
+            bridge_length: req.body.bridge_length
         })
+
+        row.setHouse_Details1(connection1Id)
+        row.setHouse_Details2(connection2Id)
+        await row.save()
         return res.status(200).send(row);
     } catch (err) {
         res.status(500).send(err);
@@ -22,7 +28,7 @@ async function create(req, res) {
 
 async function update(req, res) {
     try{
-        const updated = await ThermalBridges.update(req.body, {
+        const updated = await Thermal_Bridges.update(req.body, {
             where: {id: req.params.id},
             fields: Object.keys(req.body)
         })
@@ -34,8 +40,8 @@ async function update(req, res) {
 
 async function remove(req, res) {
     try {
-        await ThermalBridges.destroy({where: {id: req.params.id}});
-        res.status(200);
+        await Thermal_Bridges.destroy({where: {id: req.params.id}});
+        res.status(200).send(true);
     } catch (err) {
         res.status(500).send(err);
     }

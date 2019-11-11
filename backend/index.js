@@ -32,7 +32,7 @@ app.use((error, req, res, next) => {
     res.send(error);
 });
 
-db.sequelize.authenticate().then(() => {
+db.sequelize.sync().then(() => {
     const server = app.listen(3000, 'localhost', () => {
         const {address, port} = server.address();
         console.log("\nListening at http://%s:%s\n", address, port);

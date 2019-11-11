@@ -1,8 +1,8 @@
-const { HouseParts } = require('../../../models')
+const { House_Parts } = require('../../../models')
 
 async function get(req, res) {
     try {
-        const rows = await HouseParts.findAll();
+        const rows = await House_Parts.findAll();
         res.status(200).send(rows);
     } catch (err) {
         res.status(500).send(err);
@@ -11,7 +11,7 @@ async function get(req, res) {
 
 async function create(req, res) {
     try {
-        const row = await HouseParts.create({
+        const row = await House_Parts.create({
             part: req.body.part,
         })
         return res.status(200).send(row);
@@ -22,7 +22,7 @@ async function create(req, res) {
 
 async function update(req, res) {
     try{
-        const updated = await HouseParts.update(req.body, {
+        const updated = await House_Parts.update(req.body, {
             where: {id: req.params.id},
             fields: Object.keys(req.body)
         })
@@ -34,8 +34,8 @@ async function update(req, res) {
 
 async function remove(req, res) {
     try {
-        await HouseParts.destroy({where: {id: req.params.id}});
-        res.status(200);
+        await House_Parts.destroy({where: {id: req.params.id}});
+        res.status(200).send(true);
     } catch (err) {
         res.status(500).send(err);
     }

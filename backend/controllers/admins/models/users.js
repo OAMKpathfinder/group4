@@ -1,4 +1,4 @@
-const { Users } = require('../../../models')
+const { Users, Houses } = require('../../../models')
 const bcrypt = require('bcrypt');
 
 async function get(req, res) {
@@ -6,6 +6,22 @@ async function get(req, res) {
         const rows = await Users.findAll();
         res.status(200).send(rows);
     } catch (err) {
+        res.status(500).send(err);
+    }
+}
+
+async function getOne(req, res) {
+    try {
+        const rows = await Users.findByPk(req.params.id,
+            {
+                include: [{
+                    model: Houses,
+                    as: 'Houses'
+                }]
+            });
+        res.status(200).send(rows);
+    } catch (err) {
+        console.log(err)
         res.status(500).send(err);
     }
 }
@@ -53,8 +69,9 @@ async function update(req, res) {
 async function remove(req, res) {
     try {
         await Users.destroy({where: {id: req.params.id}});
-        res.status(200);
+        res.status(200).send(true);
     } catch (err) {
+        console.log(err)
         res.status(500).send(err);
     }
 }
@@ -71,6 +88,10 @@ module.exports = {
         }
     },
     '/:id': {
+        get: {
+            action: getOne,
+            level: 'public'
+        },
         put: {
             action: update,
             level: 'public'
