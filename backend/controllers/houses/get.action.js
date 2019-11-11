@@ -1,5 +1,15 @@
 const {Users, Houses, House_Details, Thermal_Bridges, Locations, House_Parts, Materials, Heating_Systems } = require('../../models')
 
+async function getAllUsersHouses(req, res){
+    try{
+        const houses = await Houses.findAll({where: {UsersId: req.params.id}})
+        res.status(200).send(houses);
+    }catch(err){
+        console.log(err)
+        res. status(500).send(err);
+    }
+}
+
 async function getHouseDetails(req, res) {
     try {
         const house = await Houses.findByPk(req.params.id, {
@@ -35,5 +45,6 @@ async function getHouseDetails(req, res) {
 
 module.exports = {
     getHouseDetails,
+    getAllUsersHouses
     
 }
