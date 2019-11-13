@@ -19,7 +19,7 @@ jobs:
         USER: arpadgabor
 
     - name: Build image
-      run: docker build . -t "$REGISTRY/$IMAGE:latest" --verbose
+      run: docker build . -t "$REGISTRY/$IMAGE:latest"
       env:
         REGISTRY: docker.pkg.github.com
         IMAGE: oamkpathfinder/group4/backend
