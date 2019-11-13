@@ -1,10 +1,5 @@
 name: 'Docker Build Backend App'
-on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'backend/**'
+on: [push]
 
 jobs:
 
