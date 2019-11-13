@@ -24,16 +24,15 @@ jobs:
         USER: arpadgabor
 
     - name: Build image
-      run: cd $PATH && docker build -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$HASH" .
+      run: docker build . -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$GITHUB_SHA" --file $FOLDER_PATH/Dockerfile
       env:
-        HASH: $GITHUB_SHA
+        FOLDER_PATH: admin
         REGISTRY: docker.pkg.github.com
-        IMAGE: OAMKpathfinder/group4/admin
-        PATH: admin
+        IMAGE: oamkpathfinder/group4/admin
 
-    - name: Push to Docker Hub
-      run: docker push $REGISTRY/$IMAGE:latest && docker push $REGISTRY/$IMAGE:$HASH
+    - name: Push to Registry
+      run: docker push "$REGISTRY/$IMAGE:latest" && docker push "$REGISTRY/$IMAGE:$GITHUB_SHA"
       env:
-        HASH: $GITHUB_SHA
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REGISTRY: docker.pkg.github.com
-        IMAGE: OAMKpathfinder/group4/admin
+        IMAGE: oamkpathfinder/group4/admin

@@ -19,8 +19,9 @@ jobs:
         USER: arpadgabor
 
     - name: Build image
-      run: docker build . -t "$REGISTRY/$IMAGE:latest" --file backend/Dockerfile
+      run: docker build . -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$GITHUB_SHA" --file $FOLDER_PATH/Dockerfile
       env:
+        FOLDER_PATH: backend
         REGISTRY: docker.pkg.github.com
         IMAGE: oamkpathfinder/group4/backend
 
