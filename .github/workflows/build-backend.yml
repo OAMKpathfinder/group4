@@ -26,6 +26,6 @@ jobs:
     - name: Login to Registry
       run: docker login $REGISTRY -u $USER -p $TOKEN
     - name: Build image
-      run: cd $PATH && docker build -t "${REGISTRY}/${IMAGE}:latest" -t "${REGISTRY}/${IMAGE}:${HASH}" .
+      run: cd $PATH && docker build -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$HASH" .
     - name: Push to Docker Hub
       run: docker push $REGISTRY/$IMAGE:latest && docker push $REGISTRY/$IMAGE:$HASH
