@@ -26,9 +26,9 @@ jobs:
     - name: Build image
       run: docker build -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$HASH" .
       env:
-        HASH: $GITHUB_SHA
-        REGISTRY: docker.pkg.github.com
-        IMAGE: OAMKpathfinder/group4/backend
+        HASH:$GITHUB_SHA
+        REGISTRY:docker.pkg.github.com
+        IMAGE:OAMKpathfinder/group4/backend
 
     - name: Push to Docker Hub
       run: docker push $REGISTRY/$IMAGE:latest && docker push $REGISTRY/$IMAGE:$HASH
