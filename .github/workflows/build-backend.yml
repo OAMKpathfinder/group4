@@ -21,17 +21,12 @@ jobs:
     - name: Build image
       run: docker build . -t "docker.pkg.github.com/oamkpathfinder/group4/backend:latest --verbose"
       env:
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REGISTRY: docker.pkg.github.com
-        USER: arpadgabor
-        PATH: backend
         IMAGE: oamkpathfinder/group4/backend
 
-    - name: Push to Docker Hub
+    - name: Push to Registry
       run: docker push "$REGISTRY/$IMAGE:latest" && docker push "$REGISTRY/$IMAGE:$GITHUB_SHA"
       env:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REGISTRY: docker.pkg.github.com
-        USER: arpadgabor
-        PATH: backend
         IMAGE: oamkpathfinder/group4/backend
