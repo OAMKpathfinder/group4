@@ -17,8 +17,6 @@ jobs:
         TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REGISTRY: docker.pkg.github.com
         USER: arpadgabor
-        PATH: backend
-        IMAGE: oamkpathfinder/group4/backend
 
     - name: Build image
       run: docker build . -t "docker.pkg.github.com/oamkpathfinder/group4/backend:latest --verbose"
