@@ -1,0 +1,19 @@
+name: 'Docker Build Frontend App'
+on: [push]
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+
+    - uses: actions/checkout@master
+      with:
+        fetch-depth: 1
+
+    - name: Login to Registry
+      run: docker login $REGISTRY -u $USER -p $TOKEN
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REGISTRY: docker.pkg.github.com
+        USER: arpadgabor
