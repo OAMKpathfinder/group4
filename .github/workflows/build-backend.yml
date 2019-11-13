@@ -24,7 +24,7 @@ jobs:
         PATH: backend
 
     - name: Build image
-      run: docker build . -t docker.pkg.github.com/OAMKpathfinder/group4/backend:latest -t $docker.pkg.github.com/OAMKpathfinder/group4/backend:$HASH
+      run: docker build . -t "docker.pkg.github.com/OAMKpathfinder/group4/backend:latest" -t "docker.pkg.github.com/OAMKpathfinder/group4/backend:$HASH"
 
     - name: Push to Docker Hub
       run: docker push $REGISTRY/$IMAGE:latest && docker push $REGISTRY/$IMAGE:$HASH
