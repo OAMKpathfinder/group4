@@ -1,4 +1,5 @@
 const { House_Details, Houses, Materials, House_Parts } = require('../../../models')
+const { houseDetailsValidate } = require('./admins.validate')
 
 async function get(req, res) {
     try {
@@ -62,6 +63,7 @@ module.exports = {
         },
         post: {
             action: create,
+            middlewares: houseDetailsValidate,
             level: 'public'
         }
     },

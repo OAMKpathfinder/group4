@@ -1,4 +1,5 @@
 const { Users, Houses } = require('../../../models')
+const { usersValidate } = require('./admins.validate')
 const bcrypt = require('bcrypt');
 
 async function get(req, res) {
@@ -84,6 +85,7 @@ module.exports = {
         },
         post: {
             action: create,
+            middlewares: usersValidate,
             level: 'public'
         }
     },

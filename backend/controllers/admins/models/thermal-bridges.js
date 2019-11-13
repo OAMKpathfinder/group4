@@ -1,8 +1,10 @@
 const { Thermal_Bridges, House_Details } = require('../../../models')
+const { thermalBridgesValidate } = require('./admins.validate')
 
 async function get(req, res) {
     try {
-        const rows = await Thermal_Bridges.findAll({attributes: {exclude:['HouseDetailId']}});
+        const rows = await Thermal_Bridges.findAll();
+        // {attributes: {exclude:['HouseDetailId']}}
         res.status(200).send(rows);
     } catch (err) {
         res.status(500).send(err);
@@ -10,15 +12,15 @@ async function get(req, res) {
 }
 
 async function create(req, res) {
-    const connection1Id = req.body.connection1Id;
-    const connection2Id = req.body.connection2Id;
+    const HouseDetailsId1 = req.body.HouseDetailsId1;
+    const HouseDetailsId2 = req.body.HouseDetailsId2;
     try {
         const row = await Thermal_Bridges.build({
             bridge_length: req.body.bridge_length
         })
 
-        row.setHouse_Details1(connection1Id)
-        row.setHouse_Details2(connection2Id)
+        row.setHouse_Details1(HouseDetailsId1)
+        row.setHouse_Details2(HouseDetailsId2)
         await row.save()
         return res.status(200).send(row);
     } catch (err) {
@@ -55,6 +57,7 @@ module.exports = {
         },
         post: {
             action: create,
+            middlewares: thermalBridgesValidate,
             level: 'public'
         }
     },

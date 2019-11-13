@@ -22,7 +22,7 @@ app.use(bodyParser.json());
 lumie.load(app, {
     preURL:"api",
     verbose: true,
-    ignore: ["*.spec", "*.action"],
+    ignore: ["*.spec", "*.action", "*.validate"],
     controllers_path: path.join(__dirname, "controllers")
 });
 

@@ -48,3 +48,9 @@ button:active, button:focus {
   transform: translateY(1px);
   @apply bg-red-800;
 }
+
+button:disabled {
+  @apply bg-gray-100 shadow-none text-gray-500 cursor-not-allowed;
+} button:disabled:hover {
+  @apply bg-gray-100 shadow-none text-gray-500  cursor-not-allowed;
+}
