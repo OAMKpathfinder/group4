@@ -1,4 +1,5 @@
 const { Materials } = require('../../../models')
+const { materialsValidate } = require('./admins.validate')
 
 async function get(req, res) {
     try {
@@ -51,6 +52,7 @@ module.exports = {
         },
         post: {
             action: create,
+            middlewares: materialsValidate,
             level: 'public'
         }
     },

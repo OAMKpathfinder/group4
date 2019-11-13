@@ -1,4 +1,5 @@
 const { Heating_Systems } = require('../../../models')
+const { heatingSystemsValidate } = require('./admins.validate')
 
 async function get(req, res) {
     try {
@@ -49,6 +50,7 @@ module.exports = {
         },
         post: {
             action: create,
+            middlewares: heatingSystemsValidate,
             level: 'public'
         }
     },

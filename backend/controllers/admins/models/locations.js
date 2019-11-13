@@ -1,4 +1,5 @@
 const { Locations } = require('../../../models')
+const { locationsValidate } = require('./admins.validate')
 
 async function get(req, res) {
     try {
@@ -49,6 +50,7 @@ module.exports = {
         },
         post: {
             action: create,
+            middlewares: locationsValidate,
             level: 'public'
         }
     },
