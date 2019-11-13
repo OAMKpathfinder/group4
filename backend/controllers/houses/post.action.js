@@ -1,9 +1,9 @@
 const { Houses, Users, Locations, Heating_Systems } = require('../../models')
 
 async function addHouse(req, res) {
-    const ownerId = req.params.ownerId;
-    const locationId = req.body.locationId;
-    const heatingSystemId = req.body.heatingSystemId;
+    const UsersId = req.body.UsersId;
+    const LocationsId = req.body.LocationsId;
+    const HeatingSystemsId = req.body.HeatingSystemsId;
     try {
         const house = await Houses.build({
             decade: req.body.decade,
@@ -12,13 +12,14 @@ async function addHouse(req, res) {
             warm_water_pipe: req.body.warm_water_pipe,
         })
         
-        house.setUsers(ownerId)
-        house.setLocations(locationId)
-        house.setHeating_Systems(heatingSystemId)
+        house.setUsers(UsersId)
+        house.setLocations(LocationsId)
+        house.setHeating_Systems(HeatingSystemsId)
         await house.save()
 
         return res.status(200).send(house);
     } catch (err) {
+        console.log(err)
         res.status(500).send(err);
     }
 }
