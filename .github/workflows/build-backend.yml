@@ -19,7 +19,7 @@ jobs:
         USER: arpadgabor
 
     - name: Build image
-      run: docker build . --file backend/Dockerfile -t "$REGISTRY/$IMAGE:latest"
+      run: docker build -f backend/Dockerfile -t "$REGISTRY/$IMAGE:latest"
       env:
         PATH: backend
         REGISTRY: docker.pkg.github.com
