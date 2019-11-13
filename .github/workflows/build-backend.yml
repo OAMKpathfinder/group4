@@ -18,14 +18,17 @@ jobs:
         REGISTRY: docker.pkg.github.com
         USER: arpadgabor
 
-    - name: Build image
+    - name: Change dir
       run: cd $PATH
+      env:
+        PATH: backend
+
+    - name: Build image
       run: docker build -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$HASH" .
       env:
         HASH: $GITHUB_SHA
         REGISTRY: docker.pkg.github.com
         IMAGE: OAMKpathfinder/group4/backend
-        PATH: backend
 
     - name: Push to Docker Hub
       run: docker push $REGISTRY/$IMAGE:latest && docker push $REGISTRY/$IMAGE:$HASH
