@@ -1,5 +1,4 @@
 name: 'Docker Build Admin App'
-
 on:
   push:
     branches:
@@ -8,24 +7,32 @@ on:
       - 'admin/**'
 
 jobs:
+
   build:
     runs-on: ubuntu-latest
-
-    env:
-      TOKEN: ${{ secrets.GITHUB_TOKEN_GROUP_4 }}
-      HASH: $GITHUB_SHA
-      REGISTRY: docker.pkg.github.com
-      IMAGE: OAMKpathfinder/group4/admin
-      USER: arpadgabor
-      PATH: admin
-
     steps:
-    - uses: actions/checkout@v1
+
+    - uses: actions/checkout@master
       with:
         fetch-depth: 1
+
     - name: Login to Registry
       run: docker login $REGISTRY -u $USER -p $TOKEN
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REGISTRY: docker.pkg.github.com
+        USER: arpadgabor
+
     - name: Build image
-      run: cd $PATH && docker build -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$HASH" .
-    - name: Push to Docker Hub
-      run: docker push $REGISTRY/$IMAGE:latest && docker push $REGISTRY/$IMAGE:$HASH
+      run: docker build . -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$GITHUB_SHA" --file $FOLDER_PATH/Dockerfile
+      env:
+        FOLDER_PATH: admin
+        REGISTRY: docker.pkg.github.com
+        IMAGE: oamkpathfinder/group4/admin
+
+    - name: Push to Registry
+      run: docker push "$REGISTRY/$IMAGE:latest" && docker push "$REGISTRY/$IMAGE:$GITHUB_SHA"
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REGISTRY: docker.pkg.github.com
+        IMAGE: oamkpathfinder/group4/admin

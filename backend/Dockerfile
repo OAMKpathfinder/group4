@@ -1,7 +1,7 @@
 FROM node:10-buster as build
 
 WORKDIR /app
-COPY . /app
+COPY backend/. /app
 
 RUN echo "unsafe-perm = true" >> ~/.npmrc
 RUN npm install
