@@ -1,4 +1,4 @@
-name: Docker Build Frontend App
+name: 'Docker Build Frontend App'
 
 on:
   push:

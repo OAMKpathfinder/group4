@@ -1,5 +1,4 @@
-name: Docker Build Backend App
-
+name: 'Docker Build Backend App'
 on:
   push:
     branches:
