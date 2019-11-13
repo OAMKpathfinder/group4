@@ -19,7 +19,7 @@ jobs:
         USER: arpadgabor
 
     - name: Build image
-      run: docker build . --file Dockerfile --tag "docker.pkg.github.com/oamkpathfinder/group4/backend:latest"
+      run: docker build . -t "docker.pkg.github.com/oamkpathfinder/group4/backend:latest"
       env:
         PATH: backend
         REGISTRY: docker.pkg.github.com
