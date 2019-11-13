@@ -2,13 +2,30 @@ name: Docker Build Frontend App
 
 on:
   push:
-    branches: 
+    branches:
       - master
+    paths:
+      - 'frontend/*'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      TOKEN: ${{ secrets.GITHUB_TOKEN_GROUP_4 }}
+      HASH: $GITHUB_SHA
+      REGISTRY: docker.pkg.github.com
+      IMAGE: OAMKpathfinder/group4/frontend
+      USER: arpadgabor
+      PATH: frontend
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag group4/frontend:$(date +%s)
+    - uses: actions/checkout@master
+      with:
+        fetch-depth: 1
+    - name: Login to Registry
+      run: docker login $REGISTRY -u $USER -p $TOKEN
+    - name: Build image
+      run: cd $PATH && docker build -t "${REGISTRY}/${IMAGE}:latest" -t "${REGISTRY}/${IMAGE}:${HASH}" .
+    - name: Push to Docker Hub
+      run: docker push $REGISTRY/$IMAGE:latest && docker push $REGISTRY/$IMAGE:$HASH
