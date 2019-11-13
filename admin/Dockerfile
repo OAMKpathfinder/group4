@@ -4,9 +4,9 @@ ENV VUE_APP_API_PROXY=
 ENV BASE_URL=/admin
 
 WORKDIR /app
-COPY package*.json ./
+COPY admin/package*.json ./
 RUN npm install
-COPY ./ .
+COPY admin/ .
 RUN npm run build
 
 FROM nginx:alpine
