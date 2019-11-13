@@ -20,7 +20,7 @@ jobs:
       PATH: frontend
 
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v1
       with:
         fetch-depth: 1
     - name: Login to Registry
