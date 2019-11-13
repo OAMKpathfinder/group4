@@ -4,27 +4,31 @@ on:
     branches:
       - master
     paths:
-      - 'backend/*'
+      - 'backend/**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    env:
-      TOKEN: ${{ secrets.GITHUB_TOKEN_GROUP_4 }}
-      HASH: $GITHUB_SHA
-      REGISTRY: docker.pkg.github.com
-      IMAGE: OAMKpathfinder/group4/backend
-      USER: arpadgabor
-      PATH: backend
-
     steps:
     - uses: actions/checkout@v1
       with:
         fetch-depth: 1
     - name: Login to Registry
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN_GROUP_4 }}
+        REGISTRY: docker.pkg.github.com
+        PATH: backend
       run: docker login $REGISTRY -u $USER -p $TOKEN
     - name: Build image
+      env:
+        HASH: $GITHUB_SHA
+        REGISTRY: docker.pkg.github.com
+        IMAGE: OAMKpathfinder/group4/backend
+        PATH: backend
       run: cd $PATH && docker build -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$HASH" .
     - name: Push to Docker Hub
+      env:
+        HASH: $GITHUB_SHA
+        REGISTRY: docker.pkg.github.com
+        IMAGE: OAMKpathfinder/group4/backend
       run: docker push $REGISTRY/$IMAGE:latest && docker push $REGISTRY/$IMAGE:$HASH
