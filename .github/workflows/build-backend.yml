@@ -1,13 +1,6 @@
 name: 'Docker Build Backend App'
 on: [push]
 
-env:
-  TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  REGISTRY: docker.pkg.github.com
-  USER: arpadgabor
-  PATH: backend
-  IMAGE: oamkpathfinder/group4/backend
-
 jobs:
 
   build:
@@ -20,9 +13,27 @@ jobs:
 
     - name: Login to Registry
       run: docker login $REGISTRY -u $USER -p $TOKEN
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REGISTRY: docker.pkg.github.com
+        USER: arpadgabor
+        PATH: backend
+        IMAGE: oamkpathfinder/group4/backend
 
     - name: Build image
       run: docker build . -t "docker.pkg.github.com/oamkpathfinder/group4/backend:latest --verbose"
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REGISTRY: docker.pkg.github.com
+        USER: arpadgabor
+        PATH: backend
+        IMAGE: oamkpathfinder/group4/backend
 
     - name: Push to Docker Hub
       run: docker push "$REGISTRY/$IMAGE:latest" && docker push "$REGISTRY/$IMAGE:$GITHUB_SHA"
+      env:
+        TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        REGISTRY: docker.pkg.github.com
+        USER: arpadgabor
+        PATH: backend
+        IMAGE: oamkpathfinder/group4/backend
