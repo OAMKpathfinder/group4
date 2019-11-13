@@ -19,7 +19,9 @@ jobs:
         USER: arpadgabor
 
     - name: Build image
-      run: cd $PATH && docker build . -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$GITHUB_SHA"
+      run: |
+        cd $PATH
+        docker build . -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$GITHUB_SHA"
       env:
         PATH: backend
         REGISTRY: docker.pkg.github.com
