@@ -4,6 +4,7 @@
 
 .alert-red {
   @apply alert bg-red-200 border-red-500 text-red-700;
-} .alert-red > span {
+}
+.alert-red > span {
   @apply text-red-700;
 }
