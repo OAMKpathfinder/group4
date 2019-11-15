@@ -34,5 +34,9 @@
     "pretty-error": "^2.1.1",
     "sequelize": "^5.21.2",
     "sequelize-cli": "^5.5.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-plugin-import": "^2.18.2"
   }
 }
