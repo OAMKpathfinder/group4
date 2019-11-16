@@ -1,6 +1,24 @@
 const { Users, Houses } = require('../../../models')
 const { usersValidate } = require('./admins.validate')
 const bcrypt = require('bcrypt')
+const client = require('../../../services/mail')
+
+function sendConfirmationMail(email) {
+    const mail = {
+        from: '"Arpi" <k9stgl00@students.oamk.fi>',
+        to: email,
+        subject: 'Confirmation email',
+        html: '<b>Hello world</b>',
+    }
+
+    client.sendMail(mail, function(err) {
+        if (err) {
+            console.error
+        } else {
+            console.log('Message sent to: ' + email)
+        }
+    })
+}
 
 async function get(req, res) {
     try {
@@ -53,7 +71,10 @@ async function create(req, res) {
                 password: hash,
                 role: req.body.role,
             })
-            return res.status(200).send(user)
+            res.status(200).send(user)
+            // call function for mail
+            sendConfirmationMail(req.body.email)
+            return
         } catch (err) {
             console.log(err)
             return res.status(500).send(err)
