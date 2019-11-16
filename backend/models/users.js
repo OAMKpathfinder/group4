@@ -8,11 +8,16 @@ module.exports = (sequelize, DataTypes) => {
             email: DataTypes.STRING,
             password: DataTypes.STRING,
             role: DataTypes.ENUM('admin', 'user'),
+            verified: DataTypes.BOOLEAN,
         },
         {}
     )
     Users.associate = function(models) {
         Users.hasMany(models.Houses, { as: 'Houses', foreignKey: 'UsersId' })
+        Users.hasOne(models.Confirmations, {
+            as: 'Confirmations',
+            foreignKey: 'UsersId',
+        })
     }
     return Users
 }

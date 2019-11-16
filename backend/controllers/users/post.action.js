@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { Users } = require('../../models')
+const { sendConfirmationMail } = require('../../services/confirmations')
 
 async function signUp(req, res) {
     try {
@@ -24,7 +25,9 @@ async function signUp(req, res) {
                 email: req.body.email,
                 password: hash,
             })
-            return res.status(200).send(user)
+            res.status(200).send(user)
+            sendConfirmationMail(user)
+            return
         } catch (err) {
             return res.status(500).send(err)
         }
