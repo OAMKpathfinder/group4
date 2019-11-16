@@ -9,6 +9,7 @@
 @import 'components/input.css';
 @import 'components/type.css';
 @import 'components/alerts.css';
+@import 'components/checkbox.css';
 
 html,
 body {

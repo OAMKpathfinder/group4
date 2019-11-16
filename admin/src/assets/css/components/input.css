@@ -1,19 +1,24 @@
 input {
   @apply rounded transition;
 }
-
 input:focus {
   outline: none;
 }
 
-.input-green {
-  @apply p-3 border border-gray-200 bg-white;
+.input-primary {
+  @apply px-3 py-2 border border-gray-200 bg-white;
+}
+.input-primary:hover {
+  @apply border-primary-300;
+}
+.input-primary:focus {
+  @apply border border-primary-500 bg-primary-100;
 }
 
-.input-green:hover {
-  @apply border-green-300;
+.input-error {
+  @apply border-red-600 bg-red-100 transition;
 }
-
-.input-green:focus {
-  @apply border border-green-500 bg-green-100;
+.input-error:hover,
+.input-error:focus {
+  @apply border-red-600 bg-red-100 transition;
 }
