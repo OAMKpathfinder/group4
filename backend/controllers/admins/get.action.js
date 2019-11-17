@@ -80,7 +80,7 @@ const models = [
 
 async function getModels(req, res) {
     try {
-        // res.status(200).send(Object.keys(db).slice(0, -2));
+        console.log(req.hostname)
         res.status(200).send(models)
     } catch (err) {
         res.status(500).send(err)

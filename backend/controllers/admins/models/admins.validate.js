@@ -63,7 +63,9 @@ async function houseDetailsValidate(req, res, next) {
 
             U_value: Joi.number().required(),
 
-            hjoht: Joi.number().required(),
+            hjoht: Joi.number()
+                .min(0)
+                .required(),
 
             HousesId: Joi.number()
                 .integer()
@@ -191,6 +193,28 @@ async function heatingSystemsValidate(req, res, next) {
     }
 }
 
+// async function defaultsValidate(req, res, next) {
+//     console.log(req.body)
+//     try {
+//         const schema = Joi.object({
+//             decade: Joi.number()
+//                 .integer()
+//                 .required(),
+//             houseImage: Joi.string().required(),
+//             hjoht: Joi.number()
+//                 .min(0)
+//                 .required(),
+//             description: Joi.string().required(),
+//         })
+
+//         await schema.validateAsync(req.body)
+//         next()
+//     } catch (err) {
+//         console.log(err)
+//         return res.status(500).send(err)
+//     }
+// }
+
 module.exports = {
     usersValidate,
     thermalBridgesValidate,
@@ -200,4 +224,5 @@ module.exports = {
     locationsValidate,
     housePartsValidate,
     heatingSystemsValidate,
+    // defaultsValidate,
 }

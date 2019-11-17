@@ -14,10 +14,10 @@ module.exports = (sequelize, DataTypes) => {
     )
     Users.associate = function(models) {
         Users.hasMany(models.Houses, { as: 'Houses', foreignKey: 'UsersId' })
-        Users.hasOne(models.Confirmations, {
-            as: 'Confirmations',
-            foreignKey: 'UsersId',
-        })
+        // Users.hasOne(models.Confirmations, {
+        //     as: 'Confirmations',
+        //     foreignKey: 'UsersId',
+        // })
     }
     return Users
 }

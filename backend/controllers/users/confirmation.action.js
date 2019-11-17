@@ -4,7 +4,7 @@ const { sendConfirmationMail } = require('../../services/confirmations')
 
 async function redirectUser(req, res) {
     try {
-        const confirmation = Confirmations.findOne({
+        const confirmation = await Confirmations.findOne({
             where: { code: req.params.verificationCode },
         })
         if (!confirmation)

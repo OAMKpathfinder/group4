@@ -3,7 +3,6 @@ module.exports = (sequelize, DataTypes) => {
     const Confirmations = sequelize.define(
         'Confirmations',
         {
-            usersId: DataTypes.INTEGER,
             code: DataTypes.STRING,
             expirationDate: DataTypes.DATE,
         },

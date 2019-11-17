@@ -1,7 +1,7 @@
-const client = require('../../../services/mail')
+const client = require('../services/mail')
 const date_fns = require('date-fns')
 const uuid = require('uuid/v4')
-const { Confirmations } = require('../../models')
+const { Confirmations } = require('../models')
 
 async function generateVerificationCode(UsersId) {
     try {
@@ -19,22 +19,26 @@ async function generateVerificationCode(UsersId) {
     }
 }
 
-function sendConfirmationMail(user) {
-    const verificationCode = generateVerificationCode(user.id)
-    const mail = {
-        from: '"Arpi" <k9stgl00@students.oamk.fi>',
-        to: user.email,
-        subject: 'Confirmation email',
-        html: `Please confirm your email at ${process.env.URL}/api/users/confirm/${verificationCode}`,
-    }
-
-    client.sendMail(mail, function(err) {
-        if (err) {
-            console.error
-        } else {
-            console.log('Message sent to: ' + user.email)
+async function sendConfirmationMail(user) {
+    try {
+        const verificationCode = await generateVerificationCode(user.id)
+        const mail = {
+            from: '"Arpi" <k9stgl00@students.oamk.fi>',
+            to: user.email,
+            subject: 'Confirmation email',
+            html: `Please confirm your email at ${process.env.URL}/api/users/confirm/${verificationCode}`,
         }
-    })
+
+        client.sendMail(mail, function(err) {
+            if (err) {
+                console.error
+            } else {
+                console.log('Message sent to: ' + user.email)
+            }
+        })
+    } catch (err) {
+        return err
+    }
 }
 
 module.exports = { sendConfirmationMail }
