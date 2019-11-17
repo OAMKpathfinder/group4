@@ -6,7 +6,7 @@ const levelFcts = {
     member: (req, res, next) => {
         const token = req.header('x-access-token');
         try {
-            const verifyToken = jwt.verify(token, process.env.JWT_KEY);
+            const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
             const decodeToken = await jwt.decode(token);
             const user = await Users.findByPk(decodeToken.userId);
             if(user.role === 'user'){
@@ -22,7 +22,7 @@ const levelFcts = {
     admin: (req, res, next) => {
         const token = req.header('x-access-token');
         try {
-            const verifyToken = await jwt.verify(token, process.env.JWT_KEY);
+            const verifyToken = await jwt.verify(token, process.env.JWT_SECRET);
             const decodeToken = await jwt.decode(token);
             const user = await Users.findByPk(decodeToken.userId);
             if (user.role === 'admin'){

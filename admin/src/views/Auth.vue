@@ -4,8 +4,12 @@
       <h1 class="mx-auto mb-10">Log In</h1>
       <div class="card p-3 w-full mx-auto overflow-hidden">
         <div class="form flex flex-col">
-          <input type="text" class="input-green mb-3" placeholder="Username">
-          <input type="password" class="input-green mb-3" placeholder="Password">
+          <input type="text" class="input-green mb-3" placeholder="Username" />
+          <input
+            type="password"
+            class="input-green mb-3"
+            placeholder="Password"
+          />
           <button class="button-green">Log In</button>
         </div>
       </div>
@@ -14,9 +18,7 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style scoped lang="postcss">
