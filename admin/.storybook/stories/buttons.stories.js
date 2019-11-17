@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/vue'
 import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
 
-import '../../src/assets/css/main.css'
+// import '../../src/assets/css/main.css'
 
 import Button from './Components/Button.vue'
 

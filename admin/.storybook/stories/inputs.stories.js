@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/vue'
 import { action } from '@storybook/addon-actions'
 
-import '../../src/assets/css/main.css'
+// import '../../src/assets/css/main.css'
 import Input from './Components/Input.vue'
 import Checkbox from './Components/Checkbox.vue'
 import CheckList from './Components/CheckList.vue'

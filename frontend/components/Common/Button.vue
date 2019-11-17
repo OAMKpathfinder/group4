@@ -1,6 +1,10 @@
 <template>
-  <button :class="`button-${variant}`" @click="click" type="submit">
-    <slot> </slot>
+  <button
+    type="submit"
+    :class="`button-${variant} w-full`"
+    @click="click"
+  >
+    <slot />
   </button>
 </template>
 
@@ -17,7 +21,7 @@ export default {
     }
   },
   methods: {
-    click: function() {
+    click () {
       this.$emit('click')
     }
   }
