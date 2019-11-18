@@ -1,15 +1,27 @@
 'use strict'
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.createTable('Locations', {
+        return queryInterface.createTable('Defaults', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            country: {
+            decade: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
+            },
+            houseImage: {
                 type: Sequelize.STRING,
+                allowNull: false,
+            },
+            hjoht: {
+                type: Sequelize.DOUBLE,
+                allowNull: false,
+            },
+            description: {
+                type: Sequelize.TEXT('tiny'),
                 allowNull: false,
             },
             createdAt: {
@@ -24,6 +36,6 @@ module.exports = {
     },
     // eslint-disable-next-line no-unused-vars
     down: (queryInterface, Sequelize) => {
-        return queryInterface.dropTable('Locations')
+        return queryInterface.dropTable('Defaults')
     },
 }

@@ -1,50 +1,66 @@
-const {Users, Houses, House_Details, Thermal_Bridges, Locations, House_Parts, Materials, Heating_Systems } = require('../../models')
+const {
+    Users,
+    Houses,
+    House_Details,
+    Locations,
+    House_Parts,
+    Materials,
+    Heating_Systems,
+} = require('../../models')
 
-async function getAllUsersHouses(req, res){
-    try{
-        const houses = await Houses.findAll({where: {UsersId: req.params.id}})
-        res.status(200).send(houses);
-    }catch(err){
+async function getAllUsersHouses(req, res) {
+    try {
+        const houses = await Houses.findAll({
+            where: { UsersId: req.params.id },
+        })
+        res.status(200).send(houses)
+    } catch (err) {
         console.log(err)
-        res. status(500).send(err);
+        res.status(500).send(err)
     }
 }
 
 async function getHouseDetails(req, res) {
     try {
         const house = await Houses.findByPk(req.params.id, {
-            include: [{
+            include: [
+                {
                     model: Users,
                     as: 'Users',
-                }, {
-                    model: Locations,
-                    as: 'Locations'
-                }, {
-                    model: Heating_Systems,
-                    as: 'Heating_Systems'
                 },
                 {
-                model: House_Details,
-                as: 'House_Details',
-                include: [{
-                    model: House_Parts,
-                    as: 'House_Parts'
-                }, {
-                    model: Materials,
-                    as: 'Materials'
-                }],
-                attributes: {exclude: ['HouseDetailsId']}
-            }]
-            });
+                    model: Locations,
+                    as: 'Locations',
+                },
+                {
+                    model: Heating_Systems,
+                    as: 'Heating_Systems',
+                },
+                {
+                    model: House_Details,
+                    as: 'House_Details',
+                    include: [
+                        {
+                            model: House_Parts,
+                            as: 'House_Parts',
+                        },
+                        {
+                            model: Materials,
+                            as: 'Materials',
+                        },
+                    ],
+                    attributes: { exclude: ['HouseDetailsId'] },
+                },
+            ],
+        })
         return res.status(200).send(house)
-    } catch(err){
+    } catch (err) {
         console.log(err)
-        res. status(500).send(err);
+        res.status(500).send(err)
     }
 }
 
 module.exports = {
     getHouseDetails,
-    getAllUsersHouses
-    
+    getAllUsersHouses,
 }

@@ -1,7 +1,7 @@
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi')
 
-async function userValidate(req, res, next){
-    try{
+async function userValidate(req, res, next) {
+    try {
         const schema = Joi.object({
             full_name: Joi.string()
                 .min(3)
@@ -19,15 +19,15 @@ async function userValidate(req, res, next){
             password: Joi.string()
                 .pattern(/^[a-zA-Z0-9]{8,30}$/)
                 .required(),
-        });
+        })
 
-        const value = await schema.validateAsync(req.body);
-        next();
-    }catch(err){
-        return res.status(500).send(err);
+        await schema.validateAsync(req.body)
+        next()
+    } catch (err) {
+        return res.status(500).send(err)
     }
 }
 
 module.exports = {
-    userValidate
+    userValidate,
 }
