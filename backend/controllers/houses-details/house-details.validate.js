@@ -1,7 +1,7 @@
-const Joi = require('@hapi/joi');
+const Joi = require('@hapi/joi')
 
-async function houseDetailsValidate(req, res, next){
-    try{
+async function houseDetailsValidate(req, res, next) {
+    try {
         const schema = Joi.object({
             surface: Joi.number().required(),
 
@@ -9,20 +9,29 @@ async function houseDetailsValidate(req, res, next){
 
             hjoht: Joi.number().required(),
 
-            HousesId: Joi.number().integer().min(0).required(),
+            HousesId: Joi.number()
+                .integer()
+                .min(0)
+                .required(),
 
-            HousePartsId: Joi.number().integer().min(0).required(), 
+            HousePartsId: Joi.number()
+                .integer()
+                .min(0)
+                .required(),
 
-            MaterialsId: Joi.number().integer().min(0).required()
-        });
+            MaterialsId: Joi.number()
+                .integer()
+                .min(0)
+                .required(),
+        })
 
-        const value = await schema.validateAsync(req.body);
-        next();
-    }catch(err){
-        return res.status(500).send(err);
+        await schema.validateAsync(req.body)
+        next()
+    } catch (err) {
+        return res.status(500).send(err)
     }
 }
 
 module.exports = {
-    houseDetailsValidate
+    houseDetailsValidate,
 }

@@ -1,10 +1,12 @@
+const { colors } = require('tailwindcss/defaultTheme')
+
 module.exports = {
   theme: {
     container: {
       center: true
     },
     fontFamily: {
-      'main': ['Rubik']
+      main: ['Rubik']
     },
     screens: {
       xs: '480px',
@@ -12,6 +14,12 @@ module.exports = {
       md: '768px',
       lg: '1024px',
       xl: '1280px'
+    },
+    colors: {
+      primary: colors.green,
+      white: colors.white,
+      gray: colors.gray,
+      red: colors.red
     },
     extend: {}
   },
