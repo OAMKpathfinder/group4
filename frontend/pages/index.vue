@@ -9,7 +9,7 @@
         Start retrofitting your building and save more on energy expenses.
       </p>
     </div>
-    <div class="text-center w-full">
+    <div class="text-center w-full mb-6">
       <span class="proposition relative">
         <span class="w-full h-4 bg-primary-200 absolute left-0 opacity-50 z-0 -mx-3">
         </span>
