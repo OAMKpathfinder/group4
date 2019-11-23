@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             surface: DataTypes.DOUBLE,
             U_value: DataTypes.DOUBLE,
-            hjoht: DataTypes.DOUBLE,
+            hjoht_part: DataTypes.DOUBLE,
         },
         {}
     )

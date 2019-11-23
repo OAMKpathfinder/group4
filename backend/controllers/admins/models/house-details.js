@@ -21,7 +21,6 @@ async function create(req, res) {
         const detail = await House_Details.build({
             surface: req.body.surface,
             U_value: req.body.U_value,
-            hjoht: req.body.hjoht,
         })
 
         detail.setHouses(HousesId)

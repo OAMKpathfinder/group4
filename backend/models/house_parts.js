@@ -4,7 +4,6 @@ module.exports = (sequelize, DataTypes) => {
         'House_Parts',
         {
             part: DataTypes.STRING,
-            hjoht_part: DataTypes.DOUBLE,
         },
         {}
     )

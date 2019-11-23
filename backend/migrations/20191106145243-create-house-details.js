@@ -15,7 +15,7 @@ module.exports = {
             U_value: {
                 type: Sequelize.DOUBLE,
             },
-            hjoht: {
+            hjoht_part: {
                 type: Sequelize.DOUBLE,
                 allowNull: false,
                 defaultValue: 0,
