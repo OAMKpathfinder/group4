@@ -68,22 +68,22 @@ module.exports = {
     '/': {
         get: {
             action: get,
-            level: 'public',
+            level: 'admin',
         },
         post: {
             action: create,
             middlewares: thermalBridgesValidate,
-            level: 'public',
+            level: 'admin',
         },
     },
     '/:id': {
         put: {
             action: update,
-            level: 'public',
+            level: 'admin',
         },
         delete: {
             action: remove,
-            level: 'public',
+            level: 'admin',
         },
     },
 }

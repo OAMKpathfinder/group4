@@ -108,26 +108,26 @@ module.exports = {
     '/': {
         get: {
             action: get,
-            level: 'public',
+            level: 'admin',
         },
         post: {
             action: create,
             middlewares: usersValidate,
-            level: 'public',
+            level: 'admin',
         },
     },
     '/:id': {
         get: {
             action: getOne,
-            level: 'public',
+            level: 'admin',
         },
         put: {
             action: update,
-            level: 'public',
+            level: 'admin',
         },
         delete: {
             action: remove,
-            level: 'public',
+            level: 'admin',
         },
     },
 }
