@@ -201,9 +201,6 @@ async function heatingSystemsValidate(req, res, next) {
 //                 .integer()
 //                 .required(),
 //             houseImage: Joi.string().required(),
-//             hjoht: Joi.number()
-//                 .min(0)
-//                 .required(),
 //             description: Joi.string().required(),
 //         })
 

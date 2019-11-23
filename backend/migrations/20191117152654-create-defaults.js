@@ -16,10 +16,6 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
-            hjoht: {
-                type: Sequelize.DOUBLE,
-                allowNull: false,
-            },
             description: {
                 type: Sequelize.TEXT('tiny'),
                 allowNull: false,

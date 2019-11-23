@@ -5,7 +5,6 @@ module.exports = (sequelize, DataTypes) => {
         {
             decade: DataTypes.INTEGER,
             houseImage: DataTypes.STRING,
-            hjoht: DataTypes.DOUBLE,
             description: DataTypes.TEXT('tiny'),
         },
         {}

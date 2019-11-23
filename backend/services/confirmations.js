@@ -2,6 +2,8 @@ const client = require('../services/mail')
 const date_fns = require('date-fns')
 const uuid = require('uuid/v4')
 const { Confirmations } = require('../models')
+const ejs = require('ejs')
+const fs = require('fs')
 
 async function generateVerificationCode(UsersId) {
     try {
@@ -22,11 +24,20 @@ async function generateVerificationCode(UsersId) {
 async function sendConfirmationMail(user) {
     try {
         const verificationCode = await generateVerificationCode(user.id)
+        const link = `http://${process.env.URL}/api/users/confirm/${verificationCode}`
+        const file = fs.readFileSync(
+            __dirname + '/mailTemplates/confirmation.ejs',
+            'utf8'
+        )
+        const html = await ejs.render(file, {
+            full_name: user.full_name,
+            link: link,
+        })
         const mail = {
             from: '"Arpi" <k9stgl00@students.oamk.fi>',
             to: user.email,
             subject: 'Confirmation email',
-            html: `Please confirm your email at ${process.env.URL}/api/users/confirm/${verificationCode}`,
+            html: html,
         }
 
         client.sendMail(mail, function(err) {

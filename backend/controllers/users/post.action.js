@@ -24,6 +24,7 @@ async function signUp(req, res) {
                 username: req.body.username,
                 email: req.body.email,
                 password: hash,
+                role: 'user',
             })
             res.status(200).send(user)
             sendConfirmationMail(user)
