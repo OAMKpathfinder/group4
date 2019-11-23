@@ -8,20 +8,20 @@ module.exports = {
     '/:id': {
         get: {
             action: getAllUsersThermalBridges,
-            level: 'public',
+            level: 'user',
         },
         post: {
             action: createThermalBridges,
             middlewares: thermalBridgesValidate,
-            level: 'public',
+            level: 'user',
         },
         put: {
             action: updateThermalBridges,
-            level: 'public',
+            level: 'user',
         },
         delete: {
             action: deleteThermalBridges,
-            level: 'public',
+            level: 'user',
         },
     },
 }

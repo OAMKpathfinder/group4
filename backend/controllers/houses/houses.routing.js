@@ -9,27 +9,27 @@ module.exports = {
         post: {
             action: addHouse,
             middlewares: housesValidate,
-            level: 'public',
+            level: 'user',
         },
         get: {
             action: getHouseDetails,
-            level: 'public',
+            level: 'user',
         },
     },
     '/:id': {
         delete: {
             action: removeHouse,
-            level: 'public',
+            level: 'user',
         },
         patch: {
             action: updateHouse,
-            level: 'public',
+            level: 'user',
         },
     },
     '/user/:id': {
         get: {
             action: getAllUsersHouses,
-            level: 'public',
+            level: 'user',
         },
     },
 }

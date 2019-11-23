@@ -4,13 +4,13 @@ module.exports = {
     '/models/:name/attrs': {
         get: {
             action: getAttributes,
-            level: 'public',
+            level: 'admin',
         },
     },
     '/models': {
         get: {
             action: getModels,
-            level: 'public',
+            level: 'admin',
         },
     },
 }

@@ -69,17 +69,17 @@ module.exports = {
         post: {
             action: createDefault,
             middlewares: upload.single('file'),
-            level: 'public',
+            level: 'admin',
         },
         get: {
             action: getAllDefaults,
-            level: 'public',
+            level: 'admin',
         },
     },
     '/:id': {
         delete: {
             action: removeDefault,
-            level: 'public',
+            level: 'admin',
         },
         put: {
             action: updateDefault,

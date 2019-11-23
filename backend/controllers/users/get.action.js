@@ -1,14 +1,17 @@
 const { Users } = require('../../models')
+const jwt = require('jsonwebtoken')
 
-async function getUserById(req, res) {
+async function getUser(req, res) {
+    const token = req.header('x-access-token')
+    const user = jwt.decode(token)
     try {
-        const user = await Users.findByPk(req.params.id)
-        res.status(200).send(user)
+        const data = await Users.findByPk(user.userId)
+        res.status(200).send(data)
     } catch (err) {
         res.status(500).send(err)
     }
 }
 
 module.exports = {
-    getUserById,
+    getUser,
 }
