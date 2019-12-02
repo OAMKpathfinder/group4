@@ -19,7 +19,10 @@ button:focus {
   @apply bg-primary-600;
 }
 
-.button-primary:focus,
+.button-primary:focus {
+  outline: auto;
+}
+
 .button-primary:active {
   box-shadow: 0 1px 1px -1px rgba(50, 190, 15, 0.1),
     0 0px 1px -1px rgba(50, 190, 15, 0.06);

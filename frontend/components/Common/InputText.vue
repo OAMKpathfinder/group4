@@ -2,8 +2,8 @@
   <label class="block mb-2">
     <span v-if="label" class="text-gray-700">{{ label }}</span>
     <input
-      class="mt-1 block w-full focus:shadow-none"
       :id="name"
+      class="mt-1 block w-full focus:shadow-none"
       :name="name"
       :value="value"
       :type="type"
@@ -29,7 +29,7 @@ export default {
     },
     type: {
       type: String,
-      validator (value) {
+      validator(value) {
         return ['text', 'email', 'password'].includes(value)
       },
       default: 'text'
@@ -47,7 +47,8 @@ export default {
       default: 'primary'
     },
     value: {
-      type: String
+      type: String,
+      required: true
     },
     required: {
       type: Boolean,
@@ -59,7 +60,7 @@ export default {
     }
   },
   methods: {
-    input (value) {
+    input(value) {
       this.$emit('input', value)
     }
   }

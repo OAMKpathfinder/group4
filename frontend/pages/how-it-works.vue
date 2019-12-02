@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <h1 class>
-      Hello
+      How it works?
     </h1>
   </section>
 </template>

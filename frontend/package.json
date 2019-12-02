@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "pathfinder-frontend",
   "version": "1.0.0",
   "description": "Pathfinder project Web App made with Nuxt.js",
   "author": "Arpad Gabor",
