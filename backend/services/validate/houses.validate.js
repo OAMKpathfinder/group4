@@ -40,7 +40,7 @@ async function housesValidate(req, res, next) {
         next()
     } catch (err) {
         console.log(err)
-        return res.status(500).send(err)
+        return res.status(500).send(err.details[0].message)
     }
 }
 

@@ -5,6 +5,8 @@ module.exports = (sequelize, DataTypes) => {
         {
             name: DataTypes.STRING,
             type: DataTypes.STRING,
+            thermal_conductivity: DataTypes.DOUBLE,
+            thickness: DataTypes.DOUBLE,
             description: DataTypes.TEXT('tiny'),
         },
         {}

@@ -1,12 +1,19 @@
 const { signUp, login } = require('./post.action')
 const { getUser } = require('./get.action')
-const { userValidate } = require('./users.validate')
+const { userValidate } = require('../../services/validate')
 const { redirectUser, regenerateCode } = require('./confirmation.action')
+const { updateUser } = require('./update.action')
 
 module.exports = {
-    '': {
+    '/': {
         get: {
             action: getUser,
+            level: 'user',
+        },
+    },
+    '/:id': {
+        put: {
+            action: updateUser,
             level: 'user',
         },
     },

@@ -9,12 +9,8 @@ module.exports = (sequelize, DataTypes) => {
     )
     Thermal_Bridges.associate = function(models) {
         Thermal_Bridges.belongsTo(models.House_Details, {
-            as: 'House_Details1',
-            foreignKey: 'HouseDetailsId1',
-        })
-        Thermal_Bridges.belongsTo(models.House_Details, {
-            as: 'House_Details2',
-            foreignKey: 'HouseDetailsId2',
+            as: 'House_Details',
+            foreignKey: 'HouseDetailsId',
         })
     }
     return Thermal_Bridges

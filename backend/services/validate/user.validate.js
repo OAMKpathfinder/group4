@@ -24,7 +24,7 @@ async function userValidate(req, res, next) {
         await schema.validateAsync(req.body)
         next()
     } catch (err) {
-        return res.status(500).send(err)
+        return res.status(500).send(err.details[0].message)
     }
 }
 

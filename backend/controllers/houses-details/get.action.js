@@ -8,7 +8,6 @@ async function getAllHouseDetails(req, res) {
         })
         res.status(200).send(houseDetails)
     } catch (err) {
-        console.log(err)
         res.status(500).send(err)
     }
 }

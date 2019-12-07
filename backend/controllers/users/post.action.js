@@ -26,8 +26,15 @@ async function signUp(req, res) {
                 password: hash,
                 role: 'user',
             })
-            res.status(200).send(user)
-            sendConfirmationMail(user)
+            res.status(200).send({
+                id: user.id,
+                full_name: user.full_name,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                verified: user.verified,
+            })
+            sendConfirmationMail(req.body.email)
             return
         } catch (err) {
             return res.status(500).send(err)

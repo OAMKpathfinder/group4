@@ -1,26 +1,27 @@
 const { House_Details } = require('../../models')
+const { calculateUValue } = require('../../services/calculate')
 
 async function addHouseDetail(req, res) {
-    const HousesId = req.body.HousesId
-    const HousePartsId = req.body.HousePartsId
-    const MaterialsId = req.body.MaterialsId
-    try {
-        const detail = await House_Details.build({
-            surface: req.body.surface,
-            U_value: req.body.U_value,
-            hjoht: req.body.hjoht,
-        })
+    const arr = req.body
+    arr.forEach(async element => {
+        try {
+            const detail = House_Details.build({
+                surface: element.surface,
+                U_value: element.U_value,
+                HousesId: element.HousesId,
+                HousePartsId: element.HousePartsId,
+                MaterialsId: element.MaterialsId,
+            })
 
-        detail.setHouses(HousesId)
-        detail.setHouse_Parts(HousePartsId)
-        detail.setMaterials(MaterialsId)
-        await detail.save()
-
-        return res.status(200).send(detail)
-    } catch (err) {
-        console.log(err)
-        res.status(500).send(err)
-    }
+            const addedDetail = await detail.save()
+            if (!addedDetail.U_value) {
+                await calculateUValue(addedDetail)
+            }
+        } catch (err) {
+            res.status(500).send(err)
+        }
+    })
+    return res.status(200).send(true)
 }
 
 module.exports = {

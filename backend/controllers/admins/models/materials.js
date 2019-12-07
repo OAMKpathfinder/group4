@@ -1,5 +1,6 @@
-const { Materials } = require('../../../models')
-const { materialsValidate } = require('./admins.validate')
+const { Materials, House_Details } = require('../../../models')
+const { materialsValidate } = require('../../../services/validate')
+const { calculateUValue } = require('../../../services/calculate')
 
 async function get(req, res) {
     try {
@@ -15,6 +16,8 @@ async function create(req, res) {
         const row = await Materials.create({
             name: req.body.name,
             type: req.body.type,
+            thermal_conductivity: req.body.thermal_conductivity,
+            thickness: req.body.thickness,
             description: req.body.description,
         })
         return res.status(200).send(row)
@@ -29,8 +32,14 @@ async function update(req, res) {
             where: { id: req.params.id },
             fields: Object.keys(req.body),
         })
+        const addedDetail = await House_Details.findOne({
+            where: { MaterialsId: req.params.id },
+            attributes: { exclude: ['HouseDetailsId'] },
+        })
+        await calculateUValue(addedDetail)
         return res.status(200).send(updated)
     } catch (err) {
+        console.log(err)
         res.status(500).send(err)
     }
 }

@@ -1,7 +1,6 @@
 const multer = require('multer')
 const fs = require('fs')
 const { Defaults } = require('../../../models')
-// const { defaultsValidate } = require('./admins.validate')
 
 const upload = multer({ dest: './data/' })
 
@@ -52,6 +51,18 @@ async function removeDefault(req, res) {
     }
 }
 
+async function updateDefault(req, res) {
+    try {
+        const updated = await Defaults.update(req.body, {
+            where: { id: req.params.id },
+            fields: Object.keys(req.body),
+        })
+        return res.status(200).send(updated)
+    } catch (err) {
+        res.status(500).send(err)
+    }
+}
+
 module.exports = {
     '/': {
         post: {
@@ -63,9 +74,15 @@ module.exports = {
             action: getAllDefaults,
             level: 'admin',
         },
+    },
+    '/:id': {
         delete: {
             action: removeDefault,
             level: 'admin',
+        },
+        put: {
+            action: updateDefault,
+            level: 'public',
         },
     },
 }

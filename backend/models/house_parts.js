@@ -4,7 +4,6 @@ module.exports = (sequelize, DataTypes) => {
         'House_Parts',
         {
             part: DataTypes.STRING,
-            hjoht_part: DataTypes.DOUBLE,
         },
         {}
     )
@@ -12,6 +11,10 @@ module.exports = (sequelize, DataTypes) => {
         House_Parts.hasMany(models.House_Details, {
             as: 'House_Details',
             foreignKey: 'HouseDetailsId',
+        })
+        House_Parts.hasMany(models.Part_Types, {
+            as: 'Part_Types',
+            foreignKey: 'PartId',
         })
     }
     return House_Parts

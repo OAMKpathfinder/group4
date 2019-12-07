@@ -1,5 +1,5 @@
 const { House_Parts } = require('../../../models')
-const { housePartsValidate } = require('./admins.validate')
+const { housePartsValidate } = require('../../../services/validate')
 
 async function get(req, res) {
     try {
@@ -14,7 +14,6 @@ async function create(req, res) {
     try {
         const row = await House_Parts.create({
             part: req.body.part,
-            hjoht_part: req.body.hjoht_part,
         })
         return res.status(200).send(row)
     } catch (err) {

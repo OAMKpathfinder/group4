@@ -2,7 +2,7 @@ const { addHouse } = require('./post.action')
 const { removeHouse } = require('./delete.action')
 const { updateHouse } = require('./update.action')
 const { getHouseDetails, getAllUsersHouses } = require('./get.action')
-const { housesValidate } = require('./houses.validate')
+const { housesValidate } = require('../../services/validate')
 
 module.exports = {
     '/': {

@@ -1,5 +1,5 @@
 const { Users, Houses } = require('../../../models')
-const { usersValidate } = require('./admins.validate')
+const { adminsValidate } = require('../../../services/validate')
 const bcrypt = require('bcrypt')
 const client = require('../../../services/mail')
 
@@ -55,12 +55,10 @@ async function create(req, res) {
         if (username) return res.status(409).send('Username already taken')
         if (email) return res.status(409).send('E-mail already taken')
     } catch (err) {
-        console.log(err)
         return res.status(500).send(err)
     }
     bcrypt.hash(req.body.password, 10, async (err, hash) => {
         if (err) {
-            console.log(err)
             return res.status(500).send(err)
         }
         try {
@@ -71,12 +69,19 @@ async function create(req, res) {
                 password: hash,
                 role: req.body.role,
             })
-            res.status(200).send(user)
-            // call function for mail
+
+            res.status(200).send({
+                id: user.id,
+                full_name: user.full_name,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                verified: user.verified,
+            })
+
             sendConfirmationMail(req.body.email)
             return
         } catch (err) {
-            console.log(err)
             return res.status(500).send(err)
         }
     })
@@ -112,7 +117,7 @@ module.exports = {
         },
         post: {
             action: create,
-            middlewares: usersValidate,
+            middlewares: adminsValidate,
             level: 'admin',
         },
     },
