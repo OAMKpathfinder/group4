@@ -1,13 +1,16 @@
 <template>
   <section class="container">
-    <h1 class>
-      Dashboard
-    </h1>
+    <HouseList />
   </section>
 </template>
 
 <script>
+import HouseList from '~/components/Houses/List'
+
 export default {
+  components: {
+    HouseList
+  },
   middleware: 'authenticated',
   mounted() {
     const token = window.localStorage.getItem('token')
