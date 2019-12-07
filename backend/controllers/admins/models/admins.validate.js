@@ -227,25 +227,6 @@ async function partTypesValidate(req, res, next) {
     }
 }
 
-// async function defaultsValidate(req, res, next) {
-//     console.log(req.body)
-//     try {
-//         const schema = Joi.object({
-//             decade: Joi.number()
-//                 .integer()
-//                 .required(),
-//             houseImage: Joi.string().required(),
-//             description: Joi.string().required(),
-//         })
-
-//         await schema.validateAsync(req.body)
-//         next()
-//     } catch (err) {
-//         console.log(err)
-//         return res.status(500).send(err)
-//     }
-// }
-
 module.exports = {
     usersValidate,
     thermalBridgesValidate,
@@ -256,5 +237,4 @@ module.exports = {
     housePartsValidate,
     heatingSystemsValidate,
     partTypesValidate,
-    // defaultsValidate,
 }

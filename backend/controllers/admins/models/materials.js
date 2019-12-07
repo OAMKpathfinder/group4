@@ -1,5 +1,6 @@
-const { Materials } = require('../../../models')
+const { Materials, House_Details } = require('../../../models')
 const { materialsValidate } = require('./admins.validate')
+const { calculateUValue } = require('../../../services/calculate')
 
 async function get(req, res) {
     try {
@@ -31,8 +32,14 @@ async function update(req, res) {
             where: { id: req.params.id },
             fields: Object.keys(req.body),
         })
+        const addedDetail = await House_Details.findOne({
+            where: { MaterialsId: req.params.id },
+            attributes: { exclude: ['HouseDetailsId'] },
+        })
+        await calculateUValue(addedDetail)
         return res.status(200).send(updated)
     } catch (err) {
+        console.log(err)
         res.status(500).send(err)
     }
 }

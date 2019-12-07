@@ -19,9 +19,9 @@ async function create(req, res) {
             serial: req.body.serial,
             price: req.body.price,
             U_value: req.body.U_value,
+            PartId: PartId,
         })
 
-        partType.setHouse_Parts(PartId)
         await partType.save()
 
         return res.status(200).send(partType)

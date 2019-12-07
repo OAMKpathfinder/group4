@@ -20,9 +20,9 @@ async function create(req, res) {
 
             const row = await Thermal_Bridges.build({
                 bridge_length: element.bridge_length,
+                HouseDetailsId: HouseDetailsId,
             })
 
-            row.setHouse_Details(HouseDetailsId)
             await row.save()
 
             await calculateHjoht(HouseDetailsId)

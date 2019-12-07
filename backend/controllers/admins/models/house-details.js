@@ -1,5 +1,6 @@
 const { House_Details } = require('../../../models')
 const { houseDetailsValidate } = require('./admins.validate')
+const { calculateUValue } = require('../../../services/calculate')
 
 async function get(req, res) {
     try {
@@ -17,20 +18,19 @@ function create(req, res) {
     const arr = req.body
     arr.forEach(async element => {
         try {
-            const HousesId = element.HousesId
-            const HousePartsId = element.HousePartsId
-            const MaterialsId = element.MaterialsId
-
             const detail = House_Details.build({
                 surface: element.surface,
                 U_value: element.U_value,
+                HousesId: element.HousesId,
+                HousePartsId: element.HousePartsId,
+                MaterialsId: element.MaterialsId,
             })
-            detail.setHouses(HousesId)
-            detail.setHouse_Parts(HousePartsId)
-            detail.setMaterials(MaterialsId)
-            await detail.save()
+
+            const addedDetail = await detail.save()
+            if (!addedDetail.U_value) {
+                await calculateUValue(addedDetail)
+            }
         } catch (err) {
-            console.log(err)
             res.status(500).send(err)
         }
     })
@@ -43,6 +43,8 @@ async function update(req, res) {
             where: { id: req.params.id },
             fields: Object.keys(req.body),
         })
+        const addedDetail = await House_Details.findByPk(req.params.id)
+        await calculateUValue(addedDetail)
         return res.status(200).send(updated)
     } catch (err) {
         res.status(500).send(err)

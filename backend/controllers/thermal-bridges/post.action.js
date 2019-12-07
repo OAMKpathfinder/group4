@@ -9,14 +9,13 @@ async function createThermalBridges(req, res) {
 
             const row = await Thermal_Bridges.build({
                 bridge_length: element.bridge_length,
+                HouseDetailsId: HouseDetailsId,
             })
 
-            row.setHouse_Details(HouseDetailsId)
             await row.save()
 
             await calculateHjoht(HouseDetailsId)
         } catch (err) {
-            console.log(err)
             res.status(500).send(err)
         }
     })

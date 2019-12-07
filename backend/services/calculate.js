@@ -1,8 +1,10 @@
 const { House_Details, Materials, Thermal_Bridges } = require('../models')
 
-async function calculateUValue(detail, materialId) {
+async function calculateUValue(detail) {
     try {
-        const material = await Materials.findOne({ where: { id: materialId } })
+        const material = await Materials.findOne({
+            where: { id: detail.MaterialsId },
+        })
         await House_Details.update(
             {
                 U_value: (
@@ -16,10 +18,10 @@ async function calculateUValue(detail, materialId) {
     }
 }
 
-async function calculateHjoht(id) {
+async function calculateHjoht(HouseDetailsId) {
     try {
         const detail = await House_Details.findOne({
-            where: { id: id },
+            where: { id: HouseDetailsId },
             attributes: { exclude: ['HouseDetailsId'] },
         })
         const thermalBridge = await Thermal_Bridges.findAll({

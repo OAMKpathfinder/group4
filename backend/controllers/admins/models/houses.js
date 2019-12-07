@@ -20,11 +20,11 @@ async function create(req, res) {
             levels: req.body.levels,
             heating_per_year: req.body.heating_per_year,
             warm_water_pipe: req.body.warm_water_pipe,
+            UsersId: UsersId,
+            LocationsId: LocationsId,
+            HeatingSystemsId: HeatingSystemsId,
         })
 
-        house.setUsers(UsersId)
-        house.setLocations(LocationsId)
-        house.setHeating_Systems(HeatingSystemsId)
         await house.save()
 
         return res.status(200).send(house)
