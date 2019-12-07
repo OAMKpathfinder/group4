@@ -1,5 +1,5 @@
 const { House_Parts } = require('../../../models')
-const { housePartsValidate } = require('./admins.validate')
+const { housePartsValidate } = require('../../../services/validate')
 
 async function get(req, res) {
     try {

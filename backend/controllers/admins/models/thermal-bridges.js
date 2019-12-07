@@ -1,5 +1,5 @@
 const { Thermal_Bridges } = require('../../../models')
-const { thermalBridgesValidate } = require('./admins.validate')
+const { thermalBridgesValidate } = require('../../../services/validate')
 const { calculateHjoht } = require('../../../services/calculate')
 
 async function get(req, res) {

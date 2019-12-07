@@ -1,5 +1,5 @@
 const { Materials, House_Details } = require('../../../models')
-const { materialsValidate } = require('./admins.validate')
+const { materialsValidate } = require('../../../services/validate')
 const { calculateUValue } = require('../../../services/calculate')
 
 async function get(req, res) {

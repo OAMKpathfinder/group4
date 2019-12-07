@@ -1,5 +1,5 @@
 const { Users, Houses } = require('../../../models')
-const { usersValidate } = require('./admins.validate')
+const { adminsValidate } = require('../../../services/validate')
 const bcrypt = require('bcrypt')
 const client = require('../../../services/mail')
 
@@ -117,7 +117,7 @@ module.exports = {
         },
         post: {
             action: create,
-            middlewares: usersValidate,
+            middlewares: adminsValidate,
             level: 'admin',
         },
     },

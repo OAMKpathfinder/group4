@@ -1,7 +1,6 @@
 const multer = require('multer')
 const fs = require('fs')
 const { Defaults } = require('../../../models')
-// const { defaultsValidate } = require('./admins.validate')
 
 const upload = multer({ dest: './data/' })
 

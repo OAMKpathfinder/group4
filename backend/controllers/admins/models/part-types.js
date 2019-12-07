@@ -1,5 +1,5 @@
 const { Part_Types } = require('../../../models')
-const { partTypesValidate } = require('./admins.validate')
+const { partTypesValidate } = require('../../../services/validate')
 
 async function get(req, res) {
     try {
