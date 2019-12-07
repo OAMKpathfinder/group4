@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full">
+  <div class="w-full h-full pb-6">
     <Header />
     <nuxt />
   </div>

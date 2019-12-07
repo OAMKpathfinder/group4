@@ -7,5 +7,8 @@ export default function({ store, redirect }) {
       }
       return store.commit('SET_TOKEN', token)
     }
-  } catch (err) {}
+  } catch (err) {
+    // eslint-disable-next-line no-useless-return
+    return
+  }
 }

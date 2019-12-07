@@ -17,6 +17,7 @@ module.exports = {
     'space-before-function-paren': 'off',
     'no-console': 'off',
     'vue/html-self-closing': 'off',
-    'vue/singleline-html-element-content-newline': 'off'
+    'vue/singleline-html-element-content-newline': 'off',
+    'arrow-parens': 'off'
   }
 }

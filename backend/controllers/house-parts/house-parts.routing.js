@@ -4,7 +4,7 @@ module.exports = {
     '/': {
         get: {
             action: getHouseParts,
-            level: 'admin',
+            level: 'user',
         },
     },
 }

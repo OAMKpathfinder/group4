@@ -30,7 +30,7 @@ export default {
     type: {
       type: String,
       validator(value) {
-        return ['text', 'email', 'password'].includes(value)
+        return ['text', 'email', 'password', 'number'].includes(value)
       },
       default: 'text'
     },
@@ -47,7 +47,6 @@ export default {
       default: 'primary'
     },
     value: {
-      type: String,
       required: true
     },
     required: {
