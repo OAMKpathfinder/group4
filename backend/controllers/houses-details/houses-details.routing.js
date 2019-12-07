@@ -5,12 +5,14 @@ const { getAllHouseDetails } = require('./get.action')
 const { houseDetailsValidate } = require('./house-details.validate')
 
 module.exports = {
-    '/:id': {
+    '/': {
         post: {
             action: addHouseDetail,
             middleware: houseDetailsValidate,
             level: 'user',
         },
+    },
+    '/:id': {
         get: {
             action: getAllHouseDetails,
             level: 'user',

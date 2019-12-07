@@ -13,26 +13,28 @@ async function get(req, res) {
     }
 }
 
-async function create(req, res) {
-    const HousesId = req.body.HousesId
-    const HousePartsId = req.body.HousePartsId
-    const MaterialsId = req.body.MaterialsId
-    try {
-        const detail = await House_Details.build({
-            surface: req.body.surface,
-            U_value: req.body.U_value,
-        })
+function create(req, res) {
+    const arr = req.body
+    arr.forEach(async element => {
+        try {
+            const HousesId = element.HousesId
+            const HousePartsId = element.HousePartsId
+            const MaterialsId = element.MaterialsId
 
-        detail.setHouses(HousesId)
-        detail.setHouse_Parts(HousePartsId)
-        detail.setMaterials(MaterialsId)
-        await detail.save()
-
-        return res.status(200).send(detail)
-    } catch (err) {
-        console.log(err)
-        res.status(500).send(err)
-    }
+            const detail = House_Details.build({
+                surface: element.surface,
+                U_value: element.U_value,
+            })
+            detail.setHouses(HousesId)
+            detail.setHouse_Parts(HousePartsId)
+            detail.setMaterials(MaterialsId)
+            await detail.save()
+        } catch (err) {
+            console.log(err)
+            res.status(500).send(err)
+        }
+    })
+    return res.status(200).send(true)
 }
 
 async function update(req, res) {
@@ -65,7 +67,7 @@ module.exports = {
         post: {
             action: create,
             middlewares: houseDetailsValidate,
-            level: 'admin',
+            level: 'public',
         },
     },
     '/:id': {

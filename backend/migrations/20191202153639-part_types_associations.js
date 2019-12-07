@@ -2,10 +2,10 @@
 
 module.exports = {
     up: (queryInterface, Sequelize) => {
-        return queryInterface.addColumn('Thermal_Bridges', 'HouseDetailsId', {
+        return queryInterface.addColumn('Part_Types', 'PartId', {
             type: Sequelize.INTEGER,
             references: {
-                model: 'House_Details',
+                model: 'House_Parts',
                 key: 'id',
             },
             onUpdate: 'CASCADE',
@@ -13,9 +13,8 @@ module.exports = {
             allowNull: false,
         })
     },
-
     // eslint-disable-next-line no-unused-vars
     down: (queryInterface, Sequelize) => {
-        return queryInterface.removeColumn('Thermal_Bridges', 'HouseDetailsId')
+        return queryInterface.removeColumn('Part_Types', 'PartId')
     },
 }

@@ -1,9 +1,9 @@
-const { Materials } = require('../../../models')
-const { materialsValidate } = require('./admins.validate')
+const { Part_Types } = require('../../../models')
+const { partTypesValidate } = require('./admins.validate')
 
 async function get(req, res) {
     try {
-        const rows = await Materials.findAll()
+        const rows = await Part_Types.findAll()
         res.status(200).send(rows)
     } catch (err) {
         res.status(500).send(err)
@@ -11,23 +11,29 @@ async function get(req, res) {
 }
 
 async function create(req, res) {
+    const PartId = req.body.PartId
     try {
-        const row = await Materials.create({
+        const partType = await Part_Types.build({
             name: req.body.name,
-            type: req.body.type,
-            thermal_conductivity: req.body.thermal_conductivity,
-            thickness: req.body.thickness,
-            description: req.body.description,
+            producer: req.body.producer,
+            serial: req.body.serial,
+            price: req.body.price,
+            U_value: req.body.U_value,
         })
-        return res.status(200).send(row)
+
+        partType.setHouse_Parts(PartId)
+        await partType.save()
+
+        return res.status(200).send(partType)
     } catch (err) {
+        console.log(err)
         res.status(500).send(err)
     }
 }
 
 async function update(req, res) {
     try {
-        const updated = await Materials.update(req.body, {
+        const updated = await Part_Types.update(req.body, {
             where: { id: req.params.id },
             fields: Object.keys(req.body),
         })
@@ -39,7 +45,7 @@ async function update(req, res) {
 
 async function remove(req, res) {
     try {
-        await Materials.destroy({ where: { id: req.params.id } })
+        await Part_Types.destroy({ where: { id: req.params.id } })
         res.status(200).send(true)
     } catch (err) {
         res.status(500).send(err)
@@ -50,22 +56,22 @@ module.exports = {
     '/': {
         get: {
             action: get,
-            level: 'admin',
+            level: 'public',
         },
         post: {
             action: create,
-            middlewares: materialsValidate,
-            level: 'admin',
+            middlewares: partTypesValidate,
+            level: 'public',
         },
     },
     '/:id': {
         put: {
             action: update,
-            level: 'admin',
+            level: 'public',
         },
         delete: {
             action: remove,
-            level: 'admin',
+            level: 'public',
         },
     },
 }

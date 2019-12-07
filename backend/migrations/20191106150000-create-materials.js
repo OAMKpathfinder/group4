@@ -16,6 +16,14 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
+            thermal_conductivity: {
+                type: Sequelize.DOUBLE,
+                allowNull: false,
+            },
+            thickness: {
+                type: Sequelize.DOUBLE,
+                allowNull: false,
+            },
             description: {
                 type: Sequelize.TEXT('tiny'),
                 allowNull: false,

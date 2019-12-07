@@ -71,7 +71,14 @@ async function create(req, res) {
                 password: hash,
                 role: req.body.role,
             })
-            res.status(200).send(user)
+            res.status(200).send({
+                id: user.id,
+                full_name: user.full_name,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                verified: user.verified,
+            })
             // call function for mail
             sendConfirmationMail(req.body.email)
             return

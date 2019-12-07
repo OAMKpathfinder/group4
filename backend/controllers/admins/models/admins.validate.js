@@ -29,65 +29,63 @@ async function usersValidate(req, res, next) {
         next()
     } catch (err) {
         console.log(err)
-        return res.status(500).send(err)
+        return res.status(500).send(err.details[0].message)
     }
 }
 
 async function thermalBridgesValidate(req, res, next) {
-    try {
-        const schema = Joi.object({
-            bridge_length: Joi.number().required(),
+    const arr = req.body
+    arr.forEach(async element => {
+        try {
+            const schema = Joi.object({
+                bridge_length: Joi.number().required(),
 
-            HouseDetailsId1: Joi.number()
-                .integer()
-                .min(0)
-                .required(),
+                HouseDetailsId: Joi.number()
+                    .integer()
+                    .min(0)
+                    .required(),
+            })
 
-            HouseDetailsId2: Joi.number()
-                .integer()
-                .min(0)
-                .required(),
-        })
-
-        await schema.validateAsync(req.body)
-        next()
-    } catch (err) {
-        return res.status(500).send(err)
-    }
+            await schema.validateAsync(element)
+        } catch (err) {
+            return res.status(500).send(err.details[0].message)
+        }
+    })
+    next()
 }
 
 async function houseDetailsValidate(req, res, next) {
-    try {
-        const schema = Joi.object({
-            surface: Joi.number().required(),
+    const arr = req.body
+    arr.forEach(async element => {
+        try {
+            const schema = Joi.object({
+                surface: Joi.number().required(),
 
-            U_value: Joi.number().required(),
+                U_value: Joi.number().required(),
 
-            hjoht: Joi.number()
-                .min(0)
-                .required(),
+                hjoht: Joi.number().min(0),
 
-            HousesId: Joi.number()
-                .integer()
-                .min(0)
-                .required(),
+                HousesId: Joi.number()
+                    .integer()
+                    .min(0)
+                    .required(),
 
-            HousePartsId: Joi.number()
-                .integer()
-                .min(0)
-                .required(),
+                HousePartsId: Joi.number()
+                    .integer()
+                    .min(0)
+                    .required(),
 
-            MaterialsId: Joi.number()
-                .integer()
-                .min(0)
-                .required(),
-        })
-
-        await schema.validateAsync(req.body)
-        next()
-    } catch (err) {
-        return res.status(500).send(err)
-    }
+                MaterialsId: Joi.number()
+                    .integer()
+                    .min(0)
+                    .required(),
+            })
+            await schema.validateAsync(element)
+        } catch (err) {
+            return res.status(500).send(err.details[0].message)
+        }
+    })
+    next()
 }
 
 async function housesValidate(req, res, next) {
@@ -130,7 +128,7 @@ async function housesValidate(req, res, next) {
         next()
     } catch (err) {
         console.log(err)
-        return res.status(500).send(err)
+        return res.status(500).send(err.details[0].message)
     }
 }
 
@@ -141,6 +139,12 @@ async function materialsValidate(req, res, next) {
 
             type: Joi.string().required(),
 
+            thermal_conductivity: Joi.number()
+                .min(0)
+                .required(),
+            thickness: Joi.number()
+                .min(0)
+                .required(),
             description: Joi.string().required(),
         })
 
@@ -148,7 +152,7 @@ async function materialsValidate(req, res, next) {
         next()
     } catch (err) {
         console.log(err)
-        return res.status(500).send(err)
+        return res.status(500).send(err.details[0].message)
     }
 }
 
@@ -161,7 +165,7 @@ async function locationsValidate(req, res, next) {
         await schema.validateAsync(req.body)
         next()
     } catch (err) {
-        return res.status(500).send(err)
+        return res.status(500).send(err.details[0].message)
     }
 }
 
@@ -175,7 +179,7 @@ async function housePartsValidate(req, res, next) {
         next()
     } catch (err) {
         console.log(err)
-        return res.status(500).send(err)
+        return res.status(500).send(err.details[0].message)
     }
 }
 
@@ -189,7 +193,37 @@ async function heatingSystemsValidate(req, res, next) {
         next()
     } catch (err) {
         console.log(err)
-        return res.status(500).send(err)
+        return res.status(500).send(err.details[0].message)
+    }
+}
+
+async function partTypesValidate(req, res, next) {
+    try {
+        const schema = Joi.object({
+            PartId: Joi.number()
+                .integer()
+                .required(),
+
+            name: Joi.string().required(),
+
+            producer: Joi.string().required(),
+
+            serial: Joi.string().required(),
+
+            price: Joi.number()
+                .min(0)
+                .required(),
+
+            U_value: Joi.number()
+                .min(0)
+                .required(),
+        })
+
+        await schema.validateAsync(req.body)
+        next()
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send(err.details[0].message)
     }
 }
 
@@ -221,5 +255,6 @@ module.exports = {
     locationsValidate,
     housePartsValidate,
     heatingSystemsValidate,
+    partTypesValidate,
     // defaultsValidate,
 }
