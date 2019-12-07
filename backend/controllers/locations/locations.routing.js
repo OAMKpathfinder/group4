@@ -1,9 +1,9 @@
-const { getHouseParts } = require('./get.action')
+const { getLocations } = require('./get.action')
 
 module.exports = {
     '/': {
         get: {
-            action: getHouseParts,
+            action: getLocations,
             level: 'user',
         },
     },
