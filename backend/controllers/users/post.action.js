@@ -46,9 +46,12 @@ async function login(req, res) {
     if (!req.body.username) return res.status(400).send('Username required')
     if (!req.body.password) return res.status(400).send('Password required')
     try {
-        const user = Users.findOne({ where: { username: req.body.Users } })
+        const user = await Users.findOne({
+            where: { username: req.body.username },
+        })
         if (!user)
             return res.status(404).send('Username or Password is invalid.')
+
         bcrypt.compare(req.body.password, user.password, (err, result) => {
             if (err)
                 return res.status(401).send('Username or Password is invalid.')
@@ -58,7 +61,7 @@ async function login(req, res) {
                         username: user.username,
                         userId: user._id,
                     },
-                    process.env.JWT_KEY,
+                    process.env.JWT_SECRET,
                     {
                         expiresIn: '7d',
                     }

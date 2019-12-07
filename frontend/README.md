@@ -1,6 +1,6 @@
 # frontend
 
-> Pathfinder project Web App made with Nuxt.js
+> Pathfinder project Web App made with **Nuxt.js**
 
 ## Build Setup
 

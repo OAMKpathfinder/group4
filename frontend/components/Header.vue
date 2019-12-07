@@ -13,7 +13,7 @@
         >
           {{ item.name }}
         </nuxt-link>
-        <nuxt-link class="h-full flex items-center ml-6" to="/signin">
+        <nuxt-link class="h-full flex items-center ml-6" to="/auth/signin">
           <Button :variant="'primary'" class="w-full">
             Sign in
           </Button>

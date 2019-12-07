@@ -2,6 +2,10 @@ h1, h2, h3, h4, h5, h6, p, span, a, small, b, strong, em, ul, li {
   @apply font-main text-gray-800;
 }
 
+p {
+  margin-bottom: 1em;
+}
+
 h1 {
   @apply font-bold text-3xl;
 }
