@@ -1,6 +1,7 @@
+require('module-alias/register')
 const date_fns = require('date-fns')
-const { Confirmations, Users } = require('../../models')
-const { sendConfirmationMail } = require('../../services/confirmations')
+const { Confirmations, Users } = require('@models')
+const { sendConfirmationMail } = require('@services/confirmations')
 
 async function redirectUser(req, res) {
     try {

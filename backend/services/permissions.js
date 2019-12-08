@@ -1,5 +1,6 @@
+require('module-alias/register')
 const jwt = require('jsonwebtoken');
-const { Users } = require('../models')
+const { Users } = require('@models')
 
 const levelFcts = {
     public: (req, res, next) => next(),

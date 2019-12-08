@@ -1,6 +1,7 @@
-const { Materials, House_Details } = require('../../../models')
-const { materialsValidate } = require('../../../services/validate')
-const { calculateUValue } = require('../../../services/calculate')
+require('module-alias/register')
+const { Materials, House_Details } = require('@models')
+const { materialsValidate } = require('@validation')
+const { calculateUValue } = require('@services/calculate')
 
 async function get(req, res) {
     try {

@@ -1,4 +1,5 @@
-const { Houses } = require('../../models')
+require('module-alias/register')
+const { Houses } = require('@models')
 
 async function addHouse(req, res) {
     const UsersId = req.body.UsersId

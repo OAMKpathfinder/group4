@@ -1,7 +1,8 @@
+require('module-alias/register')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { Users } = require('../../models')
-const { sendConfirmationMail } = require('../../services/confirmations')
+const { sendConfirmationMail } = require('@services/confirmations')
 
 async function signUp(req, res) {
     try {

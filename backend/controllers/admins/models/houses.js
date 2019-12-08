@@ -1,5 +1,6 @@
-const { Houses } = require('../../../models')
-const { housesValidate } = require('../../../services/validate')
+require('module-alias/register')
+const { Houses } = require('@models')
+const { housesValidate } = require('@validation')
 
 async function get(req, res) {
     try {

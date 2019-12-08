@@ -1,3 +1,4 @@
+require('module-alias/register')
 const {
     Users,
     Houses,
@@ -7,7 +8,7 @@ const {
     Materials,
     Heating_Systems,
     Thermal_Bridges,
-} = require('../../models')
+} = require('@models')
 
 async function getAllUsersHouses(req, res) {
     try {

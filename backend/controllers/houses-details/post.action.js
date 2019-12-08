@@ -1,5 +1,6 @@
-const { House_Details } = require('../../models')
-const { calculateUValue } = require('../../services/calculate')
+require('module-alias/register')
+const { House_Details } = require('@models')
+const { calculateUValue } = require('@services/calculate')
 
 async function addHouseDetail(req, res) {
     const arr = req.body

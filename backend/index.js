@@ -10,7 +10,6 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const helmet = require('helmet')
 const db = require('./models')
-
 const app = express()
 
 app.use(morgan('combined'))

@@ -1,4 +1,5 @@
-const { Users } = require('../../models')
+require('module-alias/register')
+const { Users } = require('@models')
 const jwt = require('jsonwebtoken')
 
 async function getUser(req, res) {

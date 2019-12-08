@@ -1,6 +1,7 @@
-const { Thermal_Bridges } = require('../../../models')
-const { thermalBridgesValidate } = require('../../../services/validate')
-const { calculateHjoht } = require('../../../services/calculate')
+require('module-alias/register')
+const { Thermal_Bridges } = require('@models')
+const { thermalBridgesValidate } = require('@validation')
+const { calculateHjoht } = require('@services/calculate')
 
 async function get(req, res) {
     try {
