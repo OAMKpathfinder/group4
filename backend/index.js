@@ -18,6 +18,7 @@ app.use(cors())
 app.use(helmet())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use('/static', express.static('data'))
 
 lumie.load(app, {
     preURL: 'api',

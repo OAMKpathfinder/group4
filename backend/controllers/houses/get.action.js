@@ -6,6 +6,7 @@ const {
     House_Parts,
     Materials,
     Heating_Systems,
+    Thermal_Bridges,
 } = require('../../models')
 
 async function getAllUsersHouses(req, res) {
@@ -47,6 +48,13 @@ async function getHouseDetails(req, res) {
                         {
                             model: Materials,
                             as: 'Materials',
+                        },
+                        {
+                            model: Thermal_Bridges,
+                            as: 'Thermal_Bridges',
+                            attributes: {
+                                exclude: ['HouseDetailId'],
+                            },
                         },
                     ],
                     attributes: { exclude: ['HouseDetailsId'] },

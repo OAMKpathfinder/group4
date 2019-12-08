@@ -11,12 +11,12 @@ module.exports = {
             middlewares: housesValidate,
             level: 'user',
         },
+    },
+    '/:id': {
         get: {
             action: getHouseDetails,
             level: 'user',
         },
-    },
-    '/:id': {
         delete: {
             action: removeHouse,
             level: 'user',
