@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         {}
     )
     House_Details.associate = function(models) {
-        House_Details.hasMany(models.Thermal_Bridges)
+        House_Details.hasMany(models.Thermal_Bridges, {
+            as: 'Thermal_Bridges',
+            foreignKey: 'HouseDetailsId',
+        })
         House_Details.belongsTo(models.Houses, {
             as: 'Houses',
             foreignKey: 'HousesId',
