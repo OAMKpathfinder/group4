@@ -1,5 +1,5 @@
 <template>
-  <section class="w-full flex flex-col">
+  <section class="flex flex-col mb-4">
     <transition-group name="list" tag="div">
       <div
         v-for="val of value"
@@ -9,7 +9,7 @@
         <div
           class="
           flex flex-shrink
-          h-12 w-12 mr-3 rounded-full
+          circle mr-3 rounded-full
           bg-primary-200 items-center justify-center text-transparent
           transition hover:bg-red-200 text-2xl hover:text-red-800 cursor-pointer"
           @click="deletePart(val.id)"
@@ -19,7 +19,7 @@
         <div class="flex flex-grow flex-col">
           <div class="h-12 flex items-center">
             <h4>
-              {{ parts.find((part) => part.id === val.HousePartsId).name }}
+              {{ parts.find((part) => part.id === val.HousePartsId).part }}
             </h4>
           </div>
           <div class="form flex flex-col md:grid grid-gap-4 grid-columns-3">
@@ -37,9 +37,15 @@
               :label="'U-value'"
               :placeholder="'0.4'"
               :type="'number'"
-              :required="true"
               :variant="'primary'"
               :name="'U-value'"
+            />
+            <Dropdown
+              v-model.number="val.MaterialsId"
+              :label="'Material'"
+              :items="materials"
+              :name="'material'"
+              :required="true"
             />
           </div>
         </div>
@@ -52,7 +58,7 @@
         class="pills cursor-pointer"
         @click="addPart(part.id)"
       >
-        <span class="text-primary-800"> + {{ part.name }} </span>
+        <span class="text-primary-800"> + {{ part.part }} </span>
       </div>
     </div>
   </section>
@@ -60,9 +66,12 @@
 
 <script>
 import TextInput from '~/components/Common/InputText'
+import Dropdown from '~/components/Common/Dropdown'
+
 export default {
   components: {
-    TextInput
+    TextInput,
+    Dropdown
   },
   props: {
     value: {
@@ -72,29 +81,17 @@ export default {
   },
   data() {
     return {
-      parts: [
-        {
-          id: 1,
-          name: 'Window'
-        },
-        {
-          id: 2,
-          name: 'Roof'
-        },
-        {
-          id: 3,
-          name: 'Door'
-        },
-        {
-          id: 4,
-          name: 'Outer Wall'
-        }
-      ],
+      parts: [],
+      materials: [],
       nofParts: 0
     }
   },
-  asyncData({ store }) {
-    return {}
+  async mounted() {
+    const parts = await this.$store.dispatch('GET_PARTS')
+    const materials = await this.$store.dispatch('GET_MATERIALS')
+
+    this.parts = parts
+    this.materials = materials
   },
   methods: {
     addPart(id) {
@@ -102,7 +99,8 @@ export default {
         id: this.nofParts++,
         surface: undefined,
         U_value: undefined,
-        HousePartsId: id
+        HousePartsId: id,
+        MaterialsId: undefined
       })
     },
     deletePart(id) {
@@ -116,6 +114,11 @@ export default {
 <style lang="postcss" scoped>
 .pills {
   @apply h-10 px-4 bg-primary-200 font-bold transition ml-3 rounded-full text-primary-900 flex flex-row items-center;
+}
+.circle {
+  min-width: 2em;
+  min-height: 2em;
+  @apply w-8 h-8;
 }
 .part-list {
   max-height: 500px;

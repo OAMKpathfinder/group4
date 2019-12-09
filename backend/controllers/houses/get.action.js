@@ -9,10 +9,13 @@ const {
     Thermal_Bridges,
 } = require('../../models')
 
+const jwt = require('jsonwebtoken')
+
 async function getAllUsersHouses(req, res) {
+    const token = jwt.decode(req.headers('x-access-token'))
     try {
         const houses = await Houses.findAll({
-            where: { UsersId: req.params.id },
+            where: { UsersId: token.id },
         })
         res.status(200).send(houses)
     } catch (err) {

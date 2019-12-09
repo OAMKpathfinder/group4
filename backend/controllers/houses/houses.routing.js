@@ -26,7 +26,7 @@ module.exports = {
             level: 'user',
         },
     },
-    '/user/:id': {
+    '/user': {
         get: {
             action: getAllUsersHouses,
             level: 'user',

@@ -22,8 +22,7 @@ async function housesValidate(req, res, next) {
 
             UsersId: Joi.number()
                 .integer()
-                .min(0)
-                .required(),
+                .min(0),
 
             LocationsId: Joi.number()
                 .integer()

@@ -44,7 +44,15 @@ export default {
   css: ['~/assets/css/tailwind.css'],
   plugins: [],
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
-  modules: ['@nuxtjs/axios', '@nuxtjs/pwa'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/proxy'],
+  proxy: {
+    '/api/static': {
+      target: 'http://localhost:3000',
+      pathRewrite: {
+        '^/api/static': '/static'
+      }
+    }
+  },
   axios: {
     host: 'localhost',
     port: '3000',
