@@ -19,7 +19,12 @@ async function createDefault(req, res) {
     try {
         const extension = req.file.originalname.split('.')[1]
         console.log(extension)
-        if (extension != 'JPG' && extension != 'PNG') {
+        if (
+            extension != 'JPG' &&
+            extension != 'PNG' &&
+            extension != 'jpg' &&
+            extension != 'png'
+        ) {
             return res.status(403).send('Only JPG or PNG files can be stored')
         }
         console.log(req.file)
