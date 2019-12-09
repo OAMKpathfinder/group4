@@ -1,8 +1,9 @@
+require('module-alias/register')
 const { getAllUsersThermalBridges } = require('./get.action')
 const { updateThermalBridges } = require('./update.action')
 const { deleteThermalBridges } = require('./delete.action')
 const { createThermalBridges } = require('./post.action')
-const { thermalBridgesValidate } = require('../../services/validate')
+const { thermalBridgesValidate } = require('@validation')
 
 module.exports = {
     '/:id': {

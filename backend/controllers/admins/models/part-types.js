@@ -1,5 +1,6 @@
-const { Part_Types } = require('../../../models')
-const { partTypesValidate } = require('../../../services/validate')
+require('module-alias/register')
+const { Part_Types } = require('@models')
+const { partTypesValidate } = require('@validation')
 
 async function get(req, res) {
     try {

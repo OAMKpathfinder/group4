@@ -1,7 +1,8 @@
-const { Users, Houses } = require('../../../models')
-const { adminsValidate } = require('../../../services/validate')
+require('module-alias/register')
+const { Users, Houses } = require('@models')
+const { adminsValidate } = require('@validation')
 const bcrypt = require('bcrypt')
-const client = require('../../../services/mail')
+const client = require('@services/mail')
 
 function sendConfirmationMail(email) {
     const mail = {

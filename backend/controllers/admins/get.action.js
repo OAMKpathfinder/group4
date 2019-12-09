@@ -1,4 +1,5 @@
-const db = require('../../models')
+require('module-alias/register')
+const db = require('@models')
 
 const models = [
     {

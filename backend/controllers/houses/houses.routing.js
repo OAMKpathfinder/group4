@@ -1,8 +1,9 @@
+require('module-alias/register')
 const { addHouse } = require('./post.action')
 const { removeHouse } = require('./delete.action')
 const { updateHouse } = require('./update.action')
 const { getHouseDetails, getAllUsersHouses } = require('./get.action')
-const { housesValidate } = require('../../services/validate')
+const { housesValidate } = require('@validation')
 
 module.exports = {
     '/': {

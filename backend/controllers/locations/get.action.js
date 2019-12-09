@@ -1,4 +1,5 @@
-const { Locations } = require('../../models')
+require('module-alias/register')
+const { Locations } = require('@models')
 
 async function getLocations(req, res) {
     try {

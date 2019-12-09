@@ -1,5 +1,5 @@
-const { Users } = require('../../models')
-// const { Confirmations } = require('../../models')
+require('module-alias/register')
+const { Users } = require('@models')
 
 async function updateUser(req, res) {
     try {

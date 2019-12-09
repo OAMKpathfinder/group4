@@ -1,4 +1,5 @@
-const { House_Parts } = require('../../models')
+require('module-alias/register')
+const { House_Parts } = require('@models')
 
 async function getHouseParts(req, res) {
     try {

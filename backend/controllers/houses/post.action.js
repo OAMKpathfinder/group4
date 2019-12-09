@@ -1,4 +1,4 @@
-const { Houses } = require('../../models')
+const { Houses } = require('@models')
 const jwt = require('jsonwebtoken')
 
 async function addHouse(req, res) {

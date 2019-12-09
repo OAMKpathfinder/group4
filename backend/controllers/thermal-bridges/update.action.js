@@ -1,5 +1,6 @@
-const { Thermal_Bridges } = require('../../models')
-const { calculateHjoht } = require('../../services/calculate')
+require('module-alias/register')
+const { Thermal_Bridges } = require('@models')
+const { calculateHjoht } = require('@services/calculate')
 async function updateThermalBridges(req, res) {
     try {
         const updated = await Thermal_Bridges.update(req.body, {

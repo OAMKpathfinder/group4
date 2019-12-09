@@ -1,7 +1,8 @@
-const client = require('../services/mail')
+require('module-alias/register')
+const client = require('@services/mail')
 const date_fns = require('date-fns')
 const uuid = require('uuid/v4')
-const { Confirmations } = require('../models')
+const { Confirmations } = require('@models')
 const ejs = require('ejs')
 const fs = require('fs')
 

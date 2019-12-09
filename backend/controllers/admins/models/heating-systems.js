@@ -1,5 +1,6 @@
-const { Heating_Systems } = require('../../../models')
-const { heatingSystemsValidate } = require('../../../services/validate')
+require('module-alias/register')
+const { Heating_Systems } = require('@models')
+const { heatingSystemsValidate } = require('@validation')
 
 async function get(req, res) {
     try {

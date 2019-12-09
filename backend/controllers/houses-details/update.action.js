@@ -1,5 +1,6 @@
-const { House_Details } = require('../../models')
-const { calculateUValue, calculateHjoht } = require('../../services/calculate')
+require('module-alias/register')
+const { House_Details } = require('@models')
+const { calculateUValue, calculateHjoht } = require('@services/calculate')
 
 async function updateHouseDetail(req, res) {
     try {
