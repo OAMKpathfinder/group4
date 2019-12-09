@@ -1,7 +1,9 @@
-input {
+input,
+.input {
   @apply rounded transition;
 }
-input:focus {
+input:focus,
+.input:focus {
   outline: none;
 }
 

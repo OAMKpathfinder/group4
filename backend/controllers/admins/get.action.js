@@ -102,11 +102,10 @@ async function getModels(req, res) {
 
 async function getAttributes(req, res) {
     try {
-        const name = req.params.name
-        console.log(db[name])
-        res.status(200).send(db[name].tableAttributes)
+        res.status(200).json(await db.Users.describe())
     } catch (err) {
-        res.status(500).send(err)
+        console.log(err)
+        res.status(500).json(err)
     }
 }
 

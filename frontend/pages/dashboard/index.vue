@@ -1,19 +1,15 @@
 <template>
   <section class="container">
-    <h1 class>
-      Dashboard
-    </h1>
+    <HouseList />
   </section>
 </template>
 
 <script>
+import HouseList from '~/components/Houses/List'
+
 export default {
-  middleware: 'authenticated',
-  mounted() {
-    const token = window.localStorage.getItem('token')
-    if (!token) {
-      this.$router.push('/auth/signin')
-    }
+  components: {
+    HouseList
   }
 }
 </script>

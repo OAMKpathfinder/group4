@@ -1,6 +1,8 @@
 <template>
-  <label class="block mb-2">
-    <span v-if="label" class="text-gray-700">{{ label }}</span>
+  <label class="block mb-4">
+    <span v-if="label" class="text-gray-700 text-sm">
+      {{ label }}{{ required ? ' *' : null }}
+    </span>
     <input
       :id="name"
       class="mt-1 block w-full focus:shadow-none"
@@ -11,6 +13,8 @@
       :placeholder="placeholder"
       :class="`input-${variant} ${errors ? 'input-error' : ''}`"
       :required="required"
+      step=".01"
+      min="0"
       @input="input($event.target.value)"
     />
   </label>
@@ -30,7 +34,7 @@ export default {
     type: {
       type: String,
       validator(value) {
-        return ['text', 'email', 'password'].includes(value)
+        return ['text', 'email', 'password', 'number'].includes(value)
       },
       default: 'text'
     },
@@ -46,9 +50,10 @@ export default {
       type: String,
       default: 'primary'
     },
+    // eslint-disable-next-line
     value: {
-      type: String,
-      required: true
+      required: true,
+      default: undefined
     },
     required: {
       type: Boolean,

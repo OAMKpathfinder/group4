@@ -9,13 +9,27 @@
           v-for="item in menuItems"
           :key="item.name"
           :to="item.to"
+          exact
           class="menu-item w-0 sm:w-auto"
         >
           {{ item.name }}
         </nuxt-link>
-        <nuxt-link class="h-full flex items-center ml-6" to="/auth/signin">
+        <nuxt-link
+          v-if="!loggedIn"
+          class="h-full flex items-center ml-6"
+          to="/auth/signin"
+        >
           <Button :variant="'primary'" class="w-full">
             Sign in
+          </Button>
+        </nuxt-link>
+        <nuxt-link
+          v-else
+          class="h-full flex items-center ml-6"
+          to="/auth/signin"
+        >
+          <Button :variant="'light'" class="w-full">
+            Log out
           </Button>
         </nuxt-link>
       </div>
@@ -32,22 +46,45 @@ export default {
     Logo,
     Button
   },
-  data () {
+  data() {
     return {
+      loggedIn: false,
       menuItems: [
-        {
-          name: 'Home',
-          to: '/'
-        },
         {
           name: 'How it works',
           to: '/how-it-works'
         },
         {
           name: 'About us',
-          to: 'about'
+          to: '/about'
+        }
+      ],
+      protectedItems: [
+        {
+          name: 'Dashboard',
+          to: '/dashboard'
         }
       ]
+    }
+  },
+  mounted() {
+    this.checkAuth()
+  },
+  methods: {
+    async checkAuth() {
+      try {
+        const token = window.localStorage.getItem('token')
+        if (!token) {
+          this.$router.push('/auth/signin')
+        }
+        this.$store.commit('SET_TOKEN', token)
+
+        await this.$store.dispatch('GET_USER')
+        this.loggedIn = true
+        this.menuItems.unshift(...this.protectedItems)
+      } catch (err) {
+        this.$router.push('/auth/signin')
+      }
     }
   }
 }
@@ -57,7 +94,7 @@ export default {
 .menu-item {
   @apply h-full flex items-center px-3 border-b-2 border-transparent transition;
 }
-.menu-item:hover{
+.menu-item:hover {
   @apply border-primary-500;
 }
 

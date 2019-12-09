@@ -111,9 +111,6 @@ export default {
 </script>
 
 <style lang="postcss">
-.flickity-viewport {
-  overflow: visible;
-}
 .hero {
   background-image: url('/illustrations/hero-bg.svg');
   background-repeat: no-repeat;
@@ -124,19 +121,10 @@ export default {
   overflow: hidden;
 }
 
-.scroll-snap {
-  scroll-snap-type: y mandatory;
-}
-
 @screen md {
   .hero {
     margin-bottom: -450px;
   }
-}
-
-.carrousel-cell {
-  margin-right: 10px;
-  width: auto;
 }
 
 .headline {

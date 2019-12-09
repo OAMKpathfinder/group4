@@ -1,27 +1,29 @@
 export const state = () => ({
   user: undefined,
   token: undefined,
-  verification: undefined
+  verification: undefined,
+  houses: []
 })
 
 export const mutations = {
-  SET_USER (state, user) {
+  SET_USER(state, user) {
     state.user = user
   },
-  SET_TOKEN (state, token) {
+  SET_TOKEN(state, token) {
     state.token = token
   },
-  SET_VERIFICATION (state, id) {
+  SET_VERIFICATION(state, id) {
     state.verification = id
+  },
+  SET_HOUSES(state, houses) {
+    state.houses = houses
   }
 }
 
 export const actions = {
-  async SIGN_IN ({ commit }, credentials) {
+  async SIGN_IN({ commit }, credentials) {
     try {
       const token = await this.$axios.$post('/users/auth/login', credentials)
-      // TODO: Store Token in LocalStorage
-      // eslint-disable-next-line no-console
       window.localStorage.setItem('token', token)
       commit('SET_TOKEN', token)
       return token
@@ -29,38 +31,106 @@ export const actions = {
       throw new Error(err)
     }
   },
-  async SIGN_UP ({ commit }, credentials) {
+  async SIGN_UP({ commit }, credentials) {
     try {
       const user = await this.$axios.$post('/users/auth/signup', credentials)
-      // eslint-disable-next-line no-console
-      console.log(user)
       commit('SET_VERIFICATION', user.id)
       window.localStorage.setItem('verification', user.id)
       return user
     } catch (err) {
-      // eslint-disable-next-line no-console
-      console.error(err)
       throw new Error(err)
     }
   },
-  async RESEND_VERIFICATION ({ state, commit }) {
+  async RESEND_VERIFICATION({ state }) {
     try {
       await this.$axios.$get(`users/regenerateCode/${state.verification}`)
       return true
     } catch (err) {
-      // eslint-disable-next-line no-console
       throw new Error(err.response.data)
     }
   },
-  async GET_USER ({ state, commit }) {
+  async GET_USER({ state, commit }) {
     try {
-      if (!state.token) { return this.$router.push('/auth/signin') }
-
+      if (!state.token) {
+        return this.$router.push('/auth/signin')
+      }
       const user = await this.$axios.$get(`users`, {
         headers: { 'x-access-token': state.token }
       })
-
       commit('SET_USER', user)
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
+  },
+  async GET_PARTS({ state }) {
+    try {
+      return await this.$axios.$get(`house-parts`, {
+        headers: { 'x-access-token': state.token }
+      })
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
+  },
+  async GET_MATERIALS({ state }) {
+    try {
+      return await this.$axios.$get(`materials`, {
+        headers: { 'x-access-token': state.token }
+      })
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
+  },
+  async GET_LOCATIONS({ state }) {
+    try {
+      return await this.$axios.$get(`locations`, {
+        headers: { 'x-access-token': state.token }
+      })
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
+  },
+  async GET_HEATING_SYSTEMS({ state }) {
+    try {
+      return await this.$axios.$get(`heating-systems`, {
+        headers: { 'x-access-token': state.token }
+      })
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
+  },
+  async GET_DEFAULTS({ state }) {
+    try {
+      return await this.$axios.$get(`defaults`, {
+        headers: { 'x-access-token': state.token }
+      })
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
+  },
+  async POST_HOUSE({ state }, data) {
+    try {
+      return await this.$axios.$post(`houses`, data, {
+        headers: { 'x-access-token': state.token }
+      })
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
+  },
+  async POST_HOUSE_DETAILS({ state }, data) {
+    try {
+      return await this.$axios.$post(`houses-details`, data, {
+        headers: { 'x-access-token': state.token }
+      })
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
+  },
+  async GET_HOUSES({ state, commit }) {
+    try {
+      const data = await this.$axios.$get('admins/models/users/2', {
+        headers: { 'x-acess-token': state.token }
+      })
+      return commit('SET_HOUSES', data.Houses)
     } catch (err) {
       throw new Error(err.response.data)
     }

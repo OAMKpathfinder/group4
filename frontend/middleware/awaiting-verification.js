@@ -1,4 +1,4 @@
-export default function ({ store, redirect }) {
+export default function({ store, redirect }) {
   try {
     if (window) {
       const verification = window.localStorage.getItem('verification')
@@ -7,5 +7,8 @@ export default function ({ store, redirect }) {
       }
       store.commit('SET_VERIFICATION', verification)
     }
-  } catch (err) {}
+  } catch (err) {
+    // eslint-disable-next-line no-useless-return
+    return
+  }
 }
