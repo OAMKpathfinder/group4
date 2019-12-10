@@ -1,39 +1,41 @@
-require('module-alias/register')
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
 const { Users } = require('@models')
 
 const levelFcts = {
     public: (req, res, next) => next(),
 
-    user: (req, res, next) => {
-        const token = req.header('x-access-token');
+    user: async (req, res, next) => {
+        const token = req.header('x-access-token')
 
         try {
-            jwt.verify(token, process.env.JWT_SECRET);
+            jwt.verify(token, process.env.JWT_SECRET)
+            const decoded = jwt.decode(token)
+            const user = await Users.findByPk(decoded.id)
 
-            const decoded = jwt.decode(token);
-            const user = await Users.findByPk(decoded.userId);
-
-            user.role === 'user' ? next() : res.status(401).send('Not authorized')
+            user.role === 'user'
+                ? next()
+                : res.status(401).send('Not authorized')
         } catch (error) {
-            return res.status(401).send(error);
+            return res.status(401).send(error)
         }
     },
 
-    admin: (req, res, next) => {
-        const token = req.header('x-access-token');
+    admin: async (req, res, next) => {
+        const token = req.header('x-access-token')
 
         try {
-            jwt.verify(token, process.env.JWT_SECRET);
+            jwt.verify(token, process.env.JWT_SECRET)
 
-            const decoded = jwt.decode(token);
-            const user = await Users.findByPk(decoded.userId);
+            const decoded = jwt.decode(token)
+            const user = await Users.findByPk(decoded.id)
 
-            user.role === 'admin' ? next() : res.status(401).send('Not authorized')
+            user.role === 'admin'
+                ? next()
+                : res.status(401).send('Not authorized')
         } catch (error) {
-            return res.status(401).send(error);
+            return res.status(401).send(error)
         }
-    }
-};
+    },
+}
 
-module.exports = level => (req, res, next) => levelFcts[level](req, res, next);
+module.exports = level => (req, res, next) => levelFcts[level](req, res, next)

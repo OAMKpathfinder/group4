@@ -1,4 +1,4 @@
-const { House_Details, Materials, Thermal_Bridges } = require('../models')
+const { House_Details, Materials, Thermal_Bridges } = require('@models')
 
 async function calculateUValue(detail) {
     try {

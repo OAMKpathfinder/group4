@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { getAllUsersThermalBridges } = require('./get.action')
 const { updateThermalBridges } = require('./update.action')
 const { deleteThermalBridges } = require('./delete.action')

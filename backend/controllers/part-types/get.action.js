@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { Part_Types, House_Details, Sequelize } = require('@models')
 const Op = Sequelize.Op
 

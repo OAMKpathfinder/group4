@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { House_Details } = require('@models')
 
 async function removeHouseDetail(req, res) {

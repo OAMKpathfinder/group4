@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { Locations } = require('@models')
 
 async function getLocations(req, res) {

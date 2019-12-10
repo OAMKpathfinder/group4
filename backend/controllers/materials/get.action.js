@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { Materials } = require('@models')
 
 async function getMaterials(req, res) {

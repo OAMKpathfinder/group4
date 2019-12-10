@@ -1,4 +1,3 @@
-require('module-alias/register')
 const multer = require('multer')
 const fs = require('fs')
 const { Defaults } = require('@models')

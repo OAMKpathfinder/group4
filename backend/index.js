@@ -1,6 +1,7 @@
 'use strict'
 require('dotenv').config()
 require('pretty-error').start()
+require('module-alias/register')
 
 const express = require('express')
 const path = require('path')
@@ -34,7 +35,7 @@ app.use((error, req, res, next) => {
 })
 
 db.sequelize
-    .sync()
+    .sync({ logging: false })
     .then(() => {
         const server = app.listen(3000, 'localhost', () => {
             const { address, port } = server.address()

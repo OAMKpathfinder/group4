@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { addHouseDetail } = require('./post.action')
 const { removeHouseDetail } = require('./delete.action')
 const { updateHouseDetail } = require('./update.action')

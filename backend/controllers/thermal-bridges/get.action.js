@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { Thermal_Bridges } = require('@models')
 async function getAllUsersThermalBridges(req, res) {
     try {

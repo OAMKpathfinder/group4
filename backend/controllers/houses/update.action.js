@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { Houses } = require('@models')
 
 async function updateHouse(req, res) {

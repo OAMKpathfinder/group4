@@ -1,4 +1,3 @@
-require('module-alias/register')
 const {
     Users,
     Houses,
@@ -13,12 +12,12 @@ const {
 const jwt = require('jsonwebtoken')
 
 async function getAllUsersHouses(req, res) {
-    const token = jwt.decode(req.headers('x-access-token'))
+    const token = jwt.decode(req.header('x-access-token'))
     try {
         const houses = await Houses.findAll({
             where: { UsersId: token.id },
         })
-        res.status(200).send(houses)
+        return res.status(200).send(houses)
     } catch (err) {
         console.log(err)
         res.status(500).send(err)

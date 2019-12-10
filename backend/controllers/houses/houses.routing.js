@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { addHouse } = require('./post.action')
 const { removeHouse } = require('./delete.action')
 const { updateHouse } = require('./update.action')
@@ -13,6 +12,12 @@ module.exports = {
             level: 'user',
         },
     },
+    '/user': {
+        get: {
+            action: getAllUsersHouses,
+            level: 'user',
+        },
+    },
     '/:id': {
         get: {
             action: getHouseDetails,
@@ -24,12 +29,6 @@ module.exports = {
         },
         patch: {
             action: updateHouse,
-            level: 'user',
-        },
-    },
-    '/user': {
-        get: {
-            action: getAllUsersHouses,
             level: 'user',
         },
     },

@@ -1,4 +1,3 @@
-require('module-alias/register')
 const client = require('@services/mail')
 const date_fns = require('date-fns')
 const uuid = require('uuid/v4')
