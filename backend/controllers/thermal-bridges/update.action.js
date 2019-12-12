@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { Thermal_Bridges } = require('@models')
 const { calculateHjoht } = require('@services/calculate')
 async function updateThermalBridges(req, res) {

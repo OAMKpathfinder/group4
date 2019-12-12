@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { House_Parts } = require('@models')
 const { housePartsValidate } = require('@validation')
 

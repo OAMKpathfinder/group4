@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { Defaults } = require('@models')
 
 async function getDefaults(req, res) {

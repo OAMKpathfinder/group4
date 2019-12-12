@@ -1,4 +1,3 @@
-require('module-alias/register')
 const { Part_Types } = require('@models')
 const { partTypesValidate } = require('@validation')
 
