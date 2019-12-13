@@ -3,16 +3,20 @@ const jwt = require('jsonwebtoken')
 
 async function getUser(req, res) {
     const token = req.header('x-access-token')
-    const user = jwt.decode(token)
+    const decoded = jwt.decode(token)
+
     try {
-        const data = await Users.findByPk(user.id)
-        res.status(200).send({
-            username: data.username,
-            full_name: data.full_name,
-            email: data.email,
+        const user = await Users.findByPk(decoded.id)
+
+        if (!user) return res.status(401).send('Token not valid.')
+
+        return res.status(200).send({
+            username: user.username,
+            full_name: user.full_name,
+            email: user.email,
         })
     } catch (err) {
-        res.status(500).send(err)
+        return res.status(500).send(err)
     }
 }
 

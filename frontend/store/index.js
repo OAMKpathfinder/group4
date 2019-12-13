@@ -49,15 +49,14 @@ export const actions = {
       throw new Error(err.response.data)
     }
   },
-  async GET_USER({ state, commit }) {
+  async GET_USER({ commit }, token) {
     try {
-      if (!state.token) {
-        return this.$router.push('/auth/signin')
-      }
-      const user = await this.$axios.$get(`users`, {
-        headers: { 'x-access-token': state.token }
+      commit('SET_TOKEN', token)
+      const user = await this.$axios.$get('users', {
+        headers: { 'x-access-token': `${token}` }
       })
       commit('SET_USER', user)
+      return user
     } catch (err) {
       throw new Error(err.response.data)
     }
@@ -127,10 +126,10 @@ export const actions = {
   },
   async GET_HOUSES({ state, commit }) {
     try {
-      const data = await this.$axios.$get('admins/models/users/2', {
-        headers: { 'x-acess-token': state.token }
+      const data = await this.$axios.$get('houses/user', {
+        headers: { 'x-access-token': state.token }
       })
-      return commit('SET_HOUSES', data.Houses)
+      commit('SET_HOUSES', data)
     } catch (err) {
       throw new Error(err.response.data)
     }

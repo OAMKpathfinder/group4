@@ -12,14 +12,16 @@ const {
 const jwt = require('jsonwebtoken')
 
 async function getAllUsersHouses(req, res) {
-    const token = jwt.decode(req.header('x-access-token'))
+    const token = req.header('x-access-token')
+    const user = jwt.decode(token)
+
     try {
         const houses = await Houses.findAll({
-            where: { UsersId: token.id },
+            where: { UsersId: user.id },
         })
+
         return res.status(200).send(houses)
     } catch (err) {
-        console.log(err)
         res.status(500).send(err)
     }
 }

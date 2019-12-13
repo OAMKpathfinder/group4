@@ -1,97 +1,107 @@
 <template>
-  <div class="flex flex-row card shadow-lg p-3 mb-4">
-    <div
-      class="
-      flex flex-shrink circle mr-3 rounded-full
-      bg-primary-200 items-center text-2xl justify-center"
-    >
-      <i class="la la-home"></i>
-    </div>
-    <div class="flex flex-grow flex-col">
-      <div class="h-12 flex items-center">
-        <h4>
-          House Details
-        </h4>
-      </div>
-      <div class="house-preview mb-4">
-        <img
-          v-if="value.decade"
-          :src="`/api/static/${buildingPreview}`"
-          alt
-          class="w-full h-48 rounded-lg object-cover"
-        />
-        <img
-          v-else
-          alt
-          src
-          class="w-full h-48 rounded-lg object-cover bg-gray-200"
-        />
-      </div>
-      <div>
-        <Dropdown
-          v-model.number="value.decade"
-          :label="'Decade'"
-          :items="decades"
-          :name="'decade'"
-          :get="'decade'"
-          :required="true"
-          :display="'decade'"
-        />
-        <TextInput
-          v-model.number="value.levels"
-          :label="'Number of Floors (Including Basement)'"
-          :placeholder="'2'"
-          :type="'number'"
-          :required="true"
-          :variant="'primary'"
-          :name="'levels'"
-        />
-        <Dropdown
-          v-model.number="value.LocationsId"
-          :label="'Locations'"
-          :items="locations"
-          :name="'location'"
-          :required="true"
-          :get="'id'"
-          :display="'country'"
-        />
-        <Dropdown
-          v-model.number="value.HeatingSystemsId"
-          :label="'Heating System Type'"
-          :items="heatingSystems"
-          :name="'heatingSystem'"
-          :required="true"
-          :get="'id'"
-          :display="'type'"
-        />
-        <TextInput
-          v-model.number="value.heating_per_year"
-          :label="'Heating Cost/Year [EUR]'"
-          :placeholder="'1400'"
-          :type="'number'"
-          :required="true"
-          :variant="'primary'"
-          :name="'heatingCost'"
-        />
-        <Checkbox
-          v-model="value.warm_water_pipe"
-          :label="'Warm Water Pipe'"
-          :required="true"
-          class="py-2"
-        />
-      </div>
-    </div>
-  </div>
+  <CardTemplate>
+    <template v-slot:icon>
+      <i
+        class="la la-home text-primary-800 p-4 text-2xl bg-primary-200 rounded-full"
+      ></i>
+    </template>
+    <template v-slot:heading>
+      House Details
+    </template>
+    <template v-slot:action>
+      <i
+        class="las la-angle-up text-gray-800 text-2xl p-4 hover:bg-gray-200 transition rounded-full relative"
+        :class="{ 'rotate-180': collapsed }"
+        @click="toggleCollapse"
+      >
+      </i>
+    </template>
+    <template v-slot:content>
+      <transition name="collapse" mode="in-out">
+        <div v-if="!collapsed">
+          <div class="house-preview mb-4">
+            <img
+              v-if="value.decade"
+              :src="`/api/static/${buildingPreview}`"
+              alt
+              class="w-full h-48 rounded-lg object-cover"
+            />
+            <img
+              v-else
+              alt=""
+              src=""
+              class="w-full h-48 rounded-lg object-cover bg-gray-200"
+            />
+          </div>
+          <div>
+            <Dropdown
+              v-model.number="value.decade"
+              :label="'Decade'"
+              :items="decades"
+              :name="'decade'"
+              :get="'decade'"
+              :required="true"
+              :display="'decade'"
+            />
+            <TextInput
+              v-model.number="value.levels"
+              :label="'Number of Floors (Including Basement)'"
+              :placeholder="'2'"
+              :type="'number'"
+              :required="true"
+              :variant="'primary'"
+              :name="'levels'"
+            />
+            <Dropdown
+              v-model.number="value.LocationsId"
+              :label="'Locations'"
+              :items="locations"
+              :name="'location'"
+              :required="true"
+              :get="'id'"
+              :display="'country'"
+            />
+            <Dropdown
+              v-model.number="value.HeatingSystemsId"
+              :label="'Heating System Type'"
+              :items="heatingSystems"
+              :name="'heatingSystem'"
+              :required="true"
+              :get="'id'"
+              :display="'type'"
+            />
+            <TextInput
+              v-model.number="value.heating_per_year"
+              :label="'Heating Cost/Year [EUR]'"
+              :placeholder="'1400'"
+              :type="'number'"
+              :required="true"
+              :variant="'primary'"
+              :name="'heatingCost'"
+            />
+            <Checkbox
+              v-model="value.warm_water_pipe"
+              :label="'Warm Water Pipe'"
+              :required="true"
+              class="py-2"
+            />
+          </div>
+        </div>
+      </transition>
+    </template>
+  </CardTemplate>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import CardTemplate from './CardTemplate'
 import TextInput from '~/components/Common/InputText'
 import Dropdown from '~/components/Common/Dropdown'
 import Checkbox from '~/components/Common/Checkbox'
 
 export default {
   components: {
+    CardTemplate,
     TextInput,
     Dropdown,
     Checkbox
@@ -104,6 +114,7 @@ export default {
   },
   data() {
     return {
+      collapsed: false,
       loading: true,
       decades: [],
       locations: [],
@@ -135,6 +146,9 @@ export default {
       } catch (err) {
         console.log(err)
       }
+    },
+    toggleCollapse() {
+      this.collapsed = !this.collapsed
     }
   }
 }
@@ -145,5 +159,20 @@ export default {
   min-width: 2em;
   min-height: 2em;
   @apply w-8 h-8;
+}
+
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.collapse-enter-active,
+.collapse-leave-active {
+  max-height: 800px;
+  transition: all 0.6s ease-in-out;
+}
+.collapse-enter,
+.collapse-leave-to {
+  max-height: 0;
+  @apply overflow-hidden opacity-0;
 }
 </style>

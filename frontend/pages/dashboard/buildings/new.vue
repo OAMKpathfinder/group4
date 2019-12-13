@@ -1,23 +1,23 @@
 <template>
   <section class="container w-full">
-    <form @submit.prevent="createBuilding" class="w-full pb-48">
-      <div class="w-full flex flex-col md:flex-row">
-        <HouseDetails
-          v-model="formData.houseDetails"
-          class="w-full md:w-1/2 lg:w-1/3"
-        />
-        <HouseParts
-          v-model="formData.houseParts"
-          class="w-full ml-0 md:w-1/2 lg:w-2/3 md:ml-4"
-        />
-      </div>
-      <div class="w-32 float-right">
-        <Button :variant="'primary'">
-          {{ loading ? 'Loading...' : 'Finish' }}
-        </Button>
-      </div>
-      <div v-if="error" class="alert alert-red mt-4">
-        {{ error }}
+    <form
+      class="w-full pb-48 flex justify-center"
+      @submit.prevent="progress === 2 ? createBuilding : progress++"
+    >
+      <div class="w-full sm:w-2/3 lg:w-1/2 xl:w-2/5 flex flex-col">
+        <HouseDetails v-show="progress >= 0" v-model="formData.houseDetails" />
+        <HouseParts v-show="progress >= 1" v-model="formData.houseParts" />
+        <div>
+          <Button v-if="progress < 2" :variant="'primary'">
+            Next Step
+          </Button>
+          <Button v-else :variant="'primary'">
+            {{ loading ? 'Loading...' : 'Finish' }}
+          </Button>
+        </div>
+        <div v-if="error" class="alert alert-red mt-4">
+          {{ error }}
+        </div>
       </div>
     </form>
   </section>
@@ -35,6 +35,7 @@ export default {
     HouseDetails,
     HouseParts
   },
+  middleware: 'check-auth',
   data() {
     return {
       formData: {
@@ -48,6 +49,7 @@ export default {
         },
         houseParts: []
       },
+      progress: 0,
       error: null,
       loading: false
     }

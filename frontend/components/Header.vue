@@ -1,104 +1,86 @@
 <template>
-  <nav class="w-full h-16">
-    <div class="container h-full flex flex-row items-center justify-between">
+  <nav class="w-full h-16 relative px-3 md:px-0">
+    <div
+      class="container px-3 h-full flex flex-row items-center justify-between"
+    >
       <nuxt-link to="/" class="h-full flex items-center">
         <Logo />
       </nuxt-link>
-      <div class="menu h-full flex flex-row">
-        <nuxt-link
-          v-for="item in menuItems"
-          :key="item.name"
-          :to="item.to"
-          exact
-          class="menu-item w-0 sm:w-auto"
-        >
-          {{ item.name }}
-        </nuxt-link>
-        <nuxt-link
-          v-if="!loggedIn"
-          class="h-full flex items-center ml-6"
-          to="/auth/signin"
-        >
-          <Button :variant="'primary'" class="w-full">
-            Sign in
-          </Button>
-        </nuxt-link>
-        <nuxt-link
+      <div id="hamburger" class="md:hidden text-gray-900 text-2xl">
+        <i
+          v-if="!isOpen"
+          class="las la-bars p-3"
+          tabindex="0"
+          @click="toggleMenu()"
+        ></i>
+        <i
           v-else
-          class="h-full flex items-center ml-6"
-          to="/auth/signin"
-        >
-          <Button :variant="'light'" class="w-full">
-            Log out
-          </Button>
-        </nuxt-link>
+          class="las la-times p-3"
+          tabindex="0"
+          @click="toggleMenu()"
+        ></i>
       </div>
+      <HeaderMenu class="hidden md:flex" />
     </div>
+    <transition name="coolOpen">
+      <div
+        v-if="isOpen"
+        v-click-outside="toggleMenu"
+        class="container menu-mobile p-3 relative z-50"
+      >
+        <HeaderMenu class="flex md:hidden" />
+      </div>
+    </transition>
   </nav>
 </template>
 
 <script>
+import vClickOutside from 'v-click-outside'
+
 import Logo from './Logo'
-import Button from './Common/Button'
+import HeaderMenu from './HeaderMenu'
 
 export default {
   components: {
     Logo,
-    Button
+    HeaderMenu
+  },
+  directives: {
+    clickOutside: vClickOutside.directive
   },
   data() {
     return {
-      loggedIn: false,
-      menuItems: [
-        {
-          name: 'How it works',
-          to: '/how-it-works'
-        },
-        {
-          name: 'About us',
-          to: '/about'
-        }
-      ],
-      protectedItems: [
-        {
-          name: 'Dashboard',
-          to: '/dashboard'
-        }
-      ]
+      isOpen: false
     }
   },
-  mounted() {
-    this.checkAuth()
-  },
   methods: {
-    async checkAuth() {
-      try {
-        const token = window.localStorage.getItem('token')
-        if (!token) {
-          this.$router.push('/auth/signin')
-        }
-        this.$store.commit('SET_TOKEN', token)
-
-        await this.$store.dispatch('GET_USER')
-        this.loggedIn = true
-        this.menuItems.unshift(...this.protectedItems)
-      } catch (err) {
-        this.$router.push('/auth/signin')
-      }
+    toggleMenu() {
+      this.isOpen = !this.isOpen
     }
   }
 }
 </script>
 
 <style scoped lang="postcss">
-.menu-item {
-  @apply h-full flex items-center px-3 border-b-2 border-transparent transition;
-}
-.menu-item:hover {
-  @apply border-primary-500;
+@screen md {
+  .menu-mobile {
+    @apply hidden;
+  }
 }
 
-.active-link {
-  @apply text-primary-600 border-primary-500;
+.menu-mobile {
+  box-sizing: border-box;
+  @apply h-64 bg-white rounded-lg shadow-2xl top-0;
+}
+
+.coolOpen-enter-active,
+.coolOpen-leave-active {
+  transition: all 0.3s ease-in-out;
+}
+.coolOpen-enter,
+.coolOpen-leave-to {
+  perspective: 1000;
+  transform: scale(0.95) rotateX(20deg) rotateY(3deg);
+  @apply opacity-0;
 }
 </style>
