@@ -12,9 +12,10 @@ module.exports = (sequelize, DataTypes) => {
         {}
     )
     Materials.associate = function(models) {
-        Materials.hasMany(models.House_Details, {
-            as: 'House_Details',
-            foreignKey: 'MaterialsId',
+        Materials.belongsToMany(models.House_Details, {
+            through: 'Part_Materials',
+            // as: 'House_Details',
+            foreignKey: 'HouseDetailsId',
         })
     }
     return Materials

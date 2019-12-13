@@ -1,6 +1,7 @@
 const { House_Details } = require('@models')
 const { houseDetailsValidate } = require('@validation')
 const { calculateUValue } = require('@services/calculate')
+const { createPartMaterial } = require('./part-materials')
 
 async function get(req, res) {
     try {
@@ -14,27 +15,33 @@ async function get(req, res) {
     }
 }
 
-function create(req, res) {
+async function create(req, res) {
     const arr = req.body
-    arr.forEach(async element => {
-        try {
+    let data = []
+    try {
+        for (const element of arr) {
+            const MaterialsArray = element.MaterialsId
+
             const detail = House_Details.build({
                 surface: element.surface,
                 U_value: element.U_value,
                 HousesId: element.HousesId,
                 HousePartsId: element.HousePartsId,
-                MaterialsId: element.MaterialsId,
             })
-
             const addedDetail = await detail.save()
+
+            await createPartMaterial(addedDetail, MaterialsArray)
+
             if (!addedDetail.U_value) {
-                await calculateUValue(addedDetail)
+                const x = await calculateUValue(addedDetail)
+                data.push(x)
             }
-        } catch (err) {
-            res.status(500).send(err)
         }
-    })
-    return res.status(200).send(true)
+        res.status(200).send(data)
+        // return res.status(200).send(true)
+    } catch (err) {
+        return res.status(500).send(err)
+    }
 }
 
 async function update(req, res) {

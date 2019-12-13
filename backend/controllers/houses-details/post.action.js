@@ -1,7 +1,7 @@
 const { House_Details } = require('@models')
 const { calculateUValue } = require('@services/calculate')
 
-async function addHouseDetail(req, res) {
+function addHouseDetail(req, res) {
     const arr = req.body
     arr.forEach(async element => {
         try {
@@ -10,7 +10,6 @@ async function addHouseDetail(req, res) {
                 U_value: element.U_value,
                 HousesId: element.HousesId,
                 HousePartsId: element.HousePartsId,
-                MaterialsId: element.MaterialsId,
             })
 
             const addedDetail = await detail.save()
@@ -18,7 +17,7 @@ async function addHouseDetail(req, res) {
                 await calculateUValue(addedDetail)
             }
         } catch (err) {
-            res.status(500).send(err)
+            return res.status(500).send(err)
         }
     })
     return res.status(200).send(true)

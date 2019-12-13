@@ -1,17 +1,5 @@
 const db = require('@models')
 
-// allowNull -> required
-// special -> Select
-// type
-//     integer -> Number
-//     DOUBLE PRECISION -> Number
-//     Character Varying(255)->String
-//     Text-> text
-//     TIMESTAMP WITH TIME ZONE -> Date
-// comment ->delete
-// primaryKey -> delete
-// defaultValue -> delete
-
 function parseTable(table) {
     let parsedTable = {}
     const columnNames = Object.keys(table)

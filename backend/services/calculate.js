@@ -1,21 +1,44 @@
-const { House_Details, Materials, Thermal_Bridges } = require('@models')
+const {
+    House_Details,
+    Part_Materials,
+    Thermal_Bridges,
+    Materials,
+} = require('@models')
 
-async function calculateUValue(detail) {
-    try {
-        const material = await Materials.findOne({
-            where: { id: detail.MaterialsId },
+function calculateUValue(detail) {
+    return new Promise((resolve, reject) => {
+        Part_Materials.findAll({
+            where: { HouseDetailsId: detail.id },
+            attributes: ['MaterialsId'],
         })
-        await House_Details.update(
-            {
-                U_value: (
-                    material.thickness / material.thermal_conductivity
-                ).toFixed(2),
-            },
-            { where: { id: detail.id } }
-        )
-    } catch (err) {
-        console.log(err)
-    }
+            .then(arr => {
+                let thermalConductivity = 0
+                let thickness = 0
+                arr.forEach(element => {
+                    // console.log(element.MaterialsId)
+                    Materials.findByPk(element.MaterialsId)
+                        .then(material => {
+                            thermalConductivity += material.thermal_conductivity
+                            // console.log(material)
+                            thickness += material.thickness
+                            House_Details.update(
+                                {
+                                    U_value: (
+                                        thermalConductivity / thickness
+                                    ).toFixed(3),
+                                },
+                                { where: { id: detail.id } }
+                            )
+                        })
+                        .then(() => {
+                            return resolve(true)
+                        })
+                })
+            })
+            .catch(err => {
+                reject(err)
+            })
+    })
 }
 
 async function calculateHjoht(HouseDetailsId) {

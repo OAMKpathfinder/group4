@@ -29,7 +29,6 @@ async function create(req, res) {
 
         return res.status(200).send(house)
     } catch (err) {
-        console.log(err)
         res.status(500).send(err)
     }
 }

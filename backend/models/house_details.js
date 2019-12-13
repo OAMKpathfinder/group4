@@ -18,8 +18,9 @@ module.exports = (sequelize, DataTypes) => {
             as: 'Houses',
             foreignKey: 'HousesId',
         })
-        House_Details.belongsTo(models.Materials, {
-            as: 'Materials',
+        House_Details.belongsToMany(models.Materials, {
+            through: 'Part_Materials',
+            // as: 'Materials',
             foreignKey: 'MaterialsId',
         })
         House_Details.belongsTo(models.House_Parts, {
