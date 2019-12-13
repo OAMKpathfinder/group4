@@ -1,9 +1,5 @@
-export default function({ store, redirect, req }) {
-  try {
-    if (!window) {
-      return
-    }
-    const token = window.localStorage.getItem('token')
-    store.commit('SET_TOKEN', token)
-  } catch (err) {}
+export default function({ store, redirect, route }) {
+  if (!store.state.user) {
+    return redirect(`/auth/authorizing?to=${route.path}`)
+  }
 }

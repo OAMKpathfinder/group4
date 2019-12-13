@@ -1,27 +1,23 @@
 <template>
   <section class="flex flex-col mb-4">
     <transition-group name="list" tag="div">
-      <div
-        v-for="val of value"
-        :key="val.id"
-        class="card part-list shadow-lg p-3 flex flex-row mb-4"
-      >
-        <div
-          class="
-          flex flex-shrink
-          circle mr-3 rounded-full
-          bg-primary-200 items-center justify-center text-transparent
-          transition hover:bg-red-200 text-2xl hover:text-red-800 cursor-pointer"
-          @click="deletePart(val.id)"
-        >
-          <i class="la la-times"></i>
-        </div>
-        <div class="flex flex-grow flex-col">
-          <div class="h-12 flex items-center">
-            <h4>
-              {{ parts.find((part) => part.id === val.HousePartsId).part }}
-            </h4>
-          </div>
+      <CardTemplate v-for="val of value" :key="val.id">
+        <template v-slot:icon>
+          <i
+            class="la la-home text-primary-800 p-4 text-2xl bg-primary-200 rounded-full"
+          ></i>
+        </template>
+        <template v-slot:heading>
+          {{ parts.find((part) => part.id === val.HousePartsId).part }}
+        </template>
+        <template v-slot:action>
+          <i
+            class="la la-times text-gray-800 text-2xl p-4 hover:bg-red-200 transition rounded-full"
+            @click="deletePart(val.id)"
+          >
+          </i>
+        </template>
+        <template v-slot:content>
           <div class="form flex flex-col md:grid grid-gap-4 grid-columns-3">
             <TextInput
               v-model="val.surface"
@@ -48,8 +44,8 @@
               :required="true"
             />
           </div>
-        </div>
-      </div>
+        </template>
+      </CardTemplate>
     </transition-group>
     <div class="w-full flex flex-row items-center">
       <div
@@ -65,11 +61,13 @@
 </template>
 
 <script>
+import CardTemplate from './CardTemplate'
 import TextInput from '~/components/Common/InputText'
 import Dropdown from '~/components/Common/Dropdown'
 
 export default {
   components: {
+    CardTemplate,
     TextInput,
     Dropdown
   },
@@ -115,21 +113,14 @@ export default {
 .pills {
   @apply h-10 px-4 bg-primary-200 font-bold transition ml-3 rounded-full text-primary-900 flex flex-row items-center;
 }
-.circle {
-  min-width: 2em;
-  min-height: 2em;
-  @apply w-8 h-8;
-}
-.part-list {
-  max-height: 500px;
-  overflow: hidden;
-}
+
 .list-enter-active,
 .list-leave-active {
-  transition: all 0.4s ease-in-out;
+  max-height: 200px;
+  transition: all 0.3s ease-in-out;
 }
 .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
   max-height: 0;
-  @apply py-0 m-0 opacity-0 overflow-hidden;
+  @apply opacity-0 overflow-hidden m-0 py-0;
 }
 </style>

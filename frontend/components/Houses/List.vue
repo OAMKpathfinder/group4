@@ -14,7 +14,7 @@
     </div>
     <div
       v-if="loading"
-      class="w-full h-48 bg-gray-200 text-center flex items-center justify-center"
+      class="w-full h-24 bg-white text-center flex items-center justify-center shadow-lg rounded"
     >
       <p class="text-center">Loading...</p>
     </div>
@@ -24,10 +24,6 @@
     >
       <img src="/illustrations/empty.svg" class="mx-auto" />
       <p>There's nothing here yet.</p>
-    </div>
-    <div v-else-if="error" class="alert alert-red">
-      {{ error }}
-      <Button :variant="'red'" @click="retry">Retry</Button>
     </div>
     <div v-else class="list">
       <ListItem v-for="house of houses" :key="house.id" :item="house" />

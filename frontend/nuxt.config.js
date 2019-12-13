@@ -2,7 +2,7 @@ export default {
   mode: 'universal',
   server: {
     port: 8000, // default: 3000
-    host: '0.0.0.0', // default: localhost,
+    host: 'localhost', // default: localhost,
     timing: false
   },
   head: {
@@ -37,8 +37,7 @@ export default {
     ]
   },
   router: {
-    linkExactActiveClass: 'active-link',
-    middleware: 'check-auth'
+    linkExactActiveClass: 'active-link'
   },
   loading: { color: '#fff' },
   css: ['~/assets/css/tailwind.css'],

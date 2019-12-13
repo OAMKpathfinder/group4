@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken')
 const { Houses } = require('@models')
+const jwt = require('jsonwebtoken')
 
 async function addHouse(req, res) {
     const token = jwt.decode(req.header('x-access-token'))
