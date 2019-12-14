@@ -12,6 +12,11 @@ async function getSuggestions(req, res) {
                 PartId: houseDetail.HousePartsId,
                 U_value: { [Op.lt]: houseDetail.U_value },
             },
+            order: [
+                ['U_value', 'ASC'],
+                ['price', 'ASC'],
+            ],
+            limit: 5,
         })
         res.status(200).send(suggestions)
     } catch (err) {

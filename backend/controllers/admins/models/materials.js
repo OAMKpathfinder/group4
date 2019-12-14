@@ -12,18 +12,26 @@ async function get(req, res) {
 }
 
 async function create(req, res) {
-    try {
-        const row = await Materials.create({
-            name: req.body.name,
-            type: req.body.type,
-            thermal_conductivity: req.body.thermal_conductivity,
-            thickness: req.body.thickness,
-            description: req.body.description,
-        })
-        return res.status(200).send(row)
-    } catch (err) {
-        res.status(500).send(err)
+    let arr = []
+    if (!(req.body instanceof Array)) {
+        arr.push(req.body)
+    } else {
+        arr = req.body
     }
+    arr.forEach(async element => {
+        try {
+            await Materials.create({
+                name: element.name,
+                type: element.type,
+                thermal_conductivity: element.thermal_conductivity,
+                thickness: element.thickness,
+                description: element.description,
+            })
+        } catch (err) {
+            return res.status(500).send(err)
+        }
+    })
+    return res.status(200).send(true)
 }
 
 async function update(req, res) {
@@ -36,7 +44,9 @@ async function update(req, res) {
             where: { MaterialsId: req.params.id },
             attributes: { exclude: ['HouseDetailsId'] },
         })
-        await calculateUValue(addedDetail)
+        if (addedDetail) {
+            await calculateUValue(addedDetail)
+        }
         return res.status(200).send(updated)
     } catch (err) {
         console.log(err)

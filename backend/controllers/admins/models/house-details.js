@@ -38,7 +38,6 @@ async function create(req, res) {
             }
         }
         res.status(200).send(data)
-        // return res.status(200).send(true)
     } catch (err) {
         return res.status(500).send(err)
     }

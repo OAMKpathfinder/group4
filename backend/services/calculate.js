@@ -15,11 +15,9 @@ function calculateUValue(detail) {
                 let thermalConductivity = 0
                 let thickness = 0
                 arr.forEach(element => {
-                    // console.log(element.MaterialsId)
                     Materials.findByPk(element.MaterialsId)
                         .then(material => {
                             thermalConductivity += material.thermal_conductivity
-                            // console.log(material)
                             thickness += material.thickness
                             House_Details.update(
                                 {
@@ -59,7 +57,7 @@ async function calculateHjoht(HouseDetailsId) {
             })
         }
 
-        const newHjoht = (detail.U_value * detail.surface + sum).toFixed(2)
+        const newHjoht = (detail.U_value * detail.surface + sum).toFixed(3)
 
         await House_Details.update(
             { hjoht: newHjoht },

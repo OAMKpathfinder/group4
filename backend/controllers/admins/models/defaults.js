@@ -1,5 +1,6 @@
 const multer = require('multer')
 const fs = require('fs')
+const path = require('path')
 const { Defaults } = require('@models')
 
 const upload = multer({ dest: './data/' })
@@ -15,36 +16,31 @@ async function getAllDefaults(req, res) {
 }
 
 async function createDefault(req, res) {
-    try {
-        const extension = req.file.originalname.split('.')[1]
-        console.log(extension)
-        if (
-            extension != 'JPG' &&
-            extension != 'PNG' &&
-            extension != 'jpg' &&
-            extension != 'png'
-        ) {
-            return res.status(403).send('Only JPG or PNG files can be stored')
-        }
-        console.log(req.file)
-        const file =
-            './data/' + req.file.originalname.split('.')[0] + '.' + extension
-        fs.rename(req.file.path, file, function(err) {
+    const directoryPath = path.join('./data/')
+
+    fs.readdir(directoryPath, async function(err, files) {
+        try {
             if (err) {
-                console.log(err)
+                return res
+                    .status(400)
+                    .send('Error getting directory information.')
             }
-        })
-        const newRow = await Defaults.create({
-            decade: req.body.decade,
-            hjoht: req.body.hjoht,
-            description: req.body.description,
-            houseImage: req.file.originalname,
-        })
-        return res.status(200).send(newRow)
-    } catch (err) {
-        console.log(err)
-        return res.status(500).send(err)
-    }
+            for (const file of files) {
+                if (file === req.body.file) {
+                    await Defaults.create({
+                        decade: req.body.decade,
+                        hjoht: req.body.hjoht,
+                        description: req.body.description,
+                        houseImage: req.body.file,
+                    })
+                    return res.status(200).send(true)
+                }
+            }
+        } catch (err) {
+            console.log(err)
+            return res.status(500).send(err)
+        }
+    })
 }
 
 async function removeDefault(req, res) {

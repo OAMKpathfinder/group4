@@ -11,14 +11,22 @@ async function get(req, res) {
 }
 
 async function create(req, res) {
-    try {
-        const row = await Heating_Systems.create({
-            type: req.body.type,
-        })
-        return res.status(200).send(row)
-    } catch (err) {
-        res.status(500).send(err)
+    let arr = []
+    if (!(req.body instanceof Array)) {
+        arr.push(req.body)
+    } else {
+        arr = req.body
     }
+    arr.forEach(async element => {
+        try {
+            await Heating_Systems.create({
+                type: element.type,
+            })
+        } catch (err) {
+            return res.status(500).send(err)
+        }
+    })
+    return res.status(200).send(true)
 }
 
 async function update(req, res) {
