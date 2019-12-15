@@ -12,6 +12,7 @@ const cors = require('cors')
 const helmet = require('helmet')
 const db = require('./models')
 const app = express()
+const { loadFiles } = require('./services/storage')
 
 app.use(morgan('combined'))
 app.use(cors())
@@ -19,6 +20,8 @@ app.use(helmet())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use('/static', express.static('data'))
+
+loadFiles()
 
 lumie.load(app, {
     preURL: 'api',

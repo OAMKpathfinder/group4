@@ -5,11 +5,11 @@ async function pagesValidate(req, res, next) {
         const schema = Joi.object({
             title: Joi.string().required(),
 
-            slug: Joi.string().required(),
+            slug: Joi.string(),
 
             excerpt: Joi.string().required(),
 
-            image: Joi.string().required(),
+            image: Joi.string(),
 
             body: Joi.string().required(),
         })

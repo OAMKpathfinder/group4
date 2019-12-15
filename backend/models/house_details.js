@@ -18,10 +18,14 @@ module.exports = (sequelize, DataTypes) => {
             as: 'Houses',
             foreignKey: 'HousesId',
         })
-        House_Details.belongsToMany(models.Materials, {
-            through: 'Part_Materials',
-            // as: 'Materials',
-            foreignKey: 'MaterialsId',
+        // House_Details.belongsToMany(models.Materials, {
+        //     through: models.Part_Materials,
+        //     as: 'Materials',
+        //     foreignKey: 'MaterialsId',
+        // })
+        House_Details.hasMany(models.Part_Materials, {
+            as: 'Part_Materials',
+            foreignKey: 'HouseDetailsId',
         })
         House_Details.belongsTo(models.House_Parts, {
             as: 'House_Parts',

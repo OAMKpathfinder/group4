@@ -9,12 +9,24 @@ module.exports = {
                 type: Sequelize.INTEGER,
             },
             HouseDetailsId: {
-                allowNull: false,
                 type: Sequelize.INTEGER,
+                references: {
+                    model: 'House_Details',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'CASCADE',
+                allowNull: false,
             },
             MaterialsId: {
-                allowNull: false,
                 type: Sequelize.INTEGER,
+                references: {
+                    model: 'Materials',
+                    key: 'id',
+                },
+                onUpdate: 'CASCADE',
+                onDelete: 'CASCADE',
+                allowNull: false,
             },
             createdAt: {
                 allowNull: false,
