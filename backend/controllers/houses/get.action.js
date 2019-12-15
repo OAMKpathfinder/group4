@@ -7,6 +7,7 @@ const {
     Materials,
     Heating_Systems,
     Thermal_Bridges,
+    Part_Materials,
 } = require('@models')
 
 const jwt = require('jsonwebtoken')

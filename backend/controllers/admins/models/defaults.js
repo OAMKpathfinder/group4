@@ -1,7 +1,6 @@
 const multer = require('multer')
-const fs = require('fs')
-const path = require('path')
 const { Defaults } = require('@models')
+const { store } = require('../../../services/storage')
 
 const upload = multer({ dest: './data/' })
 
@@ -16,31 +15,24 @@ async function getAllDefaults(req, res) {
 }
 
 async function createDefault(req, res) {
-    const directoryPath = path.join('./data/')
-
-    fs.readdir(directoryPath, async function(err, files) {
-        try {
-            if (err) {
-                return res
-                    .status(400)
-                    .send('Error getting directory information.')
-            }
-            for (const file of files) {
-                if (file === req.body.file) {
-                    await Defaults.create({
-                        decade: req.body.decade,
-                        hjoht: req.body.hjoht,
-                        description: req.body.description,
-                        houseImage: req.body.file,
-                    })
-                    return res.status(200).send(true)
-                }
-            }
-        } catch (err) {
-            console.log(err)
-            return res.status(500).send(err)
+    try {
+        const files = store.get('files')
+        const file = files.find(fileName => fileName === req.body.file)
+        if (file) {
+            await Defaults.create({
+                decade: req.body.decade,
+                hjoht: req.body.hjoht,
+                description: req.body.description,
+                houseImage: req.body.file,
+            })
+        } else {
+            return res.status(404).send('File not found')
         }
-    })
+    } catch (err) {
+        console.log(err)
+        return res.status(500).send(err)
+    }
+    return res.status(200).send(true)
 }
 
 async function removeDefault(req, res) {
