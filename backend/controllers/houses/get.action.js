@@ -87,7 +87,6 @@ async function getHouseDetails(req, res) {
                     ],
                     attributes: {
                         exclude: [
-                            'id',
                             'HousePartsId',
                             'HouseDetailsId',
                             'createdAt',
