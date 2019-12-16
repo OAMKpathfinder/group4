@@ -13,32 +13,18 @@
           <div class="left flex-1 xs:flex-0 mb-2 xs:mb-0">
             <input
               type="text"
-              class="input-green h-full w-full xs:flex-shrink"
+              class="input-primary h-full w-full xs:flex-shrink"
               placeholder="Search"
             />
           </div>
 
           <div class="right flex-grow xs:flex-shrink xs:flex-grow-0 flex">
             <button
-              :disabled="checked.length != 0"
-              @click="addItem"
-              class="button-light h-full xs:ml-2"
-            >
-              New Item
-            </button>
-            <button
-              :disabled="checked.length != 1"
-              @click="editItem"
-              class="button-light h-full ml-2"
-            >
-              Edit
-            </button>
-            <button
               :disabled="checked.length < 1"
               @click="deleteItem"
               class="button-red h-full ml-2"
             >
-              Delete
+              {{ verifyDelete ? 'Are you sure?' : 'Delete' }}
             </button>
           </div>
         </div>
@@ -97,6 +83,7 @@
 <script>
 import startCase from 'lodash.startcase'
 import orderBy from 'lodash.orderby'
+import _ from 'lodash'
 import { mapActions, mapState } from 'vuex'
 
 export default {
@@ -115,36 +102,29 @@ export default {
   computed: {
     ...mapState(['tables'])
   },
-  mounted: function() {
-    this.setRoute()
+  beforeMount: function() {
+    this.getSelectedTable()
   },
   methods: {
-    ...mapActions(['fetchTables', 'fetchTableData', 'deleteTableRow']),
+    ...mapActions(['fetchTableData', 'deleteTableRow']),
     normalCase: function(string) {
       return startCase(string)
+    },
+    async getSelectedTable() {
+      this.table = this.tables.find(
+        table => table.name === this.$route.params.table
+      )
+      try {
+        this.tableData = await this.fetchTableData(_.kebabCase(this.table.name))
+        this.loading = false
+      } catch (err) {
+        this.error = err
+      }
     },
     orderBy: function(column) {
       this.tableData = orderBy(this.tableData, [column], [this.orderType])
       if (this.orderType === 'asc') this.orderType = 'desc'
       else this.orderType = 'asc'
-    },
-    setRoute: async function() {
-      try {
-        if (!this.tables) await this.fetchTables()
-
-        this.table = this.tables.filter(
-          t => t.path === this.$route.params.table
-        )[0]
-        this.error = null
-        this.tableData = await this.fetchTableData(this.table.path)
-        this.loading = false
-      } catch (err) {
-        this.error = 'Could not fetch the table. Reloading...'
-      }
-      this.loading = false
-    },
-    editItem: async function() {
-      // Open Modal
     },
     deleteItem: async function() {
       const items = this.checked
@@ -155,7 +135,7 @@ export default {
 
       let errors = []
       try {
-        const path = this.table.path
+        const path = _.kebabCase(this.table.name)
 
         items.forEach(async item => {
           try {
@@ -164,7 +144,7 @@ export default {
             errors.push(item)
           }
         })
-        this.tableData = await this.fetchTableData(this.table.path)
+        this.tableData = await this.fetchTableData(_.kebabCase(this.table.name))
         if (errors.length > 0) {
           throw new Error()
         }
@@ -173,9 +153,6 @@ export default {
       }
       this.checked = []
       this.verifyDelete = false
-    },
-    addItem: async function() {
-      console.log('x')
     }
   }
 }

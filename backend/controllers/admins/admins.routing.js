@@ -1,12 +1,6 @@
-const { getAttributes, getModels } = require('./get.action')
+const { getModels } = require('./get.action')
 
 module.exports = {
-    '/models/more': {
-        get: {
-            action: getAttributes,
-            level: 'public',
-        },
-    },
     '/models': {
         get: {
             action: getModels,

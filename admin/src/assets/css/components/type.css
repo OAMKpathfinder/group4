@@ -5,32 +5,41 @@ h4,
 h5,
 h6,
 p,
-a,
 span,
+a,
 small,
-label {
-  @apply text-gray-800;
+b,
+strong,
+em,
+ul,
+li {
+  @apply font-main text-gray-800;
+}
+
+p {
+  margin-bottom: 1em;
 }
 
 h1 {
-  @apply text-4xl font-bold;
+  @apply font-bold text-3xl;
 }
 
 h2 {
-  @apply text-3xl font-bold;
+  @apply font-bold text-2xl;
 }
+
 h3 {
-  @apply text-2xl font-bold;
+  @apply font-medium text-xl;
 }
 
 h4 {
-  @apply text-xl;
+  @apply font-normal text-lg;
 }
 
 h5 {
-  @apply text-lg;
+  @apply font-normal;
 }
 
 h6 {
-  @apply text-base;
+  @apply font-normal uppercase text-sm;
 }

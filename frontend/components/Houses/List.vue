@@ -26,7 +26,14 @@
       <p>There's nothing here yet.</p>
     </div>
     <div v-else class="list">
-      <ListItem v-for="house of houses" :key="house.id" :item="house" />
+      <nuxt-link
+        v-for="house of houses"
+        :key="house.id"
+        :to="`buildings/${house.id}`"
+        append
+      >
+        <ListItem :item="house" class="mb-4" />
+      </nuxt-link>
     </div>
   </section>
 </template>

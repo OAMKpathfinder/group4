@@ -12,9 +12,20 @@ const routes = [
   },
   {
     path: '/console',
-    name: 'Console',
     component: () => import('../views/Console.vue'),
     children: [
+      {
+        path: '/',
+        component: () => import('../views/Overview.vue')
+      },
+      {
+        path: 'files',
+        component: () => import('../components/Files.vue')
+      },
+      {
+        path: 'create/:name',
+        component: () => import('../views/Create.vue')
+      },
       {
         path: 'tables/:table',
         component: () => import('../components/TableDetails.vue')

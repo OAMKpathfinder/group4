@@ -133,5 +133,22 @@ export const actions = {
     } catch (err) {
       throw new Error(err.response.data)
     }
+  },
+  async GET_ONE_HOUSE({ state }, id) {
+    try {
+      const house = await this.$axios.$get(`houses/${id}`, {
+        headers: { 'x-access-token': state.token }
+      })
+      return house
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
+  },
+  async GET_DECADE_IMAGE(_, { decade }) {
+    try {
+      return await this.$axios.$get(`defaults/${decade}`)
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
   }
 }

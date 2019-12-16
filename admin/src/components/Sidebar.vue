@@ -12,16 +12,28 @@
         <div class="menu-item">
           <router-link to="/console">Overview</router-link>
         </div>
+        <div class="menu-item">
+          <router-link to="/console/files">Files</router-link>
+        </div>
       </div>
       <div class="menu-group">
-        <div class="menu-group-title">Tables</div>
-        <div v-if="loading" class="menu-item">
-          <a>Loading...</a>
-        </div>
-        <div v-else v-for="table in tables" :key="table.path" class="menu-item">
-          <router-link :to="`/console/tables/${table.path}`">{{
-            table.name
-          }}</router-link>
+        <div class="menu-group-title">Create</div>
+        <div
+          v-for="item in createTabs"
+          :key="item.slug"
+          class="menu-item flex flex-row justify-between"
+        >
+          <router-link
+            :to="`/console/tables/${item.view}`"
+            class="flex flex-grow items-center"
+            >{{ normalCase(item.slug) }}</router-link
+          >
+          <router-link
+            :to="`/console/create/${item.slug}`"
+            class="hover:bg-gray-400 transition text-gray-500 hover:text-gray-900"
+          >
+            <i class="las la-plus-square" style="transform: scale(2);"></i>
+          </router-link>
         </div>
       </div>
     </div>
@@ -30,24 +42,60 @@
 
 <script>
 import { mapActions, mapState } from 'vuex'
+import startcase from 'lodash.startcase'
+
 export default {
   name: 'Sidebar',
   components: {},
-  data: function() {
+  data() {
     return {
       loading: true,
-      error: null
+      error: null,
+      createTabs: [
+        {
+          slug: 'decades',
+          view: 'Defaults'
+        },
+        {
+          slug: 'heatingSystems',
+          view: 'Heating_Systems'
+        },
+        {
+          slug: 'houseParts',
+          view: 'House_Parts'
+        },
+        {
+          slug: 'housePartsTypes',
+          view: 'Part_Types'
+        },
+        {
+          slug: 'locations',
+          view: 'Locations'
+        },
+        {
+          slug: 'materials',
+          view: 'Materials'
+        },
+        {
+          slug: 'users',
+          view: 'Users'
+        },
+        {
+          slug: 'pages',
+          view: 'Pages'
+        }
+      ]
     }
   },
   computed: {
     ...mapState(['tables'])
   },
-  mounted: async function() {
+  mounted() {
     this.loadTables()
   },
   methods: {
     ...mapActions(['fetchTables']),
-    loadTables: async function() {
+    async loadTables() {
       try {
         this.loading = true
         await this.fetchTables()
@@ -55,6 +103,9 @@ export default {
         this.error = error
       }
       this.loading = false
+    },
+    normalCase(string) {
+      return startcase(string)
     }
   }
 }
@@ -71,7 +122,7 @@ export default {
   @apply transition rounded;
 }
 .menu-item:hover {
-  @apply bg-gray-200;
+  @apply bg-gray-300;
 }
 .menu-item > a {
   @apply p-3 block;
@@ -79,7 +130,7 @@ export default {
 
 .sidebar {
   left: -320px;
-  @apply h-full bg-gray-100 absolute transition;
+  @apply max-h-full bg-gray-200 transition overflow-y-scroll fixed;
 }
 
 @screen lg {
