@@ -112,8 +112,30 @@ function calculateTotalHjoht(HouseId) {
     })
 }
 
+function totalCost(houseDetail, price) {
+    return new Promise((resolve, reject) => {
+        Houses.findOne({ where: { id: houseDetail.HousesId } })
+            .then(result => {
+                Houses.update(
+                    { price: result.price + price },
+                    { where: { id: result.id } }
+                )
+                    .then(() => {
+                        return resolve(true)
+                    })
+                    .catch(err => {
+                        return reject(err)
+                    })
+            })
+            .catch(err => {
+                return reject(err)
+            })
+    })
+}
+
 module.exports = {
     calculateUValue,
     calculateHjoht,
     calculateTotalHjoht,
+    totalCost,
 }

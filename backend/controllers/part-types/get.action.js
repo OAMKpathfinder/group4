@@ -1,5 +1,9 @@
 const { Part_Types, House_Details, Sequelize } = require('@models')
-const { calculateHjoht, calculateTotalHjoht } = require('@services/calculate')
+const {
+    calculateHjoht,
+    calculateTotalHjoht,
+    totalCost,
+} = require('@services/calculate')
 
 const Op = Sequelize.Op
 
@@ -35,6 +39,7 @@ async function upgradeHouse(req, res) {
             { where: { id: req.params.id } }
         )
 
+        await totalCost(updated, upgradeObj.price)
         await calculateHjoht(updated.id)
         await calculateTotalHjoht(updated.HousesId)
         return res.status(200).send(true)
@@ -43,7 +48,30 @@ async function upgradeHouse(req, res) {
     }
 }
 
+async function getPotentialHouseCost(req, res) {
+    let potentialTotalCost = 0
+    try {
+        const houseDetails = await House_Details.findAll({
+            where: { HousesId: req.params.id },
+        })
+        for (const element of houseDetails) {
+            const suggestion = await Part_Types.findOne({
+                where: {
+                    PartId: element.HousePartsId,
+                    U_value: { [Op.lt]: element.U_value },
+                },
+                order: [['U_value', 'ASC']],
+            })
+            potentialTotalCost += suggestion.price
+        }
+    } catch (err) {
+        return res.status(500).send(err)
+    }
+    return res.status(200).send(potentialTotalCost)
+}
+
 module.exports = {
     getSuggestions,
     upgradeHouse,
+    getPotentialHouseCost,
 }

@@ -1,4 +1,8 @@
-const { getSuggestions, upgradeHouse } = require('./get.action')
+const {
+    getSuggestions,
+    upgradeHouse,
+    getPotentialHouseCost,
+} = require('./get.action')
 
 module.exports = {
     '/:id': {
@@ -10,6 +14,12 @@ module.exports = {
     '/upgrade/:id': {
         get: {
             action: upgradeHouse,
+            level: 'public',
+        },
+    },
+    '/:id/cost': {
+        get: {
+            action: getPotentialHouseCost,
             level: 'public',
         },
     },
