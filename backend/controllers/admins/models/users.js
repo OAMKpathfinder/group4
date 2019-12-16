@@ -68,6 +68,7 @@ async function create(req, res) {
                 email: req.body.email,
                 password: hash,
                 role: req.body.role,
+                verified: true,
             })
 
             res.status(200).send({

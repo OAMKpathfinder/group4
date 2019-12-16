@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
             heating_per_year: DataTypes.DOUBLE,
             warm_water_pipe: DataTypes.BOOLEAN,
             hjoht: DataTypes.DOUBLE,
+            total_cost: DataTypes.DOUBLE,
         },
         {}
     )
