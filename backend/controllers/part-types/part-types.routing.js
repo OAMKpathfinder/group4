@@ -11,7 +11,7 @@ module.exports = {
             level: 'user',
         },
     },
-    '/upgrade/:id': {
+    '/:id/upgrade': {
         get: {
             action: upgradeHouse,
             level: 'public',

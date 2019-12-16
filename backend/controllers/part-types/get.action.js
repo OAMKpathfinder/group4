@@ -32,18 +32,21 @@ async function getSuggestions(req, res) {
 
 async function upgradeHouse(req, res) {
     try {
-        const upgradeObj = await Part_Types.findByPk(req.query.upgradeTo)
+        const upgradeObj = await Part_Types.findByPk(req.query.to)
 
-        const updated = await House_Details.update(
+        await House_Details.update(
             { U_value: upgradeObj.U_value },
             { where: { id: req.params.id } }
         )
-
-        await totalCost(updated, upgradeObj.price)
-        await calculateHjoht(updated.id)
-        await calculateTotalHjoht(updated.HousesId)
+        const houseDetail = await House_Details.findByPk(req.params.id, {
+            attributes: { exclude: ['HouseDetailsId'] },
+        })
+        await totalCost(houseDetail, upgradeObj.price)
+        await calculateHjoht(houseDetail.id)
+        await calculateTotalHjoht(houseDetail.HousesId)
         return res.status(200).send(true)
     } catch (err) {
+        console.log(err)
         return res.status(500).send(err)
     }
 }
@@ -53,6 +56,7 @@ async function getPotentialHouseCost(req, res) {
     try {
         const houseDetails = await House_Details.findAll({
             where: { HousesId: req.params.id },
+            attributes: { exclude: ['HouseDetailsId'] },
         })
         for (const element of houseDetails) {
             const suggestion = await Part_Types.findOne({
@@ -62,12 +66,13 @@ async function getPotentialHouseCost(req, res) {
                 },
                 order: [['U_value', 'ASC']],
             })
-            potentialTotalCost += suggestion.price
+            potentialTotalCost += suggestion.price * element.surface
         }
+        console.log(potentialTotalCost)
     } catch (err) {
         return res.status(500).send(err)
     }
-    return res.status(200).send(potentialTotalCost)
+    return res.status(200).send(potentialTotalCost.toFixed(3))
 }
 
 module.exports = {

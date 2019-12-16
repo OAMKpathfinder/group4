@@ -114,20 +114,22 @@ function calculateTotalHjoht(HouseId) {
 
 function totalCost(houseDetail, price) {
     return new Promise((resolve, reject) => {
-        Houses.findOne({ where: { id: houseDetail.HousesId } })
-            .then(result => {
+        Houses.findByPk(houseDetail.HousesId)
+            .then(house => {
                 Houses.update(
-                    { price: result.price + price },
-                    { where: { id: result.id } }
+                    { total_cost: house.total_cost + price },
+                    { where: { id: house.id } }
                 )
                     .then(() => {
                         return resolve(true)
                     })
                     .catch(err => {
+                        console.log(err)
                         return reject(err)
                     })
             })
             .catch(err => {
+                console.log(err)
                 return reject(err)
             })
     })

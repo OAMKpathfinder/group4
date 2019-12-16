@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi')
 
 async function partTypesValidate(req, res, next) {
-    arr = []
+    let arr = []
     if (!(req.body instanceof Array)) {
         arr.push(req.body)
     } else {
