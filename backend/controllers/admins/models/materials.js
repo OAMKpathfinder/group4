@@ -1,6 +1,10 @@
 const { Materials, House_Details } = require('@models')
 const { materialsValidate } = require('@validation')
-const { calculateUValue } = require('@services/calculate')
+const {
+    calculateUValue,
+    calculateHjoht,
+    calculateTotalHjoht,
+} = require('@services/calculate')
 
 async function get(req, res) {
     try {
@@ -46,6 +50,8 @@ async function update(req, res) {
         })
         if (addedDetail) {
             await calculateUValue(addedDetail)
+            await calculateHjoht(addedDetail.id)
+            await calculateTotalHjoht(addedDetail.HousesId)
         }
         return res.status(200).send(updated)
     } catch (err) {

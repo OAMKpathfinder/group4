@@ -1,5 +1,6 @@
 {
     "prettier.semi": false,
     "editor.formatOnSave": true,
-    "prettier.endOfLine": "lf"
+    "prettier.endOfLine": "lf",
+    "editor.tabSize": 4
 }

@@ -1,4 +1,5 @@
 const {
+    Houses,
     House_Details,
     Part_Materials,
     Thermal_Bridges,
@@ -25,50 +26,94 @@ function calculateUValue(detail) {
                                         thermalConductivity / thickness
                                     ).toFixed(3),
                                 },
-                                { where: { id: detail.id } }
+                                {
+                                    where: { id: detail.id },
+                                }
                             )
+                                .then(() => {
+                                    return resolve(true)
+                                })
+                                .catch(err => {
+                                    return reject(err)
+                                })
                         })
-                        .then(() => {
-                            return resolve(true)
+                        .catch(err => {
+                            return reject(err)
                         })
                 })
             })
             .catch(err => {
-                reject(err)
+                return reject(err)
             })
     })
 }
 
-async function calculateHjoht(HouseDetailsId) {
-    try {
-        const detail = await House_Details.findOne({
+function calculateHjoht(HouseDetailsId) {
+    return new Promise((resolve, reject) => {
+        House_Details.findOne({
             where: { id: HouseDetailsId },
             attributes: { exclude: ['HouseDetailsId'] },
         })
-        const thermalBridge = await Thermal_Bridges.findAll({
-            where: { HouseDetailsId: detail.id },
-            attributes: { exclude: ['HouseDetailId'] },
-        })
-        let sum = 0
-        if (thermalBridge) {
-            // length = thermalBridge.bridge_length
-            thermalBridge.forEach(async element => {
-                sum += element.bridge_length
+            .then(result => {
+                Thermal_Bridges.findAll({
+                    where: { HouseDetailsId: result.id },
+                    attributes: { exclude: ['HouseDetailId'] },
+                })
+                    .then(thermalArr => {
+                        let sum = 0
+                        if (thermalArr) {
+                            thermalArr.forEach(element => {
+                                sum += element.bridge_length
+                            })
+                        }
+                        const newHjoht = (
+                            result.U_value * result.surface +
+                            sum
+                        ).toFixed(3)
+                        House_Details.update(
+                            { hjoht: newHjoht },
+                            { where: { id: result.id } }
+                        )
+                            .then(() => {
+                                return resolve(true)
+                            })
+                            .catch(err => {
+                                return reject(err)
+                            })
+                    })
+                    .catch(err => {
+                        return reject(err)
+                    })
             })
-        }
+            .catch(err => {
+                return reject(err)
+            })
+    })
+}
 
-        const newHjoht = (detail.U_value * detail.surface + sum).toFixed(3)
-
-        await House_Details.update(
-            { hjoht: newHjoht },
-            { where: { id: detail.id } }
-        )
-    } catch (err) {
-        console.log(err)
-    }
+function calculateTotalHjoht(HouseId) {
+    return new Promise((resolve, reject) => {
+        House_Details.findAll({
+            where: { HousesId: HouseId },
+            attributes: { exclude: ['HouseDetailsId'] },
+        })
+            .then(arr => {
+                let totalHjoht = 0
+                arr.forEach(element => {
+                    totalHjoht += element.hjoht
+                })
+                Houses.update({ hjoht: totalHjoht }, { where: { id: HouseId } })
+                    .then(() => {
+                        return resolve(true)
+                    })
+                    .catch(err => reject(err))
+            })
+            .catch(err => reject(err))
+    })
 }
 
 module.exports = {
     calculateUValue,
     calculateHjoht,
+    calculateTotalHjoht,
 }

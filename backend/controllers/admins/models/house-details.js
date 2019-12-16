@@ -1,6 +1,10 @@
 const { House_Details } = require('@models')
 const { houseDetailsValidate } = require('@validation')
-const { calculateUValue } = require('@services/calculate')
+const {
+    calculateUValue,
+    calculateHjoht,
+    calculateTotalHjoht,
+} = require('@services/calculate')
 const { createPartMaterial } = require('./part-materials')
 
 async function get(req, res) {
@@ -36,6 +40,8 @@ async function create(req, res) {
                 const x = await calculateUValue(addedDetail)
                 data.push(x)
             }
+            await calculateHjoht(addedDetail.id)
+            await calculateTotalHjoht(addedDetail.HousesId)
         }
         res.status(200).send(data)
     } catch (err) {
@@ -51,6 +57,8 @@ async function update(req, res) {
         })
         const addedDetail = await House_Details.findByPk(req.params.id)
         await calculateUValue(addedDetail)
+        await calculateHjoht(addedDetail.id)
+        await calculateTotalHjoht(addedDetail.HousesId)
         return res.status(200).send(updated)
     } catch (err) {
         res.status(500).send(err)

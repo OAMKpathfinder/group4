@@ -1,5 +1,9 @@
 const { House_Details } = require('@models')
-const { calculateUValue, calculateHjoht } = require('@services/calculate')
+const {
+    calculateUValue,
+    calculateHjoht,
+    calculateTotalHjoht,
+} = require('@services/calculate')
 
 async function updateHouseDetail(req, res) {
     try {
@@ -10,6 +14,7 @@ async function updateHouseDetail(req, res) {
         const addedDetail = await House_Details.findByPk(req.params.id)
         await calculateUValue(addedDetail)
         await calculateHjoht(addedDetail.id)
+        await calculateTotalHjoht(addedDetail.HousesId)
         return res.status(200).send(updated)
     } catch (err) {
         res.status(500).send(err)

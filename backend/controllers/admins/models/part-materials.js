@@ -17,10 +17,10 @@ function createPartMaterial(houseDetail, materialArray) {
                 HouseDetailsId: houseDetail.id,
             })
                 .then(value => {
-                    res(value)
+                    return res(value)
                 })
                 .catch(err => {
-                    rej(err)
+                    return rej(err)
                 })
         })
     })
