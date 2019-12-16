@@ -1,4 +1,6 @@
 const { Part_Types, House_Details, Sequelize } = require('@models')
+const { calculateHjoht, calculateTotalHjoht } = require('@services/calculate')
+
 const Op = Sequelize.Op
 
 async function getSuggestions(req, res) {
@@ -24,6 +26,24 @@ async function getSuggestions(req, res) {
     }
 }
 
+async function upgradeHouse(req, res) {
+    try {
+        const upgradeObj = await Part_Types.findByPk(req.query.upgradeTo)
+
+        const updated = await House_Details.update(
+            { U_value: upgradeObj.U_value },
+            { where: { id: req.params.id } }
+        )
+
+        await calculateHjoht(updated.id)
+        await calculateTotalHjoht(updated.HousesId)
+        return res.status(200).send(true)
+    } catch (err) {
+        return res.status(500).send(err)
+    }
+}
+
 module.exports = {
     getSuggestions,
+    upgradeHouse,
 }
