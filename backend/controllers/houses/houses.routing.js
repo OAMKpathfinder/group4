@@ -9,7 +9,7 @@ module.exports = {
         post: {
             action: addHouse,
             middlewares: housesValidate,
-            level: 'user',
+            level: 'public',
         },
     },
     '/user': {

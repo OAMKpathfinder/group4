@@ -1,6 +1,6 @@
-const { Thermal_Bridges } = require('@models')
+const { Thermal_Bridges, House_Details } = require('@models')
 const { thermalBridgesValidate } = require('@validation')
-const { calculateHjoht } = require('@services/calculate')
+const { calculateHjoht, calculateTotalHjoht } = require('@services/calculate')
 
 async function get(req, res) {
     try {
@@ -13,10 +13,16 @@ async function get(req, res) {
 }
 
 async function create(req, res) {
-    const arr = req.body
+    let arr = []
+    if (!(req.body instanceof Array)) {
+        arr.push(req.body)
+    } else {
+        arr = req.body
+    }
     arr.forEach(async element => {
         try {
             const HouseDetailsId = element.HouseDetailsId
+            const HouseDetail = await House_Details.findByPk(HouseDetailsId)
 
             const row = await Thermal_Bridges.build({
                 bridge_length: element.bridge_length,
@@ -26,6 +32,7 @@ async function create(req, res) {
             await row.save()
 
             await calculateHjoht(HouseDetailsId)
+            await calculateTotalHjoht(HouseDetail.HousesId)
         } catch (err) {
             console.log(err)
             res.status(500).send(err)
@@ -43,7 +50,11 @@ async function update(req, res) {
         const thermalBridge = await Thermal_Bridges.findByPk(req.params.id, {
             attributes: { exclude: ['HouseDetailId'] },
         })
+        const HouseDetail = await House_Details.findByPk(
+            thermalBridge.HouseDetailsId
+        )
         await calculateHjoht(thermalBridge.HouseDetailsId)
+        await calculateTotalHjoht(HouseDetail.HousesId)
         return res.status(200).send(updated)
     } catch (err) {
         res.status(500).send(err)
