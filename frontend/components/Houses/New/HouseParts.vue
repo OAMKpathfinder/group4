@@ -37,7 +37,7 @@
               :name="'U-value'"
             />
             <Dropdown
-              v-model.number="val.MaterialsId"
+              v-model.number="val.MaterialsId[0]"
               :label="'Material'"
               :items="materials"
               :name="'material'"
@@ -47,11 +47,11 @@
         </template>
       </CardTemplate>
     </transition-group>
-    <div class="w-full flex flex-row items-center">
+    <div class="w-full flex flex-row items-center flex-wrap">
       <div
         v-for="part of parts"
         :key="part.id"
-        class="pills cursor-pointer"
+        class="pills cursor-pointer mb-2"
         @click="addPart(part.id)"
       >
         <span class="text-primary-800"> + {{ part.part }} </span>
@@ -98,7 +98,7 @@ export default {
         surface: undefined,
         U_value: undefined,
         HousePartsId: id,
-        MaterialsId: undefined
+        MaterialsId: [undefined]
       })
     },
     deletePart(id) {

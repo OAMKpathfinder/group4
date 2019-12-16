@@ -49,17 +49,6 @@ async function getModels(req, res) {
         res.status(500).send(err)
     }
 }
-
-async function getAttributes(req, res) {
-    try {
-        res.status(200).json(await db.Users.describe())
-    } catch (err) {
-        console.log(err)
-        res.status(500).json(err)
-    }
-}
-
 module.exports = {
-    getAttributes,
     getModels,
 }

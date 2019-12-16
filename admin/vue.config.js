@@ -4,6 +4,10 @@ module.exports = {
       '/api/': {
         target: process.env.VUE_APP_PROXY,
         secure: false
+      },
+      '/static': {
+        target: process.env.VUE_APP_PROXY,
+        secure: false
       }
     },
     overlay: {

@@ -1,8 +1,4 @@
-const multer = require('multer')
 const { Defaults } = require('@models')
-const { store } = require('../../../services/storage')
-
-const upload = multer({ dest: './data/' })
 
 async function getAllDefaults(req, res) {
     try {
@@ -16,20 +12,12 @@ async function getAllDefaults(req, res) {
 
 async function createDefault(req, res) {
     try {
-        const files = store.get('files')
-        const file = files.find(fileName => fileName === req.body.file)
-        if (file) {
-            await Defaults.create({
-                decade: req.body.decade,
-                hjoht: req.body.hjoht,
-                description: req.body.description,
-                houseImage: req.body.file,
-            })
-        } else {
-            return res.status(404).send('File not found')
-        }
+        await Defaults.create({
+            decade: req.body.decade,
+            description: req.body.description,
+            houseImage: req.body.houseImage,
+        })
     } catch (err) {
-        console.log(err)
         return res.status(500).send(err)
     }
     return res.status(200).send(true)
@@ -60,7 +48,6 @@ module.exports = {
     '/': {
         post: {
             action: createDefault,
-            middlewares: upload.single('file'),
             level: 'admin',
         },
         get: {

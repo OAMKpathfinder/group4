@@ -2,7 +2,7 @@
   <section class="container w-full">
     <form
       class="w-full pb-48 flex justify-center"
-      @submit.prevent="progress === 2 ? createBuilding : progress++"
+      @submit.prevent="progress === 2 ? createBuilding() : progress++"
     >
       <div class="w-full sm:w-2/3 lg:w-1/2 xl:w-2/5 flex flex-col">
         <HouseDetails v-show="progress >= 0" v-model="formData.houseDetails" />

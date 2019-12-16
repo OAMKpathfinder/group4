@@ -15,6 +15,7 @@ async function getAllPages(req, res) {
 
 async function createPage(req, res) {
     try {
+        console.log(req.body)
         await Pages.create({
             title: req.body.title,
             slug: req.body.slug ? req.body.slug : slugify(req.body.title),
@@ -22,8 +23,9 @@ async function createPage(req, res) {
             image: req.body.image,
             body: req.body.body,
         })
-        return res.status(200).send(true)
+        return res.status(200).send(req.body)
     } catch (err) {
+        console.log(err)
         res.status(500).send(err)
     }
 }
@@ -53,12 +55,12 @@ module.exports = {
     '/': {
         get: {
             action: getAllPages,
-            level: 'admin',
+            level: 'public',
         },
         post: {
             action: createPage,
             middlewares: PagesValidate,
-            level: 'admin',
+            level: 'public',
         },
     },
     '/:id': {

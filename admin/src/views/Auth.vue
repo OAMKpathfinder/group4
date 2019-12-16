@@ -3,15 +3,19 @@
     <div class="flex flex-col w-full sm:w-2/3 md:w-1/2 lg:w-1/3 mx-auto">
       <h1 class="mx-auto mb-10">Log In</h1>
       <div class="card p-3 w-full mx-auto overflow-hidden">
-        <div class="form flex flex-col">
-          <input type="text" class="input-green mb-3" placeholder="Username" />
+        <form class="form flex flex-col">
+          <input
+            type="text"
+            class="input-primary mb-3"
+            placeholder="Username"
+          />
           <input
             type="password"
-            class="input-green mb-3"
+            class="input-primary mb-3"
             placeholder="Password"
           />
-          <button class="button-green">Log In</button>
-        </div>
+          <button class="button-primary">Log In</button>
+        </form>
       </div>
     </div>
   </div>

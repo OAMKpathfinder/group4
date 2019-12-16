@@ -17,21 +17,20 @@ async function uploadFile(req, res) {
             extension !== 'svg' &&
             extension !== 'SVG'
         ) {
-            return res.status(403).send('Only JPG or PNG files can be stored')
+            return res
+                .status(403)
+                .send('Only JPG, PNG or SVG files can be stored')
         }
-        const file =
-            './data/' + req.file.originalname.split('.')[0] + '.' + extension
+
+        const file = './data/' + req.file.originalname
         fs.rename(req.file.path, file, function(err) {
             if (err) {
                 console.log(err)
             }
         })
-        store['files'].push(
-            req.file.originalname.split('.')[0] + '.' + extension
-        )
-        return res
-            .status(200)
-            .send(req.file.originalname.split('.')[0] + '.' + extension)
+
+        store['files'].push(req.file.originalname)
+        return res.status(200).send(req.file.originalname)
     } catch (err) {
         console.log(err)
     }
@@ -45,7 +44,7 @@ module.exports = {
     '/': {
         post: {
             action: uploadFile,
-            middlewares: upload.single('file'),
+            middlewares: upload.single('image-upload'),
             level: 'public',
         },
         get: {
