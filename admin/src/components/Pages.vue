@@ -130,7 +130,6 @@ export default {
           id: this.toUpdate,
           data: this.formData
         })
-        this.formData = {}
       } catch (err) {
         this.$emit('error', err.data.message)
       }
@@ -140,7 +139,13 @@ export default {
 </script>
 
 <style lang="postcss">
-.ck-content {
-  min-height: 240px;
+#editor {
+  height: 640px;
+  margin-bottom: 1em;
+  line-height: 20;
+}
+
+#editor > p {
+  margin-bottom: 1.2em;
 }
 </style>

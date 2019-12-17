@@ -1,8 +1,6 @@
 <template>
   <div
     class="card shadow-lg w-full p-3 flex flex-row justify-between transition items-center"
-    @mouseenter="showAction = true"
-    @mouseleave="showAction = false"
   >
     <div class="flex flex-row flex-wrap items-center h-full">
       <img
@@ -38,12 +36,6 @@
         <h1 class="-mt-2">{{ item.hjoht }} kW</h1>
       </div>
     </div>
-    <div
-      :class="{ 'text-transparent': !showAction }"
-      class="transition text-4xl text-gray-600"
-    >
-      <i class="lar la-edit p-3 hover:bg-gray-300 transition"></i>
-    </div>
   </div>
 </template>
 
@@ -59,8 +51,7 @@ export default {
   },
   data() {
     return {
-      image: null,
-      showAction: false
+      image: null
     }
   },
   beforeMount() {
