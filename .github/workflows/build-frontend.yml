@@ -2,7 +2,7 @@ name: 'Docker Build Frontend App'
 on:
   push:
     branches:
-      - dev
+      - 'dev'
     paths:
       - 'frontend/**'
 
