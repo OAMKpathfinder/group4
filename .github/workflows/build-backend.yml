@@ -2,37 +2,35 @@ name: 'Docker Build Backend App'
 on:
   push:
     branches:
-      - master
+      - 'dev'
     paths:
       - 'backend/**'
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@master
+        with:
+          fetch-depth: 1
 
-    - uses: actions/checkout@master
-      with:
-        fetch-depth: 1
+      - name: Login to Registry
+        run: docker login $REGISTRY -u $USER -p $TOKEN
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REGISTRY: docker.pkg.github.com
+          USER: arpadgabor
 
-    - name: Login to Registry
-      run: docker login $REGISTRY -u $USER -p $TOKEN
-      env:
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        REGISTRY: docker.pkg.github.com
-        USER: arpadgabor
+      - name: Build image
+        run: docker build . -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$GITHUB_SHA" --file $FOLDER_PATH/Dockerfile
+        env:
+          FOLDER_PATH: backend
+          REGISTRY: docker.pkg.github.com
+          IMAGE: oamkpathfinder/group4/backend
 
-    - name: Build image
-      run: docker build . -t "$REGISTRY/$IMAGE:latest" -t "$REGISTRY/$IMAGE:$GITHUB_SHA" --file $FOLDER_PATH/Dockerfile
-      env:
-        FOLDER_PATH: backend
-        REGISTRY: docker.pkg.github.com
-        IMAGE: oamkpathfinder/group4/backend
-
-    - name: Push to Registry
-      run: docker push "$REGISTRY/$IMAGE:latest" && docker push "$REGISTRY/$IMAGE:$GITHUB_SHA"
-      env:
-        TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        REGISTRY: docker.pkg.github.com
-        IMAGE: oamkpathfinder/group4/backend
+      - name: Push to Registry
+        run: docker push "$REGISTRY/$IMAGE:latest" && docker push "$REGISTRY/$IMAGE:$GITHUB_SHA"
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REGISTRY: docker.pkg.github.com
+          IMAGE: oamkpathfinder/group4/backend
