@@ -1,10 +1,10 @@
 name: 'Docker Build Admin App'
 on:
-  push:
-    branches:
-      - 'dev'
-    paths:
-      - 'admin/**'
+  push
+  # branches:
+  #   - 'dev'
+  # paths:
+  #   - 'admin/**'
 
 jobs:
   build:

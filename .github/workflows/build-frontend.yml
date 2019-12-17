@@ -1,10 +1,10 @@
 name: 'Docker Build Frontend App'
 on:
-  push:
-    branches:
-      - 'dev'
-    paths:
-      - 'frontend/**'
+  push
+  # branches:
+  #   - 'dev'
+  # paths:
+  #   - 'frontend/**'
 
 jobs:
   build:
