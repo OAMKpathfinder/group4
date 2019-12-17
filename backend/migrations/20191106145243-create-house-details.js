@@ -17,8 +17,6 @@ module.exports = {
             },
             hjoht: {
                 type: Sequelize.DOUBLE,
-                allowNull: false,
-                defaultValue: 0,
             },
             createdAt: {
                 allowNull: false,

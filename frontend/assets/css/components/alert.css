@@ -1,0 +1,7 @@
+.alert {
+  @apply px-3 py-2 rounded;
+}
+
+.alert-red {
+  @apply alert bg-red-600 text-white shadow-lg;
+}

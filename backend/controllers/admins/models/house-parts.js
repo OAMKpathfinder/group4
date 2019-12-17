@@ -1,5 +1,5 @@
-const { House_Parts } = require('../../../models')
-const { housePartsValidate } = require('./admins.validate')
+const { House_Parts } = require('@models')
+const { housePartsValidate } = require('@validation')
 
 async function get(req, res) {
     try {
@@ -10,15 +10,33 @@ async function get(req, res) {
     }
 }
 
-async function create(req, res) {
+async function getOne(req, res) {
     try {
-        const row = await House_Parts.create({
-            part: req.body.part,
-        })
-        return res.status(200).send(row)
+        const row = await House_Parts.findByPk(req.params.id)
+        res.status(200).send(row)
     } catch (err) {
+        console.log(err)
         res.status(500).send(err)
     }
+}
+
+async function create(req, res) {
+    let arr = []
+    if (!(req.body instanceof Array)) {
+        arr.push(req.body)
+    } else {
+        arr = req.body
+    }
+    arr.forEach(async element => {
+        try {
+            await House_Parts.create({
+                part: element.part,
+            })
+        } catch (err) {
+            res.status(500).send(err)
+        }
+    })
+    return res.status(200).send(true)
 }
 
 async function update(req, res) {
@@ -46,22 +64,26 @@ module.exports = {
     '/': {
         get: {
             action: get,
-            level: 'public',
+            level: 'admin',
         },
         post: {
             action: create,
             middlewares: housePartsValidate,
-            level: 'public',
+            level: 'admin',
         },
     },
     '/:id': {
+        get: {
+            action: getOne,
+            level: 'public',
+        },
         put: {
             action: update,
-            level: 'public',
+            level: 'admin',
         },
         delete: {
             action: remove,
-            level: 'public',
+            level: 'admin',
         },
     },
 }

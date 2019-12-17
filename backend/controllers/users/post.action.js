@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { Users } = require('../../models')
-const { sendConfirmationMail } = require('../../services/confirmations')
+const { sendConfirmationMail } = require('@services/confirmations')
 
 async function signUp(req, res) {
     try {
@@ -24,9 +24,17 @@ async function signUp(req, res) {
                 username: req.body.username,
                 email: req.body.email,
                 password: hash,
+                role: 'user',
             })
-            res.status(200).send(user)
-            sendConfirmationMail(user)
+            res.status(200).send({
+                id: user.id,
+                full_name: user.full_name,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                verified: user.verified,
+            })
+            sendConfirmationMail(req.body.email)
             return
         } catch (err) {
             return res.status(500).send(err)
@@ -38,9 +46,12 @@ async function login(req, res) {
     if (!req.body.username) return res.status(400).send('Username required')
     if (!req.body.password) return res.status(400).send('Password required')
     try {
-        const user = Users.findOne({ where: { username: req.body.Users } })
+        const user = await Users.findOne({
+            where: { username: req.body.username },
+        })
         if (!user)
             return res.status(404).send('Username or Password is invalid.')
+
         bcrypt.compare(req.body.password, user.password, (err, result) => {
             if (err)
                 return res.status(401).send('Username or Password is invalid.')
@@ -48,9 +59,9 @@ async function login(req, res) {
                 const token = jwt.sign(
                     {
                         username: user.username,
-                        userId: user._id,
+                        id: user.id,
                     },
-                    process.env.JWT_KEY,
+                    process.env.JWT_SECRET,
                     {
                         expiresIn: '7d',
                     }

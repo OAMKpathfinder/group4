@@ -1,39 +1,41 @@
-const jwt = require('jsonwebtoken');
-const { Users } = require('../../../models')
+const jwt = require('jsonwebtoken')
+const { Users } = require('@models')
 
 const levelFcts = {
     public: (req, res, next) => next(),
-    member: (req, res, next) => {
-        const token = req.header('x-access-token');
+
+    user: async (req, res, next) => {
+        const token = req.header('x-access-token')
+
         try {
-            const verifyToken = jwt.verify(token, process.env.JWT_SECRET);
-            const decodeToken = await jwt.decode(token);
-            const user = await Users.findByPk(decodeToken.userId);
-            if(user.role === 'user'){
-                next();
-            }
-            else return res.status(401);
+            jwt.verify(token, process.env.JWT_SECRET)
+            const decoded = jwt.decode(token)
+            const user = await Users.findByPk(decoded.id)
+
+            user.role === 'user'
+                ? next()
+                : res.status(401).send('Not authorized')
         } catch (error) {
-            return res
-                .status(401)
-                .json({ message: 'Auth failed!', error: error });
+            return res.status(401).send(error)
         }
     },
-    admin: (req, res, next) => {
-        const token = req.header('x-access-token');
+
+    admin: async (req, res, next) => {
+        const token = req.header('x-access-token')
+
         try {
-            const verifyToken = await jwt.verify(token, process.env.JWT_SECRET);
-            const decodeToken = await jwt.decode(token);
-            const user = await Users.findByPk(decodeToken.userId);
-            if (user.role === 'admin'){
-                next();
-            }
-            else return res.status(401);
+            jwt.verify(token, process.env.JWT_SECRET)
+
+            const decoded = jwt.decode(token)
+            const user = await Users.findByPk(decoded.id)
+
+            user.role === 'admin'
+                ? next()
+                : res.status(401).send('Not authorized')
         } catch (error) {
-            return res
-                .status(401)
-                .json({ message: 'Auth failed!', error: error });
+            return res.status(401).send(error)
         }
-    }
-};
-module.exports = level => (req, res, next) => levelFcts[level](req, res, next);
+    },
+}
+
+module.exports = level => (req, res, next) => levelFcts[level](req, res, next)

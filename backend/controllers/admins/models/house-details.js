@@ -1,5 +1,11 @@
-const { House_Details } = require('../../../models')
-const { houseDetailsValidate } = require('./admins.validate')
+const { House_Details } = require('@models')
+const { houseDetailsValidate } = require('@validation')
+const {
+    calculateUValue,
+    calculateHjoht,
+    calculateTotalHjoht,
+} = require('@services/calculate')
+const { createPartMaterial } = require('./part-materials')
 
 async function get(req, res) {
     try {
@@ -14,25 +20,32 @@ async function get(req, res) {
 }
 
 async function create(req, res) {
-    const HousesId = req.body.HousesId
-    const HousePartsId = req.body.HousePartsId
-    const MaterialsId = req.body.MaterialsId
+    const arr = req.body
+    let data = []
     try {
-        const detail = await House_Details.build({
-            surface: req.body.surface,
-            U_value: req.body.U_value,
-            hjoht: req.body.hjoht,
-        })
+        for (const element of arr) {
+            const MaterialsArray = element.MaterialsId
 
-        detail.setHouses(HousesId)
-        detail.setHouse_Parts(HousePartsId)
-        detail.setMaterials(MaterialsId)
-        await detail.save()
+            const detail = House_Details.build({
+                surface: element.surface,
+                U_value: element.U_value,
+                HousesId: element.HousesId,
+                HousePartsId: element.HousePartsId,
+            })
+            const addedDetail = await detail.save()
 
-        return res.status(200).send(detail)
+            await createPartMaterial(addedDetail, MaterialsArray)
+
+            if (!addedDetail.U_value) {
+                const x = await calculateUValue(addedDetail)
+                data.push(x)
+            }
+            await calculateHjoht(addedDetail.id)
+            await calculateTotalHjoht(addedDetail.HousesId)
+        }
+        res.status(200).send(data)
     } catch (err) {
-        console.log(err)
-        res.status(500).send(err)
+        return res.status(500).send(err)
     }
 }
 
@@ -42,6 +55,10 @@ async function update(req, res) {
             where: { id: req.params.id },
             fields: Object.keys(req.body),
         })
+        const addedDetail = await House_Details.findByPk(req.params.id)
+        await calculateUValue(addedDetail)
+        await calculateHjoht(addedDetail.id)
+        await calculateTotalHjoht(addedDetail.HousesId)
         return res.status(200).send(updated)
     } catch (err) {
         res.status(500).send(err)
@@ -61,7 +78,7 @@ module.exports = {
     '/': {
         get: {
             action: get,
-            level: 'public',
+            level: 'admin',
         },
         post: {
             action: create,
@@ -72,11 +89,11 @@ module.exports = {
     '/:id': {
         put: {
             action: update,
-            level: 'public',
+            level: 'admin',
         },
         delete: {
             action: remove,
-            level: 'public',
+            level: 'admin',
         },
     },
 }

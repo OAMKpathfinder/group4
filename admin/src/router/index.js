@@ -11,10 +11,29 @@ const routes = [
     component: Auth
   },
   {
+    path: '/console/create/pages',
+    redirect: '/console/pages'
+  },
+  {
     path: '/console',
-    name: 'Console',
     component: () => import('../views/Console.vue'),
     children: [
+      {
+        path: '/',
+        component: () => import('../views/Overview.vue')
+      },
+      {
+        path: 'files',
+        component: () => import('../components/Files.vue')
+      },
+      {
+        path: 'pages',
+        component: () => import('../components/Pages.vue')
+      },
+      {
+        path: 'create/:name',
+        component: () => import('../views/Create.vue')
+      },
       {
         path: 'tables/:table',
         component: () => import('../components/TableDetails.vue')

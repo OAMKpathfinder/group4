@@ -29,22 +29,6 @@ module.exports = {
                     }
                 )
             })
-            .then(() => {
-                return queryInterface.addColumn(
-                    'House_Details',
-                    'MaterialsId',
-                    {
-                        type: Sequelize.INTEGER,
-                        references: {
-                            model: 'Materials',
-                            key: 'id',
-                        },
-                        onUpdate: 'CASCADE',
-                        onDelete: 'CASCADE',
-                        allowNull: false,
-                    }
-                )
-            })
     },
 
     // eslint-disable-next-line no-unused-vars
@@ -55,12 +39,6 @@ module.exports = {
                 return queryInterface.removeColumn(
                     'House_Details',
                     'HousePartsId'
-                )
-            })
-            .then(() => {
-                return queryInterface.removeColumn(
-                    'House_Details',
-                    'MaterialsId'
                 )
             })
     },

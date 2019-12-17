@@ -1,4 +1,4 @@
-const { House_Details } = require('../../models')
+const { House_Details } = require('@models')
 
 async function removeHouseDetail(req, res) {
     try {

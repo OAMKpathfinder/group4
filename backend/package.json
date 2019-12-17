@@ -1,47 +1,55 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "Civil project website",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/OAMKpathfinder/group4.git"
-  },
-  "author": "Gloria Stanciu, Arpad Gabor",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/OAMKpathfinder/group4/issues"
-  },
-  "homepage": "https://github.com/OAMKpathfinder/group4#readme",
-  "dependencies": {
-    "@hapi/joi": "^16.1.7",
-    "bcrypt": "^3.0.6",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "date-fns": "^2.7.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "helmet": "^3.21.2",
-    "jsonwebtoken": "^8.5.1",
-    "lumie": "^0.1.1",
-    "morgan": "^1.9.1",
-    "multer": "^1.4.2",
-    "nodemailer": "^6.3.1",
-    "nodemailer-sendgrid-transport": "^0.2.0",
-    "nodemon": "^1.19.4",
-    "pg": "^7.12.1",
-    "pg-hstore": "^2.3.3",
-    "pretty-error": "^2.1.1",
-    "sequelize": "^5.21.2",
-    "sequelize-cli": "^5.5.1",
-    "uuid": "^3.3.3"
-  },
-  "devDependencies": {
-    "eslint": "^6.6.0",
-    "eslint-plugin-import": "^2.18.2"
-  }
+    "name": "backend",
+    "version": "1.0.0",
+    "description": "Civil project website",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "npx nodemon index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/OAMKpathfinder/group4.git"
+    },
+    "author": "Gloria Stanciu, Arpad Gabor",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/OAMKpathfinder/group4/issues"
+    },
+    "homepage": "https://github.com/OAMKpathfinder/group4#readme",
+    "dependencies": {
+        "@hapi/joi": "^16.1.7",
+        "bcrypt": "^3.0.6",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "date-fns": "^2.7.0",
+        "dotenv": "^8.2.0",
+        "ejs": "^2.7.4",
+        "express": "^4.17.1",
+        "helmet": "^3.21.2",
+        "jsonwebtoken": "^8.5.1",
+        "lumie": "^0.1.1",
+        "module-alias": "^2.2.2",
+        "morgan": "^1.9.1",
+        "multer": "^1.4.2",
+        "nodemailer": "^6.3.1",
+        "nodemailer-sendgrid-transport": "^0.2.0",
+        "nodemon": "^1.19.4",
+        "pg": "^7.12.1",
+        "pg-hstore": "^2.3.3",
+        "pretty-error": "^2.1.1",
+        "sequelize": "^5.21.2",
+        "sequelize-cli": "^5.5.1",
+        "slugify": "^1.3.6",
+        "uuid": "^3.3.3"
+    },
+    "devDependencies": {
+        "eslint": "^6.6.0",
+        "eslint-plugin-import": "^2.18.2"
+    },
+    "_moduleAliases": {
+        "@models": "models",
+        "@validation": "services/validate",
+        "@services": "services"
+    }
 }

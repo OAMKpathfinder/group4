@@ -1,5 +1,6 @@
-const { Thermal_Bridges, House_Details } = require('../../../models')
-const { thermalBridgesValidate } = require('./admins.validate')
+const { Thermal_Bridges, House_Details } = require('@models')
+const { thermalBridgesValidate } = require('@validation')
+const { calculateHjoht, calculateTotalHjoht } = require('@services/calculate')
 
 async function get(req, res) {
     try {
@@ -12,35 +13,32 @@ async function get(req, res) {
 }
 
 async function create(req, res) {
-    const HouseDetailsId1 = req.body.HouseDetailsId1
-    const HouseDetailsId2 = req.body.HouseDetailsId2
-    try {
-        const HouseDetails1 = await House_Details.findOne({
-            where: { id: req.body.HouseDetailsId1 },
-            attributes: { exclude: ['HouseDetailsId'] },
-        })
-        const HouseDetails2 = await House_Details.findOne({
-            where: { id: req.body.HouseDetailsId2 },
-            attributes: { exclude: ['HouseDetailsId'] },
-        })
+    let arr = []
+    if (!(req.body instanceof Array)) {
+        arr.push(req.body)
+    } else {
+        arr = req.body
+    }
+    arr.forEach(async element => {
+        try {
+            const HouseDetailsId = element.HouseDetailsId
+            const HouseDetail = await House_Details.findByPk(HouseDetailsId)
 
-        if (HouseDetails1.HousesId === HouseDetails2.HousesId) {
             const row = await Thermal_Bridges.build({
-                bridge_length: req.body.bridge_length,
+                bridge_length: element.bridge_length,
+                HouseDetailsId: HouseDetailsId,
             })
 
-            row.setHouse_Details1(HouseDetailsId1)
-            row.setHouse_Details2(HouseDetailsId2)
             await row.save()
-            return res.status(200).send(row)
-        } else {
-            return res
-                .status(500)
-                .send('House details does not belong to the same house')
+
+            await calculateHjoht(HouseDetailsId)
+            await calculateTotalHjoht(HouseDetail.HousesId)
+        } catch (err) {
+            console.log(err)
+            res.status(500).send(err)
         }
-    } catch (err) {
-        res.status(500).send(err)
-    }
+    })
+    return res.status(200).send(true)
 }
 
 async function update(req, res) {
@@ -49,6 +47,14 @@ async function update(req, res) {
             where: { id: req.params.id },
             fields: Object.keys(req.body),
         })
+        const thermalBridge = await Thermal_Bridges.findByPk(req.params.id, {
+            attributes: { exclude: ['HouseDetailId'] },
+        })
+        const HouseDetail = await House_Details.findByPk(
+            thermalBridge.HouseDetailsId
+        )
+        await calculateHjoht(thermalBridge.HouseDetailsId)
+        await calculateTotalHjoht(HouseDetail.HousesId)
         return res.status(200).send(updated)
     } catch (err) {
         res.status(500).send(err)
@@ -68,22 +74,22 @@ module.exports = {
     '/': {
         get: {
             action: get,
-            level: 'public',
+            level: 'admin',
         },
         post: {
             action: create,
             middlewares: thermalBridgesValidate,
-            level: 'public',
+            level: 'admin',
         },
     },
     '/:id': {
         put: {
             action: update,
-            level: 'public',
+            level: 'admin',
         },
         delete: {
             action: remove,
-            level: 'public',
+            level: 'admin',
         },
     },
 }

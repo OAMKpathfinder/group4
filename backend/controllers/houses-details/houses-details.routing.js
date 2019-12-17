@@ -2,26 +2,28 @@ const { addHouseDetail } = require('./post.action')
 const { removeHouseDetail } = require('./delete.action')
 const { updateHouseDetail } = require('./update.action')
 const { getAllHouseDetails } = require('./get.action')
-const { houseDetailsValidate } = require('./house-details.validate')
+const { houseDetailsValidate } = require('@validation')
 
 module.exports = {
-    '/:id': {
+    '/': {
         post: {
             action: addHouseDetail,
             middleware: houseDetailsValidate,
-            level: 'public',
+            level: 'user',
         },
+    },
+    '/:id': {
         get: {
             action: getAllHouseDetails,
-            level: 'public',
+            level: 'user',
         },
         delete: {
             action: removeHouseDetail,
-            level: 'public',
+            level: 'user',
         },
         patch: {
             action: updateHouseDetail,
-            level: 'public',
+            level: 'user',
         },
     },
 }

@@ -2,26 +2,26 @@ const { getAllUsersThermalBridges } = require('./get.action')
 const { updateThermalBridges } = require('./update.action')
 const { deleteThermalBridges } = require('./delete.action')
 const { createThermalBridges } = require('./post.action')
-const { thermalBridgesValidate } = require('./thermal-bridges.validate')
+const { thermalBridgesValidate } = require('@validation')
 
 module.exports = {
     '/:id': {
         get: {
             action: getAllUsersThermalBridges,
-            level: 'public',
+            level: 'user',
         },
         post: {
             action: createThermalBridges,
             middlewares: thermalBridgesValidate,
-            level: 'public',
+            level: 'user',
         },
         put: {
             action: updateThermalBridges,
-            level: 'public',
+            level: 'user',
         },
         delete: {
             action: deleteThermalBridges,
-            level: 'public',
+            level: 'user',
         },
     },
 }

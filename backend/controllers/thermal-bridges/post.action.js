@@ -1,22 +1,27 @@
-const { Thermal_Bridges } = require('../../models')
+const { Thermal_Bridges, House_Details } = require('@models')
+const { calculateHjoht, calculateTotalHjoht } = require('@services/calculate')
 
 async function createThermalBridges(req, res) {
-    const HouseDetailsId1 = req.body.HouseDetailsId1
-    const HouseDetailsId2 = req.body.HouseDetailsId2
-    try {
-        const row = await Thermal_Bridges.build({
-            bridge_length: req.body.bridge_length,
-        })
+    const arr = req.body
+    arr.forEach(async element => {
+        try {
+            const HouseDetailsId = element.HouseDetailsId
+            const HouseDetail = await House_Details.findByPk(HouseDetailsId)
 
-        row.setHouse_Details1(HouseDetailsId1)
-        row.setHouse_Details2(HouseDetailsId2)
-        await row.save()
+            const row = await Thermal_Bridges.build({
+                bridge_length: element.bridge_length,
+                HouseDetailsId: HouseDetailsId,
+            })
 
-        return res.status(200).send(row)
-    } catch (err) {
-        console.log(err)
-        res.status(500).send(err)
-    }
+            await row.save()
+
+            await calculateHjoht(HouseDetailsId)
+            await calculateTotalHjoht(HouseDetail.HousesId)
+        } catch (err) {
+            res.status(500).send(err)
+        }
+    })
+    return res.status(200).send(true)
 }
 
 module.exports = {

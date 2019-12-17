@@ -1,6 +1,7 @@
 'use strict'
 require('dotenv').config()
 require('pretty-error').start()
+require('module-alias/register')
 
 const express = require('express')
 const path = require('path')
@@ -10,14 +11,17 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const helmet = require('helmet')
 const db = require('./models')
-
 const app = express()
+const { loadFiles } = require('./services/storage')
 
 app.use(morgan('combined'))
 app.use(cors())
 app.use(helmet())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+app.use('/static', express.static('data'))
+
+loadFiles()
 
 lumie.load(app, {
     preURL: 'api',
@@ -34,7 +38,7 @@ app.use((error, req, res, next) => {
 })
 
 db.sequelize
-    .sync()
+    .sync({ logging: false })
     .then(() => {
         const server = app.listen(3000, 'localhost', () => {
             const { address, port } = server.address()

@@ -11,14 +11,15 @@
     </div>
     <div class="text-center w-full mb-6">
       <span class="proposition relative">
-        <span class="w-full h-4 bg-primary-200 absolute left-0 opacity-50 z-0 -mx-3">
-        </span>
+        <span
+          class="w-full h-4 bg-primary-200 absolute left-0 opacity-50 z-0 -mx-3"
+        />
         <span class="z-10 font-bold text-primary-600 relative">
           Start by finding out how much you could save...
         </span>
       </span>
     </div>
-    <Flickity :options="flickityOptions" class="w-full overflow-visible">
+    <!-- <Flickity :options="flickityOptions" class="w-full overflow-visible">
       <div class="carrousel-cell card">
         <div class="h-24 bg-primary-600 w-full" />
         <div class="p-3">
@@ -89,13 +90,13 @@
           <a class="text-primary-600 font-medium no-underline" href="">View potential savings...</a>
         </div>
       </div>
-    </Flickity>
+    </Flickity> -->
   </div>
 </template>
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       flickityOptions: {
         initialIndex: 2,
@@ -110,9 +111,6 @@ export default {
 </script>
 
 <style lang="postcss">
-.flickity-viewport {
-  overflow: visible;
-}
 .hero {
   background-image: url('/illustrations/hero-bg.svg');
   background-repeat: no-repeat;
@@ -123,19 +121,10 @@ export default {
   overflow: hidden;
 }
 
-.scroll-snap {
-  scroll-snap-type: y mandatory;
-}
-
 @screen md {
   .hero {
     margin-bottom: -450px;
   }
-}
-
-.carrousel-cell {
-  margin-right: 10px;
-  width: auto;
 }
 
 .headline {

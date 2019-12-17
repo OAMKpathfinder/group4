@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 const http = axios.create({
-  baseURL: '/api/',
+  baseURL: '/api/'
 })
 
 Vue.use(Vuex)
@@ -12,7 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: undefined,
-    tables: undefined,
+    tables: undefined
   },
   mutations: {
     ADD_USER(state, user) {
@@ -20,14 +20,14 @@ export default new Vuex.Store({
     },
     ADD_TABLES(state, tables) {
       state.tables = tables
-    },
+    }
   },
   actions: {
     async authenticate({ commit }, credentials) {
       try {
         const response = await http.post('/users/auth/login', {
           username: credentials.username,
-          password: credentials.password,
+          password: credentials.password
         })
 
         if (response.status >= 200 && response.status < 300) {
@@ -68,6 +68,54 @@ export default new Vuex.Store({
         throw new Error(error)
       }
     },
+
+    async create({ commit }, { resource, data }) {
+      try {
+        const response = await http.post(`/admins/models/${resource}`, data)
+        return response
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+
+    async fetchFiles() {
+      try {
+        const files = await http.get(`/admins/files`)
+        return files.data
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+
+    async upload(_, { data }) {
+      try {
+        const files = await http.post(`/admins/files`, data)
+        return files.data
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+
+    async get({ commit }, { resource, id }) {
+      try {
+        const response = await http.get(`/admins/models/${resource}/${id}`)
+        return response.data
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+
+    async update({ commit }, { resource, id, data }) {
+      try {
+        const response = await http.put(
+          `/admins/models/${resource}/${id}`,
+          data
+        )
+        return response.data
+      } catch (error) {
+        throw new Error(error)
+      }
+    }
   },
-  modules: {},
+  modules: {}
 })

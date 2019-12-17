@@ -5,13 +5,20 @@ module.exports = (sequelize, DataTypes) => {
         {
             name: DataTypes.STRING,
             type: DataTypes.STRING,
+            thermal_conductivity: DataTypes.DOUBLE,
+            thickness: DataTypes.DOUBLE,
             description: DataTypes.TEXT('tiny'),
         },
         {}
     )
     Materials.associate = function(models) {
-        Materials.hasMany(models.House_Details, {
-            as: 'House_Details',
+        // Materials.belongsToMany(models.House_Details, {
+        //     through: models.Part_Materials,
+        //     as: 'House_Details',
+        //     foreignKey: 'HouseDetailsId',
+        // })
+        Materials.hasMany(models.Part_Materials, {
+            as: 'Part_Materials',
             foreignKey: 'MaterialsId',
         })
     }

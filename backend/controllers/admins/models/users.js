@@ -1,7 +1,7 @@
-const { Users, Houses } = require('../../../models')
-const { usersValidate } = require('./admins.validate')
+const { Users, Houses } = require('@models')
+const { adminsValidate } = require('@validation')
 const bcrypt = require('bcrypt')
-const client = require('../../../services/mail')
+const client = require('@services/mail')
 
 function sendConfirmationMail(email) {
     const mail = {
@@ -55,12 +55,10 @@ async function create(req, res) {
         if (username) return res.status(409).send('Username already taken')
         if (email) return res.status(409).send('E-mail already taken')
     } catch (err) {
-        console.log(err)
         return res.status(500).send(err)
     }
     bcrypt.hash(req.body.password, 10, async (err, hash) => {
         if (err) {
-            console.log(err)
             return res.status(500).send(err)
         }
         try {
@@ -70,13 +68,21 @@ async function create(req, res) {
                 email: req.body.email,
                 password: hash,
                 role: req.body.role,
+                verified: true,
             })
-            res.status(200).send(user)
-            // call function for mail
+
+            res.status(200).send({
+                id: user.id,
+                full_name: user.full_name,
+                username: user.username,
+                email: user.email,
+                role: user.role,
+                verified: user.verified,
+            })
+
             sendConfirmationMail(req.body.email)
             return
         } catch (err) {
-            console.log(err)
             return res.status(500).send(err)
         }
     })
@@ -108,26 +114,26 @@ module.exports = {
     '/': {
         get: {
             action: get,
-            level: 'public',
+            level: 'admin',
         },
         post: {
             action: create,
-            middlewares: usersValidate,
-            level: 'public',
+            middlewares: adminsValidate,
+            level: 'admin',
         },
     },
     '/:id': {
         get: {
             action: getOne,
-            level: 'public',
+            level: 'admin',
         },
         put: {
             action: update,
-            level: 'public',
+            level: 'admin',
         },
         delete: {
             action: remove,
-            level: 'public',
+            level: 'admin',
         },
     },
 }

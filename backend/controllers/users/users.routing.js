@@ -1,9 +1,23 @@
 const { signUp, login } = require('./post.action')
-const { getUserById } = require('./get.action')
-const { userValidate } = require('./users.validate')
+const { getUser } = require('./get.action')
+const { userValidate } = require('../../services/validate')
 const { redirectUser, regenerateCode } = require('./confirmation.action')
+const { updateUser } = require('./update.action')
 
 module.exports = {
+    '/': {
+        get: {
+            action: getUser,
+            level: 'user',
+        },
+    },
+    '/:id': {
+        put: {
+            action: updateUser,
+            level: 'user',
+        },
+    },
+
     '/auth/signup': {
         post: {
             action: signUp,
@@ -11,6 +25,7 @@ module.exports = {
             level: 'public',
         },
     },
+
     '/auth/login': {
         post: {
             action: login,
@@ -18,18 +33,13 @@ module.exports = {
         },
     },
 
-    '/:id': {
-        get: {
-            action: getUserById,
-            level: 'public',
-        },
-    },
     '/confirm/:verificationCode': {
         get: {
             action: redirectUser,
             level: 'public',
         },
     },
+
     '/regenerateCode/:UsersId': {
         get: {
             action: regenerateCode,

@@ -1,25 +1,38 @@
-const { House_Details } = require('../../models')
+const { House_Details } = require('@models')
+const {
+    calculateUValue,
+    calculateHjoht,
+    calculateTotalHjoht,
+} = require('@services/calculate')
+const { createPartMaterial } = require('../admins/models/part-materials')
 
 async function addHouseDetail(req, res) {
-    const HousesId = req.body.HousesId
-    const HousePartsId = req.body.HousePartsId
-    const MaterialsId = req.body.MaterialsId
+    const arr = req.body
+    let data = []
     try {
-        const detail = await House_Details.build({
-            surface: req.body.surface,
-            U_value: req.body.U_value,
-            hjoht: req.body.hjoht,
-        })
+        for (const element of arr) {
+            const MaterialsArray = element.MaterialsId
 
-        detail.setHouses(HousesId)
-        detail.setHouse_Parts(HousePartsId)
-        detail.setMaterials(MaterialsId)
-        await detail.save()
+            const detail = House_Details.build({
+                surface: element.surface,
+                U_value: element.U_value,
+                HousesId: element.HousesId,
+                HousePartsId: element.HousePartsId,
+            })
+            const addedDetail = await detail.save()
 
-        return res.status(200).send(detail)
+            await createPartMaterial(addedDetail, MaterialsArray)
+
+            if (!addedDetail.U_value) {
+                const x = await calculateUValue(addedDetail)
+                data.push(x)
+            }
+            await calculateHjoht(addedDetail.id)
+            await calculateTotalHjoht(addedDetail.HousesId)
+        }
+        res.status(200).send(data)
     } catch (err) {
-        console.log(err)
-        res.status(500).send(err)
+        return res.status(500).send(err)
     }
 }
 

@@ -1,4 +1,4 @@
-const { Thermal_Bridges } = require('../../models')
+const { Thermal_Bridges } = require('@models')
 
 async function deleteThermalBridges(req, res) {
     try {

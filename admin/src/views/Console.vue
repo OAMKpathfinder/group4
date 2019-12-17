@@ -1,8 +1,11 @@
 <template>
-  <div class="w-full h-full flex">
+  <div class="w-full h-full flex bg-gray-100">
     <Sidebar></Sidebar>
     <transition name="move-fade" mode="out-in">
-      <router-view class="w-full mx-auto my-3" :key="$route.path"></router-view>
+      <router-view
+        class="max-h-full w-full pb-8 pt-4 overflow-y-auto"
+        :key="$route.path"
+      />
     </transition>
   </div>
 </template>

@@ -1,5 +1,5 @@
-const { Heating_Systems } = require('../../../models')
-const { heatingSystemsValidate } = require('./admins.validate')
+const { Heating_Systems } = require('@models')
+const { heatingSystemsValidate } = require('@validation')
 
 async function get(req, res) {
     try {
@@ -10,15 +10,33 @@ async function get(req, res) {
     }
 }
 
-async function create(req, res) {
+async function getOne(req, res) {
     try {
-        const row = await Heating_Systems.create({
-            type: req.body.type,
-        })
-        return res.status(200).send(row)
+        const row = await Heating_Systems.findByPk(req.params.id)
+        res.status(200).send(row)
     } catch (err) {
+        console.log(err)
         res.status(500).send(err)
     }
+}
+
+async function create(req, res) {
+    let arr = []
+    if (!(req.body instanceof Array)) {
+        arr.push(req.body)
+    } else {
+        arr = req.body
+    }
+    arr.forEach(async element => {
+        try {
+            await Heating_Systems.create({
+                type: element.type,
+            })
+        } catch (err) {
+            return res.status(500).send(err)
+        }
+    })
+    return res.status(200).send(true)
 }
 
 async function update(req, res) {
@@ -46,22 +64,26 @@ module.exports = {
     '/': {
         get: {
             action: get,
-            level: 'public',
+            level: 'admin',
         },
         post: {
             action: create,
             middlewares: heatingSystemsValidate,
-            level: 'public',
+            level: 'admin',
         },
     },
     '/:id': {
+        get: {
+            action: getOne,
+            level: 'public',
+        },
         put: {
             action: update,
-            level: 'public',
+            level: 'admin',
         },
         delete: {
             action: remove,
-            level: 'public',
+            level: 'admin',
         },
     },
 }

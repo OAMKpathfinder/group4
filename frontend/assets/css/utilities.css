@@ -1,3 +1,5 @@
-@import './components.css/type.css';
-@import './components.css/button.css';
-@import './components.css/input.css';
+@import './components/type.css';
+@import './components/button.css';
+@import './components/input.css';
+@import './components/alert.css';
+@import './components/checkbox.css';

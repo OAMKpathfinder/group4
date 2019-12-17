@@ -1,7 +1,7 @@
 <template>
-  <div class="w-full h-full">
+  <div class="w-full h-full pb-6">
     <Header />
-    <nuxt />
+    <nuxt class="px-3" />
   </div>
 </template>
 

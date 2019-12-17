@@ -1,21 +1,27 @@
 const {
-    Users,
     Houses,
     House_Details,
     Locations,
     House_Parts,
     Materials,
     Heating_Systems,
-} = require('../../models')
+    Thermal_Bridges,
+    Part_Materials,
+} = require('@models')
+
+const jwt = require('jsonwebtoken')
 
 async function getAllUsersHouses(req, res) {
+    const token = req.header('x-access-token')
+    const user = jwt.decode(token)
+
     try {
         const houses = await Houses.findAll({
-            where: { UsersId: req.params.id },
+            where: { UsersId: user.id },
         })
-        res.status(200).send(houses)
+
+        return res.status(200).send(houses)
     } catch (err) {
-        console.log(err)
         res.status(500).send(err)
     }
 }
@@ -25,16 +31,14 @@ async function getHouseDetails(req, res) {
         const house = await Houses.findByPk(req.params.id, {
             include: [
                 {
-                    model: Users,
-                    as: 'Users',
-                },
-                {
                     model: Locations,
                     as: 'Locations',
+                    attributes: { exclude: ['createdAt', 'updatedAt', 'id'] },
                 },
                 {
                     model: Heating_Systems,
                     as: 'Heating_Systems',
+                    attributes: { exclude: ['createdAt', 'updatedAt', 'id'] },
                 },
                 {
                     model: House_Details,
@@ -43,15 +47,64 @@ async function getHouseDetails(req, res) {
                         {
                             model: House_Parts,
                             as: 'House_Parts',
+                            attributes: {
+                                exclude: ['createdAt', 'updatedAt', 'id'],
+                            },
                         },
                         {
-                            model: Materials,
-                            as: 'Materials',
+                            model: Part_Materials,
+                            as: 'Part_Materials',
+                            include: [
+                                {
+                                    model: Materials,
+                                    as: 'Materials',
+                                    attributes: {
+                                        exclude: ['createdAt', 'updatedAt'],
+                                    },
+                                },
+                            ],
+                            attributes: {
+                                exclude: [
+                                    'createdAt',
+                                    'updatedAt',
+                                    'HouseDetailsId',
+                                    'MaterialsId',
+                                ],
+                            },
+                        },
+                        {
+                            model: Thermal_Bridges,
+                            as: 'Thermal_Bridges',
+                            attributes: {
+                                exclude: [
+                                    'HouseDetailId',
+                                    'createdAt',
+                                    'updatedAt',
+                                    'id',
+                                ],
+                            },
                         },
                     ],
-                    attributes: { exclude: ['HouseDetailsId'] },
+                    attributes: {
+                        exclude: [
+                            'HousePartsId',
+                            'HouseDetailsId',
+                            'createdAt',
+                            'updatedAt',
+                            'HousesId',
+                        ],
+                    },
                 },
             ],
+            attributes: {
+                exclude: [
+                    'createdAt',
+                    'updatedAt',
+                    'HeatingSystemsId',
+                    'UsersId',
+                    'LocationsId',
+                ],
+            },
         })
         return res.status(200).send(house)
     } catch (err) {
