@@ -1,7 +1,6 @@
 FROM node:12-alpine
 
 # create destination directory
-RUN mkdir -p /app
 WORKDIR /app
 
 # update and install dependency
@@ -9,7 +8,7 @@ RUN apk update && apk upgrade
 RUN apk add git
 
 # copy the app, note .dockerignore
-COPY . /app
+COPY ./frontend /app
 RUN npm install
 
 # build necessary, even if no static files are needed,
