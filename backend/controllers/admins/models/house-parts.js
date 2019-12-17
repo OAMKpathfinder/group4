@@ -10,6 +10,16 @@ async function get(req, res) {
     }
 }
 
+async function getOne(req, res) {
+    try {
+        const row = await House_Parts.findByPk(req.params.id)
+        res.status(200).send(row)
+    } catch (err) {
+        console.log(err)
+        res.status(500).send(err)
+    }
+}
+
 async function create(req, res) {
     let arr = []
     if (!(req.body instanceof Array)) {
@@ -63,6 +73,10 @@ module.exports = {
         },
     },
     '/:id': {
+        get: {
+            action: getOne,
+            level: 'public',
+        },
         put: {
             action: update,
             level: 'admin',

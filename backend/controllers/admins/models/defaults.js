@@ -10,6 +10,16 @@ async function getAllDefaults(req, res) {
     }
 }
 
+async function getOne(req, res) {
+    try {
+        const row = await Defaults.findByPk(req.params.id)
+        res.status(200).send(row)
+    } catch (err) {
+        console.log(err)
+        res.status(500).send(err)
+    }
+}
+
 async function createDefault(req, res) {
     try {
         await Defaults.create({
@@ -56,6 +66,10 @@ module.exports = {
         },
     },
     '/:id': {
+        get: {
+            action: getOne,
+            level: 'public',
+        },
         delete: {
             action: removeDefault,
             level: 'admin',
