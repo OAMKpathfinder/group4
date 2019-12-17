@@ -46,7 +46,7 @@ export default {
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/proxy'],
   proxy: {
     '/static': {
-      target: 'http://localhost:3000',
+      target: '/', // FIXME: localhost:3000 on local
       pathRewrite: {
         '^/static': '/static'
       }
