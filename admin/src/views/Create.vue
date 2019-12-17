@@ -1,8 +1,10 @@
 <template>
   <div class="container px-3 pt-3 flex flex-col">
     <h3>Create</h3>
-    <div class="card p-3 rounded-lg shadow-lg w-full xs:w-full md:w-1/2 mt-4">
-      <component :is="component" @error="showError"></component>
+    <div
+      class="card p-3 rounded-lg shadow-lg w-full xs:w-full md:w-1/2 mt-4 mx-auto"
+    >
+      <component :is="component" @error="showError" class="mx-auto"></component>
       <div v-if="error" class="alert alert-red alert-error">
         {{ error }}
       </div>
@@ -14,11 +16,10 @@
 import users from '../components/Create/Users'
 import heatingSystems from '../components/Create/HeatingSystems'
 import houseParts from '../components/Create/HouseParts'
-import housePartsTypes from '../components/Create/HousePartsTypes'
+import partTypes from '../components/Create/HousePartsTypes'
 import locations from '../components/Create/Locations'
 import materials from '../components/Create/Materials'
-import decades from '../components/Create/Decades'
-import pages from '../components/Create/Pages'
+import defaults from '../components/Create/Decades'
 
 export default {
   name: 'Create',
@@ -26,11 +27,10 @@ export default {
     users,
     heatingSystems,
     houseParts,
-    housePartsTypes,
+    partTypes,
     locations,
     materials,
-    decades,
-    pages
+    defaults
   },
   data() {
     return {

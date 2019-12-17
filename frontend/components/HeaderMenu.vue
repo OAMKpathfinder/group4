@@ -55,11 +55,11 @@ export default {
       menuItems: [
         {
           name: 'How it works',
-          to: '/how-it-works'
+          to: '/pages/how-it-works'
         },
         {
           name: 'About us',
-          to: '/about'
+          to: '/pages/about'
         }
       ],
       protectedItems: [

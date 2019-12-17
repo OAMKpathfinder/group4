@@ -17,7 +17,19 @@
               placeholder="Search"
             />
           </div>
-
+          <div class="right flex-grow xs:flex-shrink xs:flex-grow-0 flex">
+            <button
+              :disabled="checked.length !== 1"
+              @click="
+                $router.push(
+                  `/console/create/${camelCase(table.name)}?id=${checked[0]}`
+                )
+              "
+              class="button-light h-full ml-2"
+            >
+              Edit
+            </button>
+          </div>
           <div class="right flex-grow xs:flex-shrink xs:flex-grow-0 flex">
             <button
               :disabled="checked.length < 1"
@@ -109,6 +121,9 @@ export default {
     ...mapActions(['fetchTableData', 'deleteTableRow']),
     normalCase: function(string) {
       return startCase(string)
+    },
+    camelCase: function(string) {
+      return _.camelCase(string)
     },
     async getSelectedTable() {
       this.table = this.tables.find(

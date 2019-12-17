@@ -150,5 +150,26 @@ export const actions = {
     } catch (err) {
       throw new Error(err.response.data)
     }
+  },
+  async GET_SUGGESTIONS({ state, commit }, { id }) {
+    try {
+      return await this.$axios.$get(`part-types/${id}`)
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
+  },
+  async UPGRADE_PART({ state, commit }, { id, to }) {
+    try {
+      return await this.$axios.$get(`part-types/${id}/upgrade?to=${to}`)
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
+  },
+  async GET_PAGE({ commit }, { slug }) {
+    try {
+      return await this.$axios.$get(`pages/${slug}`)
+    } catch (err) {
+      throw new Error(err.response.data)
+    }
   }
 }

@@ -45,10 +45,10 @@ export default {
   buildModules: ['@nuxtjs/eslint-module', '@nuxtjs/tailwindcss'],
   modules: ['@nuxtjs/axios', '@nuxtjs/pwa', '@nuxtjs/proxy'],
   proxy: {
-    '/api/static': {
+    '/static': {
       target: 'http://localhost:3000',
       pathRewrite: {
-        '^/api/static': '/static'
+        '^/static': '/static'
       }
     }
   },

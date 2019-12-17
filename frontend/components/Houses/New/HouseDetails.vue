@@ -22,7 +22,7 @@
           <div class="house-preview mb-4">
             <img
               v-if="value.decade"
-              :src="`/api/static/${buildingPreview}`"
+              :src="`/static/${buildingPreview}`"
               alt
               class="w-full h-48 rounded-lg object-cover"
             />

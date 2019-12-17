@@ -11,6 +11,10 @@ const routes = [
     component: Auth
   },
   {
+    path: '/console/create/pages',
+    redirect: '/console/pages'
+  },
+  {
     path: '/console',
     component: () => import('../views/Console.vue'),
     children: [
@@ -21,6 +25,10 @@ const routes = [
       {
         path: 'files',
         component: () => import('../components/Files.vue')
+      },
+      {
+        path: 'pages',
+        component: () => import('../components/Pages.vue')
       },
       {
         path: 'create/:name',

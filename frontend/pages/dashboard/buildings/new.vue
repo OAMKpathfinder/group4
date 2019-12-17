@@ -60,19 +60,17 @@ export default {
       const house = this.formData.houseDetails
       try {
         const newHouse = await this.POST_HOUSE(house)
-        this.addParts(newHouse.id)
+        await this.addParts(newHouse.id)
       } catch (err) {
         this.error = err
       }
     },
     async addParts(houseId) {
-      console.log(houseId)
       this.formData.houseParts.forEach(function(part) {
         part.HousesId = houseId
       })
-      console.log(this.formData.houseParts)
-      const data = await this.POST_HOUSE_DETAILS(this.formData.houseParts)
-      console.log(data)
+      await this.POST_HOUSE_DETAILS(this.formData.houseParts)
+      this.$router.push('/dashboard')
     }
   }
 }

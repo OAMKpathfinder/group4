@@ -15,6 +15,19 @@
         <div class="menu-item">
           <router-link to="/console/files">Files</router-link>
         </div>
+        <div class="menu-item">
+          <div class="menu-item flex flex-row justify-between">
+            <router-link to="/console/tables/Pages" class="flex flex-grow"
+              >Pages</router-link
+            >
+            <router-link
+              to="/console/pages"
+              class="hover:bg-gray-400 transition text-gray-500 hover:text-gray-900"
+            >
+              <i class="las la-plus-square" style="transform: scale(2);"></i>
+            </router-link>
+          </div>
+        </div>
       </div>
       <div class="menu-group">
         <div class="menu-group-title">Create</div>
@@ -53,7 +66,11 @@ export default {
       error: null,
       createTabs: [
         {
-          slug: 'decades',
+          slug: 'users',
+          view: 'Users'
+        },
+        {
+          slug: 'defaults',
           view: 'Defaults'
         },
         {
@@ -65,7 +82,7 @@ export default {
           view: 'House_Parts'
         },
         {
-          slug: 'housePartsTypes',
+          slug: 'partTypes',
           view: 'Part_Types'
         },
         {
@@ -75,14 +92,6 @@ export default {
         {
           slug: 'materials',
           view: 'Materials'
-        },
-        {
-          slug: 'users',
-          view: 'Users'
-        },
-        {
-          slug: 'pages',
-          view: 'Pages'
         }
       ]
     }

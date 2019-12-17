@@ -2,5 +2,10 @@
     "prettier.semi": false,
     "editor.formatOnSave": true,
     "prettier.endOfLine": "lf",
-    "editor.tabSize": 4
+    "editor.tabSize": 4,
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#193403",
+        "titleBar.activeBackground": "#472b61",
+        "titleBar.activeForeground": "#F2FEE8"
+    }
 }

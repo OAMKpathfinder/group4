@@ -85,6 +85,36 @@ export default new Vuex.Store({
       } catch (error) {
         throw new Error(error)
       }
+    },
+
+    async upload(_, { data }) {
+      try {
+        const files = await http.post(`/admins/files`, data)
+        return files.data
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+
+    async get({ commit }, { resource, id }) {
+      try {
+        const response = await http.get(`/admins/models/${resource}/${id}`)
+        return response.data
+      } catch (error) {
+        throw new Error(error)
+      }
+    },
+
+    async update({ commit }, { resource, id, data }) {
+      try {
+        const response = await http.put(
+          `/admins/models/${resource}/${id}`,
+          data
+        )
+        return response.data
+      } catch (error) {
+        throw new Error(error)
+      }
     }
   },
   modules: {}

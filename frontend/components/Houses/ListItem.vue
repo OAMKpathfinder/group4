@@ -1,22 +1,48 @@
 <template>
-  <div class="card shadow-lg w-full p-3 flex flex-row items-center transition">
-    <img
-      :src="`/api/static/${image}`"
-      alt="Not found"
-      :title="`Image of ${item.decade} building.`"
-      class="w-32 h-20 object-cover rounded-lg mr-4"
-    />
-    <div class="detail">
-      <small>Decade</small>
-      <h1 class="-mt-2">{{ item.decade }}</h1>
+  <div
+    class="card shadow-lg w-full p-3 flex flex-row justify-between transition items-center"
+    @mouseenter="showAction = true"
+    @mouseleave="showAction = false"
+  >
+    <div class="flex flex-row flex-wrap items-center h-full">
+      <img
+        :src="`/static/${image}`"
+        alt="Not found"
+        :title="`Image of ${item.decade} building.`"
+        class="w-32 h-20 object-cover rounded-lg mr-4"
+      />
+      <div class="detail">
+        <small>Decade</small>
+        <h1 class="-mt-2">{{ item.decade }}</h1>
+      </div>
+      <div class="detail">
+        <small>Floors</small>
+        <h1 class="-mt-2">{{ item.levels }}</h1>
+      </div>
+      <div class="detail">
+        <small>Warm Water Pipe</small>
+        <h1 class="-mt-2">
+          <i
+            v-if="item.warm_water_pipe"
+            class="lar la-check-circle text-primary-600"
+          ></i>
+          <i v-else class="lar la-times-circle text-red-800"></i>
+        </h1>
+      </div>
+      <div class="detail">
+        <small>Heating Cost / Year</small>
+        <h1 class="-mt-2">€{{ item.heating_per_year }}</h1>
+      </div>
+      <div class="detail">
+        <small>Heat Loss</small>
+        <h1 class="-mt-2">{{ item.hjoht }} kW</h1>
+      </div>
     </div>
-    <div class="detail">
-      <small>Floors</small>
-      <h1 class="-mt-2">{{ item.levels }}</h1>
-    </div>
-    <div class="detail">
-      <small>Warm Water Pipe</small>
-      <h1 class="-mt-2">{{ item.warm_water_pipe }}</h1>
+    <div
+      :class="{ 'text-transparent': !showAction }"
+      class="transition text-4xl text-gray-600"
+    >
+      <i class="lar la-edit p-3 hover:bg-gray-300 transition"></i>
     </div>
   </div>
 </template>
@@ -33,7 +59,8 @@ export default {
   },
   data() {
     return {
-      image: null
+      image: null,
+      showAction: false
     }
   },
   beforeMount() {
