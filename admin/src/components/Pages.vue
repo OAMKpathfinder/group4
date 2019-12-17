@@ -1,6 +1,6 @@
 <template>
   <div class="container px-3 pt-3 flex flex-col">
-    <form @submit.prevent="submit">
+    <form @submit.prevent="toUpdate ? updateData() : submit()">
       <InputText
         :name="'name'"
         :label="'Title'"
@@ -43,7 +43,7 @@
         @image-added="handleImageAdded"
       />
 
-      <Button :variant="'primary'" class="mt-4">Create</Button>
+      <Button :variant="'primary'">{{ toUpdate ? 'Update' : 'Create' }}</Button>
     </form>
   </div>
 </template>
@@ -68,7 +68,9 @@ export default {
   },
   data() {
     return {
+      resource: 'pages',
       formData: {},
+      toUpdate: null,
       loading: false,
       error: null,
       customModulesForEditor: [
@@ -82,14 +84,18 @@ export default {
       }
     }
   },
+  mounted() {
+    if (this.$route.query.id) {
+      this.fetchData(this.$route.query.id)
+    }
+  },
   methods: {
-    ...mapActions(['create', 'upload']),
+    ...mapActions(['create', 'get', 'update', 'upload']),
     async submit() {
-      const resource = 'pages'
       const data = this.formData
 
       try {
-        await this.create({ resource: resource, data: data })
+        await this.create({ resource: this.resource, data: data })
         this.formData = {}
       } catch (err) {
         this.$emit('error', err)
@@ -106,6 +112,27 @@ export default {
         Editor.insertEmbed(cursorLocation, 'image', url)
       } catch (err) {
         console.log(err)
+      }
+    },
+    async fetchData(id) {
+      try {
+        const data = await this.get({ resource: this.resource, id: id })
+        this.toUpdate = data.id
+        this.formData = { ...data }
+      } catch (err) {
+        this.$emit('error', err.data.message)
+      }
+    },
+    async updateData() {
+      try {
+        await this.update({
+          resource: this.resource,
+          id: this.toUpdate,
+          data: this.formData
+        })
+        this.formData = {}
+      } catch (err) {
+        this.$emit('error', err.data.message)
       }
     }
   }

@@ -1,5 +1,9 @@
 <template>
   <form @submit.prevent="submit">
+    <div class="alert alert-red mb-4" v-if="$route.query.id">
+      <strong class="text-red-700">Sorry!</strong> User editing is not available
+      yet.
+    </div>
     <InputText
       :name="'username'"
       :label="'Username'"

@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="submit">
+  <form @submit.prevent="toUpdate ? updateData() : submit()">
     <InputText
       :name="'name'"
       :label="'Name'"
@@ -38,7 +38,7 @@
       v-model="formData.description"
       :required="true"
     />
-    <Button :variant="'primary'">Create</Button>
+    <Button :variant="'primary'">{{ toUpdate ? 'Update' : 'Create' }}</Button>
   </form>
 </template>
 
@@ -57,23 +57,50 @@ export default {
   },
   data() {
     return {
+      resource: 'materials',
       formData: {},
+      toUpdate: null,
       loading: false,
       error: null,
       roles: [{ name: 'user' }, { name: 'admin' }]
     }
   },
+  mounted() {
+    if (this.$route.query.id) {
+      this.fetchData(this.$route.query.id)
+    }
+  },
   methods: {
-    ...mapActions(['create']),
+    ...mapActions(['create', 'get', 'update']),
     async submit() {
-      const resource = 'materials'
       const data = this.formData
 
       try {
-        await this.create({ resource: resource, data: data })
+        await this.create({ resource: this.resource, data: data })
         this.formData = {}
       } catch (err) {
         this.$emit('error', err)
+      }
+    },
+    async fetchData(id) {
+      try {
+        const data = await this.get({ resource: this.resource, id: id })
+        this.toUpdate = data.id
+        this.formData = { ...data }
+      } catch (err) {
+        this.$emit('error', err.data.message)
+      }
+    },
+    async updateData() {
+      try {
+        await this.update({
+          resource: this.resource,
+          id: this.toUpdate,
+          data: this.formData
+        })
+        this.formData = {}
+      } catch (err) {
+        this.$emit('error', err.data.message)
       }
     }
   }

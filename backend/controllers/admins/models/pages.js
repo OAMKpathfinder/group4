@@ -13,6 +13,16 @@ async function getAllPages(req, res) {
     }
 }
 
+async function getOne(req, res) {
+    try {
+        const row = await Pages.findByPk(req.params.id)
+        res.status(200).send(row)
+    } catch (err) {
+        console.log(err)
+        res.status(500).send(err)
+    }
+}
+
 async function createPage(req, res) {
     try {
         console.log(req.body)
@@ -64,13 +74,17 @@ module.exports = {
         },
     },
     '/:id': {
+        get: {
+            action: getOne,
+            level: 'public',
+        },
         put: {
             action: updatePage,
-            level: 'admin',
+            level: 'public',
         },
         delete: {
             action: removePage,
-            level: 'admin',
+            level: 'public',
         },
     },
 }

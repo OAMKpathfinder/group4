@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="toUpdate ? updateData : submit">
+  <form @submit.prevent="toUpdate ? updateData() : submit()">
     <InputText
       :name="'decade'"
       :label="'Decade'"
@@ -42,8 +42,8 @@ export default {
   data() {
     return {
       resource: 'defaults',
-      formData: {},
       toUpdate: null,
+      formData: {},
       loading: false,
       error: null
     }
@@ -76,7 +76,7 @@ export default {
     },
     async updateData() {
       try {
-        await this.get({
+        await this.update({
           resource: this.resource,
           id: this.toUpdate,
           data: this.formData

@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="submit">
+  <form @submit.prevent="toUpdate ? updateData() : submit()">
     <Dropdown
       :label="'For'"
       :items="parts"
@@ -48,7 +48,7 @@
       :type="'number'"
       v-model="formData.U_value"
     />
-    <Button :variant="'primary'">Create</Button>
+    <Button :variant="'primary'">{{ toUpdate ? 'Update' : 'Create' }}</Button>
   </form>
 </template>
 
@@ -67,6 +67,8 @@ export default {
   },
   data() {
     return {
+      resource: 'part-types',
+      toUpdate: null,
       formData: {},
       loading: false,
       error: null,
@@ -75,15 +77,17 @@ export default {
   },
   mounted() {
     this.getParts()
+    if (this.$route.query.id) {
+      this.fetchData(this.$route.query.id)
+    }
   },
   methods: {
     ...mapActions(['create', 'fetchTableData']),
     async submit() {
-      const resource = 'part-types'
       const data = this.formData
 
       try {
-        await this.create({ resource: resource, data: data })
+        await this.create({ resource: this.resource, data: data })
         this.formData = {}
       } catch (err) {
         this.error = err
@@ -96,6 +100,27 @@ export default {
         console.log(this.parts)
       } catch (err) {
         this.$emit('error', err)
+      }
+    },
+    async fetchData(id) {
+      try {
+        const data = await this.get({ resource: this.resource, id: id })
+        this.toUpdate = data.id
+        this.formData = { ...data }
+      } catch (err) {
+        this.$emit('error', err.data.message)
+      }
+    },
+    async updateData() {
+      try {
+        await this.update({
+          resource: this.resource,
+          id: this.toUpdate,
+          data: this.formData
+        })
+        this.formData = {}
+      } catch (err) {
+        this.$emit('error', err.data.message)
       }
     }
   }
