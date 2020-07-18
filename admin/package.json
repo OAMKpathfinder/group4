@@ -15,7 +15,7 @@
     "filepond": "^4.9.2",
     "filepond-plugin-file-validate-type": "^1.2.4",
     "filepond-plugin-image-preview": "^4.5.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "lodash.orderby": "^4.6.0",
     "lodash.startcase": "^4.4.0",
     "quill-image-drop-module": "^1.0.3",
